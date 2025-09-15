@@ -1,5 +1,4 @@
 import fastify from 'fastify'
-import crypto from 'node:crypto'
 
 const server = fastify({
     logger: {
@@ -39,6 +38,4 @@ server.get('/user/:id', (request, reply)=>{
     return reply.status(404).send({ error: 'Usuário não encontrado' })
 })
 
-server.listen({port: 3333}).then(() =>{
-    console.log('HTTP server running!')
-})
+export { server }
