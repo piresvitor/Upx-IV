@@ -1,35 +1,49 @@
-//Health check
+###
+# 1. Health Check
 GET http://localhost:3333/ping
 
 ###
-// User Registration
+# 2. Registro de usuário
 POST http://localhost:3333/auth/register
 Content-Type: application/json
 
 {
-    "name": "João da Silva",
-    "email": "joao.silva@teste.com",
-    "password": "uma-senha-segura-123"
+    "name": "Usuário Teste",
+    "email": "teste@exemplo.com",
+    "password": "senha123456"
 }
 
 ###
-//Login Inválido 
+# 3. Login
 POST http://localhost:3333/auth/login
-Content-Type: application/json 
+Content-Type: application/json
 
 {
-    "email": "Gustavo.Costa80@yahoo.com",
-    "password": "123456"
-
+    "email": "teste@exemplo.com",
+    "password": "senha123456"
 }
 
 ###
-//login válido
-POST http://localhost:3333/auth/login
-Content-Type: application/json 
+# 4. Buscar dados do usuário 
+GET http://localhost:3333/users/me
+Authorization: Bearer SEU_TOKEN
+
+###
+# 5. Atualizar perfil 
+PUT http://localhost:3333/users/me
+Authorization: Bearer SEU_TOKEN
+Content-Type: application/json
 
 {
-    "email": "joao.silva@teste.com",
-    "password": "uma-senha-segura-123"
-
+    "name": "Usuário Atualizado"
 }
+
+###
+# 6. Logout 
+POST http://localhost:3333/auth/logout
+Authorization: Bearer SEU_TOKEN
+
+###
+# 7. Excluir conta 
+DELETE http://localhost:3333/users/me
+Authorization: Bearer SEU_TOKEN

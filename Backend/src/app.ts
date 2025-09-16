@@ -1,10 +1,12 @@
 import fastifySwagger from '@fastify/swagger'
 import fastify from 'fastify'
 import { jsonSchemaTransform, serializerCompiler, validatorCompiler } from 'fastify-type-provider-zod'
-import { loginRoute } from '../routes/login'
+import { loginRoute } from '../routes/auth/login'
+import { logoutRoute } from '../routes/auth/logout'
+import { getMeRoute, updateMeRoute, deleteMeRoute } from '../routes/users'
 import scalarAPIReference from '@scalar/fastify-api-reference'
 import { pingRoute } from '../routes/ping'
-import { registerRoute } from '../routes/register'
+import { registerRoute } from '../routes/auth/register'
 
 
 const server = fastify({
@@ -41,6 +43,10 @@ server.setValidatorCompiler(validatorCompiler)
 
 server.register(pingRoute)
 server.register(loginRoute)
+server.register(logoutRoute)
 server.register(registerRoute)
+server.register(getMeRoute)
+server.register(updateMeRoute)
+server.register(deleteMeRoute)
 
 export { server }
