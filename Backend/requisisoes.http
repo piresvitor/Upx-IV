@@ -1,5 +1,35 @@
-GET http://localhost:3333/user
+//Health check
+GET http://localhost:3333/ping
 
+###
+// User Registration
+POST http://localhost:3333/auth/register
+Content-Type: application/json
 
-### 
-GET http://localhost:3333/user/1
+{
+    "name": "João da Silva",
+    "email": "joao.silva@teste.com",
+    "password": "uma-senha-segura-123"
+}
+
+###
+//Login Inválido 
+POST http://localhost:3333/auth/login
+Content-Type: application/json 
+
+{
+    "email": "Gustavo.Costa80@yahoo.com",
+    "password": "123456"
+
+}
+
+###
+//login válido
+POST http://localhost:3333/auth/login
+Content-Type: application/json 
+
+{
+    "email": "joao.silva@teste.com",
+    "password": "uma-senha-segura-123"
+
+}

@@ -1,4 +1,11 @@
+import fastifySwagger from '@fastify/swagger'
 import fastify from 'fastify'
+import { jsonSchemaTransform, serializerCompiler, validatorCompiler } from 'fastify-type-provider-zod'
+import { loginRoute } from '../routes/login'
+import scalarAPIReference from '@scalar/fastify-api-reference'
+import { pingRoute } from '../routes/ping'
+import { registerRoute } from '../routes/register'
+
 
 const server = fastify({
     logger: {
@@ -12,30 +19,28 @@ const server = fastify({
     }
 })
 
-const users = [
-    {id: '1', name: "Vitor", email: "vitorteste@gmail.com"},
-    {id: '2', name: "Gabriel", email: "gabrielteste@gmail.com"},
-    {id: '3', name: "Gabriel", email: "gabrielteste@gmail.com"},
+if (process.env.NODE_ENV === "development"){
+    server.register(fastifySwagger, {
+    openapi: {
+        info: {
+            title: "Mapa Colaborativo de Acessibilidade",
+            version: '1.0.0'
+        }
+    },
 
-]
-
-server.get('/user', (request, replay) => {
-    return replay.status(200).send({users})
+    transform: jsonSchemaTransform,
 })
 
-server.get('/user/:id', (request, reply)=>{
-    type Params = {
-        id: string
-    }
-
-    const params = request.params as Params
-    const userID = params.id
-
-    const user = users.find(user => user.id === userID)
-    if (user){
-        return {user}
-    }
-    return reply.status(404).send({ error: 'Usuário não encontrado' })
+server.register(scalarAPIReference, {
+    routePrefix: '/docs',
 })
+}
+
+server.setSerializerCompiler(serializerCompiler)
+server.setValidatorCompiler(validatorCompiler)
+
+server.register(pingRoute)
+server.register(loginRoute)
+server.register(registerRoute)
 
 export { server }
