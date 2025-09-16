@@ -1,8 +1,5 @@
 import { relations } from "drizzle-orm"
-import { pgTable, uniqueIndex, uuid, text, timestamp, pgEnum, doublePrecision, serial } from "drizzle-orm/pg-core"
-
-// Definição do enum para a coluna 'role'
-export const userRolesEnum = pgEnum('user_role', ['user', 'admin'])
+import { pgTable, uniqueIndex, uuid, text, timestamp, doublePrecision, serial } from "drizzle-orm/pg-core"
 
 // Tabela de Usuários (User)
 export const users = pgTable('users', {
@@ -10,8 +7,7 @@ export const users = pgTable('users', {
   name: text('name').notNull(),
   email: text('email').notNull().unique(),
   passwordHash: text('password_hash').notNull(),
-  role: userRolesEnum('role').default('user').notNull(),
-  createdAt: timestamp('created_at').notNull().defaultNow(),
+  role: text('role').notNull().default('user'), 
 })
 
 // Relações para a tabela de Usuários
@@ -34,7 +30,6 @@ export const reports = pgTable('reports', {
   userId: uuid('user_id').notNull().references(() => users.id),
 })
 
-// Relações para a tabela de Relatos
 export const reportsRelations = relations(reports, ({ one, many }) => ({
   user: one(users, {
     fields: [reports.userId],
@@ -50,11 +45,9 @@ export const votes = pgTable('votes', {
   reportId: uuid('report_id').notNull().references(() => reports.id),
   createdAt: timestamp('created_at').notNull().defaultNow(),
 }, table => ({
-  // Cria um índice único para garantir que um usuário só pode votar em um relato uma vez.
   uniqueVote: uniqueIndex('unique_vote_index').on(table.userId, table.reportId),
 }))
 
-// Relações para a tabela de Votos
 export const votesRelations = relations(votes, ({ one }) => ({
   user: one(users, {
     fields: [votes.userId],
@@ -73,21 +66,18 @@ export const interestAreas = pgTable('interest_areas', {
   description: text('description'),
 })
 
-// Relações para a tabela de Áreas de Interesse
 export const interestAreasRelations = relations(interestAreas, ({ many }) => ({
   users: many(interestAreasToUsers),
 }))
 
 // Tabela de Junção para a Relação Muitos-para-Muitos
-// (Usuário <-> Área de Interesse)
 export const interestAreasToUsers = pgTable('interest_areas_to_users', {
   userId: uuid('user_id').notNull().references(() => users.id),
   interestAreaId: uuid('interest_area_id').notNull().references(() => interestAreas.id),
-}, (table) => ({
+}, table => ({
   pk: uniqueIndex('pk').on(table.userId, table.interestAreaId),
 }))
 
-// Relações para a tabela de Junção
 export const interestAreasToUsersRelations = relations(interestAreasToUsers, ({ one }) => ({
   user: one(users, {
     fields: [interestAreasToUsers.userId],
@@ -98,3 +88,4 @@ export const interestAreasToUsersRelations = relations(interestAreasToUsers, ({ 
     references: [interestAreas.id],
   }),
 }))
+
