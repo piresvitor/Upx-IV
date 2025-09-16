@@ -1,6 +1,6 @@
 import { FastifyPluginAsyncZod } from 'fastify-type-provider-zod'
-import { db } from '../src/database/cliente.ts'
-import { users } from '../src/database/schema.ts'
+import { db } from '../../src/database/cliente.ts'
+import { users } from '../../src/database/schema.ts'
 import { hash } from 'argon2'
 import z from 'zod'
 import { eq } from "drizzle-orm"
@@ -9,8 +9,8 @@ import { eq } from "drizzle-orm"
 export const registerRoute: FastifyPluginAsyncZod = async (server) => {
   server.post('/auth/register', {
     schema: {
-      tags: ['auth'],
-      summary: 'Register a new user',
+      tags: ['Auth'],
+      summary: 'Cadastro de novo usuário',
       body: z.object({
         name: z.string().min(3),
         email: z.string().email(),
