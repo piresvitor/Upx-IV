@@ -6,7 +6,7 @@ import z from 'zod'
 export const pingRoute: FastifyPluginAsyncZod = async (server) => {
   server.get('/ping', {
     schema: {
-      tags: ['diagnostics'],
+      tags: ['Diagnostics'],
       summary: "Health check (server + DB)",
       response: {
         200: z.object({

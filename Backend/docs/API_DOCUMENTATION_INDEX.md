@@ -18,22 +18,27 @@ Esta API permite gerenciar um sistema de mapeamento colaborativo de acessibilida
 - **Base URL**: `/users`
 - **Documentação**: [API_USERS_DOCUMENTATION.md](./API_USERS_DOCUMENTATION.md)
 - **Endpoints**:
-  - `GET /users/me` - Obter dados do usuário
-  - `PUT /users/me` - Atualizar dados do usuário
-  - `DELETE /users/me` - Excluir conta do usuário
+    - `GET /users/me` - Obter dados do usuário
+    - `PUT /users/me` - Atualizar dados do usuário
+    - `DELETE /users/me` - Excluir conta do usuário
+    - `GET /users` - Buscar todos os usuários
 
-### 📍 Locais
-- **Base URL**: `/places`
-- **Documentação**: [API_PLACES_DOCUMENTATION.md](./API_PLACES_DOCUMENTATION.md)
+    ### 📍 Locais
+    - **Base URL**: `/places`
+    - **Documentação**: [API_PLACES_DOCUMENTATION.md](./API_PLACES_DOCUMENTATION.md)
+    - **Endpoints**:
+      - `GET /places/search-nearby` - Buscar locais próximos
+      - `POST /places/check-or-create` - Verificar ou criar local
+      - `GET /places/:placeId` - Obter detalhes de um local
+      - `PUT /places/:placeId` - Atualizar um local
+      - `GET /places` - Buscar todos os locais
+
+### 📝 Relatos
+- **Base URL**: `/places/:placeId/reports`
+- **Documentação**: [API_REPORTS_DOCUMENTATION.md](./API_REPORTS_DOCUMENTATION.md)
 - **Endpoints**:
-  - `GET /places/search-nearby` - Buscar locais próximos
-  - `POST /places/check-or-create` - Verificar ou criar local
   - `POST /places/:placeId/reports` - Criar relato para local
   - `GET /places/:placeId/reports` - Buscar relatos de um local
-
-### 🏥 Relatórios
-- **Base URL**: `/reports` (futuro)
-- **Funcionalidades**: Gerenciamento de relatórios de acessibilidade
 
 ## Autenticação
 
@@ -109,7 +114,8 @@ PORT=3333
 ## Arquivos de Teste
 
 - [requisicoes-auth-users.http](./requisicoes-auth-users.http) - Testes para autenticação e usuários
-- [requisicoes-places.http](./requisicoes-places.http) - Testes para locais e relatórios
+- [requisicoes-places.http](./requisicoes-places.http) - Testes para locais
+- [requisicoes-reports.http](./requisicoes-reports.http) - Testes para relatos
 
 ## Documentação Swagger
 

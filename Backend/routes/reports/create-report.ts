@@ -18,8 +18,8 @@ export async function createReportRoute(app: FastifyInstance) {
       params: z.object({
         placeId: z.string().uuid(),
       }),
-      tags: ['Places'],
-      summary: "Create Report",
+      tags: ['Relatos'],
+      summary: "Create Relato",
       description: "Cria um novo relato para um local específico.",
       body: createReportSchema,
         response: {

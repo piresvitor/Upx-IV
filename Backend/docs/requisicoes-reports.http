@@ -1,0 +1,120 @@
+### API Relatos - Requisições de Teste
+
+### 1. Criar Relato para um Local
+POST http://localhost:3000/places/{{placeId}}/reports
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "title": "Rampa de acesso quebrada",
+  "description": "A rampa de acesso na entrada principal está com o piso solto, representando risco para cadeirantes. É necessário reparo urgente.",
+  "type": "accessibility"
+}
+
+### 2. Criar Relato de Segurança
+POST http://localhost:3000/places/{{placeId}}/reports
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "title": "Iluminação inadequada",
+  "description": "A área do estacionamento possui iluminação insuficiente durante a noite, criando riscos de segurança para os usuários.",
+  "type": "safety"
+}
+
+### 3. Criar Relato de Infraestrutura
+POST http://localhost:3000/places/{{placeId}}/reports
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "title": "Banheiro adaptado em bom estado",
+  "description": "O banheiro adaptado está funcionando perfeitamente, com boa manutenção e sinalização adequada.",
+  "type": "infrastructure"
+}
+
+### 4. Buscar Relatos de um Local (com autenticação)
+GET http://localhost:3000/places/{{placeId}}/reports?page=1&limit=5
+Authorization: Bearer {{token}}
+
+### 5. Buscar Relatos de um Local (sem autenticação)
+GET http://localhost:3000/places/{{placeId}}/reports?page=1&limit=10
+
+### 6. Buscar Relatos - Página 2
+GET http://localhost:3000/places/{{placeId}}/reports?page=2&limit=3
+
+### 7. Teste de Validação - Título muito longo
+POST http://localhost:3000/places/{{placeId}}/reports
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "title": "Este é um título muito longo que excede o limite de 200 caracteres permitidos pela API. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+  "description": "Descrição válida",
+  "type": "accessibility"
+}
+
+### 8. Teste de Validação - Descrição muito longa
+POST http://localhost:3000/places/{{placeId}}/reports
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "title": "Título válido",
+  "description": "Esta é uma descrição muito longa que excede o limite de 2000 caracteres permitidos pela API. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incididunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur? At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecat cupidatat non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.",
+  "type": "accessibility"
+}
+
+### 9. Teste de Validação - Campos obrigatórios ausentes
+POST http://localhost:3000/places/{{placeId}}/reports
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "title": "Título válido"
+}
+
+### 10. Teste de Autenticação - Sem token
+POST http://localhost:3000/places/{{placeId}}/reports
+Content-Type: application/json
+
+{
+  "title": "Título válido",
+  "description": "Descrição válida",
+  "type": "accessibility"
+}
+
+### 11. Teste de Autenticação - Token inválido
+POST http://localhost:3000/places/{{placeId}}/reports
+Content-Type: application/json
+Authorization: Bearer token_invalido
+
+{
+  "title": "Título válido",
+  "description": "Descrição válida",
+  "type": "accessibility"
+}
+
+### 12. Teste de Local Inexistente
+POST http://localhost:3000/places/00000000-0000-0000-0000-000000000000/reports
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "title": "Título válido",
+  "description": "Descrição válida",
+  "type": "accessibility"
+}
+
+### 13. Teste de Paginação - Parâmetros inválidos
+GET http://localhost:3000/places/{{placeId}}/reports?page=0&limit=-1
+
+### 14. Teste de Paginação - Parâmetros não numéricos
+GET http://localhost:3000/places/{{placeId}}/reports?page=abc&limit=xyz
+
+### 15. Buscar Relatos de Local Inexistente
+GET http://localhost:3000/places/00000000-0000-0000-0000-000000000000/reports
+
+### Variáveis para teste:
+@placeId = 123e4567-e89b-12d3-a456-426614174000
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c

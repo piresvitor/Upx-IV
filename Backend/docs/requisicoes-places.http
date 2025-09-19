@@ -1,16 +1,18 @@
-### Buscar locais próximos (São Paulo - Centro)
-GET http://localhost:3333/places/search-nearby?latitude=-23.5505&longitude=-46.6333&radius=1000&type=restaurant
+### API Places - Requisições de Teste
+
+### 1. Buscar locais próximos (FACENS Sorocaba)
+GET http://localhost:3333/places/search-nearby?latitude=-23.5015&longitude=-47.4526&radius=1000&type=restaurant
 Content-Type: application/json
 
 ###
 
-### Buscar locais próximos com palavra-chave
-GET http://localhost:3333/places/search-nearby?latitude=-23.5505&longitude=-46.6333&radius=2000&keyword=pizza
+### 2. Buscar locais próximos com palavra-chave (FACENS Sorocaba)
+GET http://localhost:3333/places/search-nearby?latitude=-23.5015&longitude=-47.4526&radius=2000&keyword=pizza
 Content-Type: application/json
 
 ###
 
-### Verificar se local existe (substitua pelo place_id real)
+### 3. Verificar se local existe (substitua pelo place_id real)
 POST http://localhost:3333/places/check-or-create
 Content-Type: application/json
 
@@ -20,42 +22,121 @@ Content-Type: application/json
 
 ###
 
-### Criar relato para um local (substitua pelo UUID do local e adicione token de autenticação)
-POST http://localhost:3333/places/123e4567-e89b-12d3-a456-426614174000/reports
+### 4. Buscar hospitais próximos à FACENS
+GET http://localhost:3333/places/search-nearby?latitude=-23.5015&longitude=-47.4526&radius=1500&type=hospital
 Content-Type: application/json
-Authorization: Bearer SEU_TOKEN_JWT_AQUI
+
+###
+
+
+### 9. Obter detalhes de um local específico
+GET http://localhost:3333/places/{{placeId}}
+Content-Type: application/json
+
+###
+
+### 10. Atualizar um local
+PUT http://localhost:3333/places/{{placeId}}
+Content-Type: application/json
 
 {
-  "title": "Acessibilidade no restaurante",
-  "description": "O restaurante possui rampa de acesso e banheiro adaptado. Funcionários são atenciosos com pessoas com deficiência.",
-  "type": "acessibilidade"
+  "name": "Nome Atualizado do Local",
+  "address": "Novo Endereço",
+  "rating": 4.8,
+  "userRatingsTotal": 200
 }
 
 ###
 
-### Buscar relatos de um local (substitua pelo UUID do local)
-GET http://localhost:3333/places/123e4567-e89b-12d3-a456-426614174000/reports?page=1&limit=5
+### 11. Atualizar apenas o nome
+PUT http://localhost:3333/places/{{placeId}}
 Content-Type: application/json
+
+{
+  "name": "Apenas Nome Atualizado"
+}
 
 ###
 
-### Buscar relatos de um local com autenticação (para ver se usuário votou)
-GET http://localhost:3333/places/123e4567-e89b-12d3-a456-426614174000/reports?page=1&limit=5
-Content-Type: application/json
-Authorization: Bearer SEU_TOKEN_JWT_AQUI
+### 12. Buscar todos os locais (paginação padrão)
+GET http://localhost:3333/places
 
 ###
 
-### Exemplo de busca por diferentes tipos de locais
-GET http://localhost:3333/places/search-nearby?latitude=-23.5505&longitude=-46.6333&radius=1500&type=hospital
-Content-Type: application/json
+### 13. Buscar todos os locais com paginação customizada
+GET http://localhost:3333/places?page=1&limit=5
 
 ###
 
-GET http://localhost:3333/places/search-nearby?latitude=-23.5505&longitude=-46.6333&radius=1500&type=school
-Content-Type: application/json
+### 14. Buscar locais por termo de pesquisa
+GET http://localhost:3333/places?search=restaurante
 
 ###
 
-GET http://localhost:3333/places/search-nearby?latitude=-23.5505&longitude=-46.6333&radius=1500&type=shopping_mall
+### 15. Buscar locais por tipo
+GET http://localhost:3333/places?type=hospital
+
+###
+
+### 16. Buscar locais ordenados por nome (ascendente)
+GET http://localhost:3333/places?sortBy=name&sortOrder=asc
+
+###
+
+### 17. Buscar locais ordenados por rating (descendente)
+GET http://localhost:3333/places?sortBy=rating&sortOrder=desc
+
+###
+
+### 18. Buscar locais com múltiplos filtros
+GET http://localhost:3333/places?search=sorocaba&type=restaurant&sortBy=rating&sortOrder=desc&page=1&limit=3
+
+###
+
+### 19. Teste de validação - UUID inválido
+GET http://localhost:3333/places/invalid-uuid
+
+###
+
+### 20. Teste de validação - Local inexistente
+GET http://localhost:3333/places/00000000-0000-0000-0000-000000000000
+
+###
+
+### 21. Teste de validação - Rating inválido
+PUT http://localhost:3333/places/{{placeId}}
 Content-Type: application/json
+
+{
+  "rating": 6
+}
+
+###
+
+### 22. Teste de validação - Parâmetros de paginação inválidos
+GET http://localhost:3333/places?page=0&limit=-1
+
+###
+
+### 23. Teste de validação - Parâmetros de ordenação inválidos
+GET http://localhost:3333/places?sortBy=invalid&sortOrder=invalid
+
+###
+
+### 24. Teste de validação - Coordenadas inválidas
+GET http://localhost:3333/places/search-nearby?latitude=91&longitude=181&radius=1000
+
+###
+
+### 25. Teste de validação - Raio inválido
+GET http://localhost:3333/places/search-nearby?latitude=-23.5015&longitude=-47.4526&radius=60000
+
+###
+
+### Variáveis para teste:
+@placeId = 123e4567-e89b-12d3-a456-426614174000
+
+### Coordenadas da FACENS Sorocaba:
+# Latitude: -23.5015
+# Longitude: -47.4526
+# Endereço: Rod. Sen. José Ermírio de Moraes, 1425 - Alto da Boa Vista, Sorocaba - SP

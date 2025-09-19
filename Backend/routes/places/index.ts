@@ -1,4 +1,5 @@
 export { searchNearbyRoute } from './search-nearby'
 export { checkOrCreateRoute } from './check-or-create'
-export { createReportRoute } from './create-report'
-export { getReportsRoute } from './get-reports'
+export { getPlaceRoute } from './get-place'
+export { updatePlaceRoute } from './update-place'
+export { getAllPlacesRoute } from './get-all-places'

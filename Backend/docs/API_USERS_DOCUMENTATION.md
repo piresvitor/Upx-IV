@@ -131,9 +131,75 @@ Authorization: Bearer SEU_TOKEN_JWT_AQUI
 
 ### DELETE /users/me
 - Remove permanentemente a conta do usuário
-- Pode ter efeitos em cascata (relatórios, votos, etc.)
+- Pode ter efeitos em cascata (relatos, votos, etc.)
 - Requer autenticação válida
 - **Ação irreversível**
+
+### 4. Buscar Todos os Usuários
+
+**GET** `/users`
+
+Busca todos os usuários com filtros e paginação. Requer autenticação.
+
+#### Headers:
+```
+Authorization: Bearer SEU_TOKEN_JWT_AQUI
+```
+
+#### Parâmetros de Query:
+- `page` (number, opcional): Página (padrão: 1)
+- `limit` (number, opcional): Itens por página (padrão: 10, máximo: 50)
+- `search` (string, opcional): Termo de busca (nome ou email)
+- `role` (string, opcional): Filtrar por role ("user" ou "admin")
+- `sortBy` (string, opcional): Campo para ordenação ("name", "email", padrão: "name")
+- `sortOrder` (string, opcional): Ordem da classificação ("asc", "desc", padrão: "desc")
+
+#### Exemplo de Requisição:
+```http
+GET /users?page=1&limit=5&search=João&role=user&sortBy=name&sortOrder=asc
+```
+
+#### Resposta de Sucesso (200):
+```json
+{
+  "users": [
+    {
+      "id": "123e4567-e89b-12d3-a456-426614174000",
+      "name": "João Silva",
+      "email": "joao@example.com",
+      "role": "user"
+    }
+  ],
+  "pagination": {
+    "page": 1,
+    "limit": 5,
+    "total": 25,
+    "totalPages": 5
+  }
+}
+```
+
+#### Resposta de Erro (401):
+```json
+{
+  "error": "Token inválido ou expirado"
+}
+```
+
+#### Resposta de Erro (400):
+```json
+{
+  "error": "Parâmetros de paginação inválidos"
+}
+```
+
+### GET /users
+- Busca todos os usuários com filtros e paginação
+- Suporta busca por nome ou email
+- Suporta filtro por role
+- Suporta ordenação por nome e email
+- Requer autenticação válida
+- Limite máximo de 50 itens por página
 
 ## Códigos de Erro
 
