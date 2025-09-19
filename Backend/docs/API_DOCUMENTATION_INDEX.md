@@ -4,6 +4,12 @@
 
 Esta API permite gerenciar um sistema de mapeamento colaborativo de acessibilidade, onde usuários podem registrar locais, criar relatos sobre acessibilidade e interagir com o sistema através de autenticação JWT.
 
+## Arquitetura do Sistema
+
+Para uma visão completa da arquitetura e componentes do sistema, consulte:
+- **[Diagrama de Componentes](./COMPONENT_DIAGRAM.md)** - Visão detalhada da arquitetura, componentes existentes e futuros
+- **[Diagrama de Caso de Uso](./USE_CASE_DIAGRAM.md)** - Interações entre usuários e funcionalidades do sistema
+
 ## Estrutura da API
 
 ### 🔐 Autenticação
@@ -47,6 +53,25 @@ Esta API permite gerenciar um sistema de mapeamento colaborativo de acessibilida
   - `DELETE /reports/:reportId` - Remover (somente autor)
   - `POST /reports/:reportId/votes` - Votar em um relato
   - `DELETE /reports/:reportId/votes` - Remover voto de um relato
+
+### 📊 Estatísticas (Futuro)
+- **Base URL**: `/stats`
+- **Endpoints**:
+  - `GET /stats/reports` - Estatísticas de relatos
+  - `GET /stats/users` - Estatísticas de usuários
+  - `GET /stats/places` - Estatísticas de locais
+  - `GET /stats/votes` - Estatísticas de votos
+
+### 👨‍💼 Administração (Futuro)
+- **Base URL**: `/admin`
+- **Endpoints**:
+  - `GET /admin/reports` - Gerenciar relatos
+  - `PUT /admin/reports/:id` - Moderar relato
+  - `DELETE /admin/reports/:id` - Remover relato
+  - `GET /admin/users` - Gerenciar usuários
+  - `PUT /admin/users/:id` - Atualizar usuário
+  - `DELETE /admin/users/:id` - Suspender usuário
+  - `POST /admin/moderate` - Ações de moderação
 
 ## Autenticação
 
@@ -125,6 +150,10 @@ PORT=3333
 - [requisicoes-places.http](./requisicoes-places.http) - Testes para locais
 - [requisicoes-reports.http](./requisicoes-reports.http) - Testes para relatos
 - [requisicoes-votes.http](./requisicoes-votes.http) - Testes para votação em relatos
+
+## Documentação de Arquitetura
+
+- [COMPONENT_DIAGRAM.md](./COMPONENT_DIAGRAM.md) - Diagrama de componentes e arquitetura do sistema
 
 ## Documentação Swagger
 
