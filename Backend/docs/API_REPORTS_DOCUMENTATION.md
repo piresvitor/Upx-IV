@@ -160,6 +160,212 @@ Busca todos os relatos de um local específico com paginação.
 
 ---
 
+### 3. Listar Relatos (geral, com filtros)
+
+**GET** `/reports`
+
+Lista relatos com filtros opcionais e paginação.
+
+#### Query Parameters
+- `type` (string, opcional): Filtra por tipo de relato (ex: accessibility, safety)
+- `user_id` (UUID, opcional): Filtra por autor
+- `page` (number, opcional): Número da página (padrão: 1)
+- `limit` (number, opcional): Itens por página, 1-50 (padrão: 10)
+
+#### Respostas
+
+**200 - Sucesso**
+```json
+{
+  "reports": [
+    {
+      "id": "uuid",
+      "title": "Título",
+      "description": "Descrição",
+      "type": "accessibility",
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "user": { "id": "uuid", "name": "Nome", "email": "email@x.com" },
+      "place": { "id": "uuid", "name": "Lugar" }
+    }
+  ],
+  "pagination": { "page": 1, "limit": 10, "total": 25, "totalPages": 3 }
+}
+```
+
+---
+
+### 4. Obter um Relato
+
+**GET** `/reports/:reportId`
+
+Retorna um relato específico.
+
+#### Parâmetros da URL
+- `reportId` (UUID): ID do relato
+
+#### Respostas
+
+**200 - Sucesso**
+```json
+{
+  "id": "uuid",
+  "title": "Título",
+  "description": "Descrição",
+  "type": "accessibility",
+  "createdAt": "2024-01-01T00:00:00.000Z",
+  "user": { "id": "uuid", "name": "Nome", "email": "email@x.com" },
+  "place": { "id": "uuid", "name": "Lugar" }
+}
+```
+
+**404 - Não encontrado**
+```json
+{ "message": "Relato não encontrado" }
+```
+
+---
+
+### 5. Atualizar um Relato (somente autor)
+
+**PUT** `/reports/:reportId`
+
+Atualiza campos do relato; requer autenticação do autor.
+
+#### Headers
+- `Authorization`: Bearer token (obrigatório)
+
+#### Body
+```json
+{
+  "title": "Novo título",
+  "description": "Nova descrição",
+  "type": "accessibility"
+}
+```
+
+#### Respostas
+- `200` { "message": "Relato atualizado com sucesso" }
+- `403` { "message": "Acesso negado" }
+- `404` { "message": "Relato não encontrado" }
+
+---
+
+### 6. Remover um Relato (somente autor)
+
+**DELETE** `/reports/:reportId`
+
+Remove o relato; requer autenticação do autor.
+
+#### Headers
+- `Authorization`: Bearer token (obrigatório)
+
+#### Respostas
+- `200` { "message": "Relato removido com sucesso" }
+- `403` { "message": "Acesso negado" }
+- `404` { "message": "Relato não encontrado" }
+
+---
+
+### 7. Votar em um Relato
+
+**POST** `/reports/:reportId/votes`
+
+Cria um voto para um relato específico. Cada usuário pode votar apenas uma vez por relato.
+
+#### Parâmetros da URL
+- `reportId` (string, UUID): ID do relato
+
+#### Headers
+- `Authorization`: Bearer token (obrigatório)
+
+#### Respostas
+
+**201 - Voto criado com sucesso**
+```json
+{
+  "message": "Voto criado com sucesso",
+  "vote": {
+    "id": 1,
+    "userId": "uuid",
+    "reportId": "uuid",
+    "createdAt": "2024-01-01T00:00:00.000Z"
+  }
+}
+```
+
+**400 - Dados inválidos**
+```json
+{
+  "message": "Mensagem de erro de validação"
+}
+```
+
+**401 - Não autorizado**
+```json
+{
+  "message": "Token de autorização não fornecido"
+}
+```
+
+**404 - Relato não encontrado**
+```json
+{
+  "message": "Relato não encontrado"
+}
+```
+
+**409 - Voto duplicado**
+```json
+{
+  "message": "Você já votou neste relato"
+}
+```
+
+---
+
+### 8. Remover Voto de um Relato
+
+**DELETE** `/reports/:reportId/votes`
+
+Remove o voto do usuário autenticado de um relato específico.
+
+#### Parâmetros da URL
+- `reportId` (string, UUID): ID do relato
+
+#### Headers
+- `Authorization`: Bearer token (obrigatório)
+
+#### Respostas
+
+**200 - Voto removido com sucesso**
+```json
+{
+  "message": "Voto removido com sucesso"
+}
+```
+
+**401 - Não autorizado**
+```json
+{
+  "message": "Token de autorização não fornecido"
+}
+```
+
+**404 - Relato ou voto não encontrado**
+```json
+{
+  "message": "Relato não encontrado"
+}
+```
+ou
+```json
+{
+  "message": "Voto não encontrado"
+}
+```
+
+---
+
 ## Exemplos de Uso
 
 ### Criar um relato de acessibilidade
@@ -179,6 +385,42 @@ curl -X POST http://localhost:3333/places/123e4567-e89b-12d3-a456-426614174000/r
 curl -X GET "http://localhost:3333/places/123e4567-e89b-12d3-a456-426614174000/reports"
 ```
 
+### Listar relatos filtrando por tipo e usuário
+```bash
+curl -X GET "http://localhost:3333/reports?type=accessibility&user_id=123e4567-e89b-12d3-a456-426614174000&page=1&limit=10"
+```
+
+### Obter um relato específico
+```bash
+curl -X GET "http://localhost:3333/reports/123e4567-e89b-12d3-a456-426614174000"
+```
+
+### Atualizar um relato (autor)
+```bash
+curl -X PUT "http://localhost:3333/reports/123e4567-e89b-12d3-a456-426614174000" \
+  -H "Authorization: Bearer <token>" \
+  -H "Content-Type: application/json" \
+  -d '{"title":"Novo título"}'
+```
+
+### Remover um relato (autor)
+```bash
+curl -X DELETE "http://localhost:3333/reports/123e4567-e89b-12d3-a456-426614174000" \
+  -H "Authorization: Bearer <token>"
+```
+
+### Votar em um relato
+```bash
+curl -X POST "http://localhost:3333/reports/123e4567-e89b-12d3-a456-426614174000/votes" \
+  -H "Authorization: Bearer <token>"
+```
+
+### Remover voto de um relato
+```bash
+curl -X DELETE "http://localhost:3333/reports/123e4567-e89b-12d3-a456-426614174000/votes" \
+  -H "Authorization: Bearer <token>"
+```
+
 ---
 
 ## Códigos de Status HTTP
@@ -194,8 +436,9 @@ curl -X GET "http://localhost:3333/places/123e4567-e89b-12d3-a456-426614174000/r
 
 ## Notas Importantes
 
-1. **Autenticação**: A rota de criar relato requer autenticação obrigatória
+1. **Autenticação**: As rotas de criar relato e votação requerem autenticação obrigatória
 2. **Paginação**: A rota de buscar relatos suporta paginação para melhor performance
-3. **Votos**: Se o usuário estiver autenticado, a resposta inclui se ele já votou em cada relato
-4. **Validação**: Todos os campos são validados antes do processamento
-5. **Tipos de Relato**: O campo `type` pode ser usado para categorizar diferentes tipos de relatos (accessibility, safety, etc.)
+3. **Validação**: Todos os campos são validados antes do processamento
+4. **Tipos de Relato**: O campo `type` pode ser usado para categorizar diferentes tipos de relatos (accessibility, safety, etc.)
+5. **Votação**: Cada usuário pode votar apenas uma vez por relato. O sistema previne votos duplicados
+6. **Controle de Acesso**: Apenas o autor pode editar ou remover seus próprios relatos

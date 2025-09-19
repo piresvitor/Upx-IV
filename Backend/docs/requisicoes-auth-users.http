@@ -29,7 +29,7 @@ Authorization: Bearer SEU_TOKEN_JWT_AQUI
 ### Obter dados do usuário (substitua pelo token real)
 GET http://localhost:3333/users/me
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkNTQ1NDI0YS1iN2VjLTRhNDgtYjdmYi0wY2RlZWY5NmUzYjQiLCJyb2xlIjoidXNlciIsImlhdCI6MTc1ODI2NjY2M30.bIvMvSbSJgVBnVdwab1QhsYx51klZXcIeOqra51SFls
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI5YmY0N2I2Ni1kOTkzLTQ0NTAtYTBlNC0wNzQxM2U1ZjZkMTIiLCJyb2xlIjoidXNlciIsImlhdCI6MTc1ODI2ODU3NH0.ib3XwOWISqE_rdCMrWyS12d9D0A3f-G8Nn1fps0zBuk
 
 ###
 
@@ -70,7 +70,7 @@ Authorization: Bearer SEU_TOKEN_JWT_AQUI
 ### Excluir conta do usuário (substitua pelo token real)
 DELETE http://localhost:3333/users/me
 Content-Type: application/json
-Authorization: Bearer SEU_TOKEN_JWT_AQUI
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI5YmY0N2I2Ni1kOTkzLTQ0NTAtYTBlNC0wNzQxM2U1ZjZkMTIiLCJyb2xlIjoidXNlciIsImlhdCI6MTc1ODI2ODQ4M30.N2N0BmRhHtLKMkRaL2DgUr0blf6v5-hU15R1zBh1h08
 
 ###
 

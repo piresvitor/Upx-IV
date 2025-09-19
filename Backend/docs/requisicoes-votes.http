@@ -1,0 +1,32 @@
+### Requisições para Votação em Relatos
+
+# Variáveis
+@baseUrl = http://localhost:3000
+@token = SEU_TOKEN_AQUI
+@reportId = ID_DO_RELATO_AQUI
+
+### Criar Voto em Relato
+POST {{baseUrl}}/reports/{{reportId}}/votes
+Authorization: Bearer {{token}}
+
+### Remover Voto de Relato
+DELETE {{baseUrl}}/reports/{{reportId}}/votes
+Authorization: Bearer {{token}}
+
+### Exemplo com dados reais
+# Primeiro, faça login para obter o token
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "usuario@exemplo.com",
+  "password": "senha123"
+}
+
+# Depois use o token retornado para votar
+POST {{baseUrl}}/reports/123e4567-e89b-12d3-a456-426614174000/votes
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+
+# Para remover o voto
+DELETE {{baseUrl}}/reports/123e4567-e89b-12d3-a456-426614174000/votes
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
