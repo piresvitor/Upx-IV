@@ -10,11 +10,14 @@ Esta pasta contém toda a documentação da API do sistema de mapeamento colabor
 - **[API_USERS_DOCUMENTATION.md](./API_USERS_DOCUMENTATION.md)** - Documentação da API de usuários
 - **[API_PLACES_DOCUMENTATION.md](./API_PLACES_DOCUMENTATION.md)** - Documentação da API de locais
 - **[API_REPORTS_DOCUMENTATION.md](./API_REPORTS_DOCUMENTATION.md)** - Documentação da API de relatos
+- **[COMPONENT_DIAGRAM.md](./COMPONENT_DIAGRAM.md)** - Diagrama de componentes e arquitetura do sistema
+- **[USE_CASE_DIAGRAM.md](./USE_CASE_DIAGRAM.md)** - Diagrama de caso de uso e interações do sistema
 
-    ### Arquivos de Teste
-    - **[requisicoes-auth-users.http](./requisicoes-auth-users.http)** - Requisições de teste para autenticação e usuários
-    - **[requisicoes-places.http](./requisicoes-places.http)** - Requisições de teste para locais
-    - **[requisicoes-reports.http](./requisicoes-reports.http)** - Requisições de teste para relatos
+### Arquivos de Teste
+- **[requisicoes-auth-users.http](./requisicoes-auth-users.http)** - Requisições de teste para autenticação e usuários
+- **[requisicoes-places.http](./requisicoes-places.http)** - Requisições de teste para locais
+- **[requisicoes-reports.http](./requisicoes-reports.http)** - Requisições de teste para relatos
+- **[requisicoes-votes.http](./requisicoes-votes.http)** - Requisições de teste para votação em relatos
 
 ## 🚀 Como Usar
 
@@ -49,6 +52,23 @@ Esta pasta contém toda a documentação da API do sistema de mapeamento colabor
 - `GET /reports/:reportId` - Obter um relato específico
 - `PUT /reports/:reportId` - Atualizar um relato (somente autor)
 - `DELETE /reports/:reportId` - Remover um relato (somente autor)
+- `POST /reports/:reportId/votes` - Votar em um relato
+- `DELETE /reports/:reportId/votes` - Remover voto de um relato
+
+### Estatísticas (Futuro)
+- `GET /stats/reports` - Estatísticas de relatos
+- `GET /stats/users` - Estatísticas de usuários
+- `GET /stats/places` - Estatísticas de locais
+- `GET /stats/votes` - Estatísticas de votos
+
+### Administração (Futuro)
+- `GET /admin/reports` - Gerenciar relatos
+- `PUT /admin/reports/:id` - Moderar relato
+- `DELETE /admin/reports/:id` - Remover relato
+- `GET /admin/users` - Gerenciar usuários
+- `PUT /admin/users/:id` - Atualizar usuário
+- `DELETE /admin/users/:id` - Suspender usuário
+- `POST /admin/moderate` - Ações de moderação
 
 ## 🔧 Configuração
 
@@ -67,3 +87,8 @@ PORT=3333
 Quando o servidor estiver rodando em modo de desenvolvimento, acesse:
 - **Swagger UI**: `http://localhost:3333/docs`
 - **Scalar API Reference**: Interface moderna para explorar a API
+
+## 🏗️ Documentação de Arquitetura
+
+- **[COMPONENT_DIAGRAM.md](./COMPONENT_DIAGRAM.md)** - Diagrama de componentes e arquitetura do sistema
+- **[USE_CASE_DIAGRAM.md](./USE_CASE_DIAGRAM.md)** - Diagrama de caso de uso e interações do sistema
