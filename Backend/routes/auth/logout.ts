@@ -7,6 +7,7 @@ export const logoutRoute: FastifyPluginAsyncZod = async (server) => {
     schema: {
       tags: ['Auth'],
       summary: 'Logout - Confirma logout do usuário',
+      description: "Realiza logout do usuário (requer autenticação).",
       headers: z.object({
         authorization: z.string().regex(/^Bearer .+/, 'Authorization header must be Bearer token')
       }),

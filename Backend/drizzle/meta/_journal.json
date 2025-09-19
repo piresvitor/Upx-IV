@@ -8,6 +8,27 @@
       "when": 1757982683535,
       "tag": "0000_right_misty_knight",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1758248011154,
+      "tag": "0001_fixed_red_ghost",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1758248568993,
+      "tag": "0002_wet_ravenous",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1758248693393,
+      "tag": "0003_windy_human_cannonball",
+      "breakpoints": true
     }
   ]
 }

@@ -7,6 +7,7 @@ import { getMeRoute, updateMeRoute, deleteMeRoute } from '../routes/users'
 import scalarAPIReference from '@scalar/fastify-api-reference'
 import { pingRoute } from '../routes/ping'
 import { registerRoute } from '../routes/auth/register'
+import { searchNearbyRoute, checkOrCreateRoute, createReportRoute, getReportsRoute } from '../routes/places'
 
 
 const server = fastify({
@@ -48,5 +49,9 @@ server.register(registerRoute)
 server.register(getMeRoute)
 server.register(updateMeRoute)
 server.register(deleteMeRoute)
+server.register(searchNearbyRoute)
+server.register(checkOrCreateRoute)
+server.register(createReportRoute)
+server.register(getReportsRoute)
 
 export { server }

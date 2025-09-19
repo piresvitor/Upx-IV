@@ -10,8 +10,9 @@ import jwt from 'jsonwebtoken'
 export const loginRoute: FastifyPluginAsyncZod = async (server) => {
 server.post('/auth/login', {
     schema: {
-        tags: ['auth'],
+        tags: ['Auth'],
         summary: "Login",
+        description: "Autentica um usuário e retorna um token JWT.",
         body: z.object({
             email: z.email(),
             password: z.string()

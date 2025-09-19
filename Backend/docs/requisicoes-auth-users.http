@@ -1,0 +1,109 @@
+### Registrar novo usuário
+POST http://localhost:3333/auth/register
+Content-Type: application/json
+
+{
+  "name": "João Silva",
+  "email": "joao@exemplo.com",
+  "password": "senha123"
+}
+
+### Login do usuário
+POST http://localhost:3333/auth/login
+Content-Type: application/json
+
+{
+  "email": "joao@exemplo.com",
+  "password": "senha123"
+}
+
+###
+
+### Logout do usuário (substitua pelo token real)
+POST http://localhost:3333/auth/logout
+Content-Type: application/json
+Authorization: Bearer SEU_TOKEN_JWT_AQUI
+
+###
+
+### Obter dados do usuário (substitua pelo token real)
+GET http://localhost:3333/users/me
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjMzQ1OWFjZS0zNGE2LTRhMDItOGEzOS01YzM5MzIyOTJjNDciLCJyb2xlIjoidXNlciIsImlhdCI6MTc1ODI1MjIwM30.fNdONC6DD_uEY6xNcODs-uu1J798dW_4qdUeHsCkdK8
+
+###
+
+### Atualizar dados do usuário (substitua pelo token real)
+PUT http://localhost:3333/users/me
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjMzQ1OWFjZS0zNGE2LTRhMDItOGEzOS01YzM5MzIyOTJjNDciLCJyb2xlIjoidXNlciIsImlhdCI6MTc1ODI1MjIwM30.fNdONC6DD_uEY6xNcODs-uu1J798dW_4qdUeHsCkdK8
+
+{
+  "name": "João Silva dos Santos",
+  "email": "joao.santos@exemplo.com"
+}
+
+###
+
+### Atualizar apenas o nome (substitua pelo token real)
+PUT http://localhost:3333/users/me
+Content-Type: application/json
+Authorization: Bearer SEU_TOKEN_JWT_AQUI
+
+{
+  "name": "João Silva Santos"
+}
+
+###
+
+### Atualizar apenas o email (substitua pelo token real)
+PUT http://localhost:3333/users/me
+Content-Type: application/json
+Authorization: Bearer SEU_TOKEN_JWT_AQUI
+
+{
+  "email": "joao.novo@exemplo.com"
+}
+
+###
+
+### Excluir conta do usuário (substitua pelo token real)
+DELETE http://localhost:3333/users/me
+Content-Type: application/json
+Authorization: Bearer SEU_TOKEN_JWT_AQUI
+
+###
+
+### Teste de erro - Email já em uso
+POST http://localhost:3333/auth/register
+Content-Type: application/json
+
+{
+  "name": "Maria Silva",
+  "email": "joao@exemplo.com",
+  "password": "senha456"
+}
+
+###
+
+### Teste de erro - Credenciais inválidas
+POST http://localhost:3333/auth/login
+Content-Type: application/json
+
+{
+  "email": "joao@exemplo.com",
+  "password": "senha_errada"
+}
+
+###
+
+### Teste de erro - Token inválido
+GET http://localhost:3333/users/me
+Content-Type: application/json
+Authorization: Bearer token_invalido
+
+###
+
+### Teste de erro - Sem token
+GET http://localhost:3333/users/me
+Content-Type: application/json

@@ -11,6 +11,7 @@ export const registerRoute: FastifyPluginAsyncZod = async (server) => {
     schema: {
       tags: ['Auth'],
       summary: 'Cadastro de novo usuário',
+      description: 'Cria uma nova conta de usuário no sistema.',
       body: z.object({
         name: z.string().min(3),
         email: z.string().email(),
