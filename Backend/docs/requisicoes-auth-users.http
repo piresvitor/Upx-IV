@@ -29,7 +29,7 @@ Authorization: Bearer SEU_TOKEN_JWT_AQUI
 ### Obter dados do usuário (substitua pelo token real)
 GET http://localhost:3333/users/me
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZjAyZWI2MS0yZjc2LTRhZjMtYmFkMS1jMjJhZDZhMjE3ZTgiLCJyb2xlIjoidXNlciIsImlhdCI6MTc1ODI1OTc3M30.NqHmXT2NYx6kSk7ZbgLmc6xlwCK-e2E0LMKknBkn6VI
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkNTQ1NDI0YS1iN2VjLTRhNDgtYjdmYi0wY2RlZWY5NmUzYjQiLCJyb2xlIjoidXNlciIsImlhdCI6MTc1ODI2NjY2M30.bIvMvSbSJgVBnVdwab1QhsYx51klZXcIeOqra51SFls
 
 ###
 

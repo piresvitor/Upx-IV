@@ -11,7 +11,7 @@ import { expect, test, describe, beforeEach, afterEach } from 'vitest'
 import request from 'supertest'
 import { server } from '../../src/app.ts'
 import { db } from '../../src/database/cliente.ts'
-import { places } from '../../src/database/schema.ts'
+import { places, reports } from '../../src/database/schema.ts'
 
 describe('GET /places/search-nearby Route', () => {
   beforeEach(async () => {
@@ -19,7 +19,8 @@ describe('GET /places/search-nearby Route', () => {
   })
 
   afterEach(async () => {
-    // Limpar dados de teste após cada teste
+    // Limpar dados de teste após cada teste (remover relatos antes por FK)
+    await db.delete(reports)
     await db.delete(places)
   })
 

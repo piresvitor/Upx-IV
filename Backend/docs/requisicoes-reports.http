@@ -1,7 +1,7 @@
 ### API Relatos - Requisições de Teste
 
 ### 1. Criar Relato para um Local
-POST http://localhost:3000/places/{{placeId}}/reports
+POST http://localhost:3333/places/{{placeId}}/reports
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
@@ -12,7 +12,7 @@ Authorization: Bearer {{token}}
 }
 
 ### 2. Criar Relato de Segurança
-POST http://localhost:3000/places/{{placeId}}/reports
+POST http://localhost:3333/places/{{placeId}}/reports
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
@@ -23,7 +23,7 @@ Authorization: Bearer {{token}}
 }
 
 ### 3. Criar Relato de Infraestrutura
-POST http://localhost:3000/places/{{placeId}}/reports
+POST http://localhost:3333/places/{{placeId}}/reports
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
@@ -34,17 +34,17 @@ Authorization: Bearer {{token}}
 }
 
 ### 4. Buscar Relatos de um Local (com autenticação)
-GET http://localhost:3000/places/{{placeId}}/reports?page=1&limit=5
+GET http://localhost:3333/places/{{placeId}}/reports?page=1&limit=5
 Authorization: Bearer {{token}}
 
 ### 5. Buscar Relatos de um Local (sem autenticação)
-GET http://localhost:3000/places/{{placeId}}/reports?page=1&limit=10
+GET http://localhost:3333/places/{{placeId}}/reports?page=2&limit=5
 
 ### 6. Buscar Relatos - Página 2
-GET http://localhost:3000/places/{{placeId}}/reports?page=2&limit=3
+GET http://localhost:3333/places/{{placeId}}/reports?page=3&limit=3
 
 ### 7. Teste de Validação - Título muito longo
-POST http://localhost:3000/places/{{placeId}}/reports
+POST http://localhost:3333/places/{{placeId}}/reports
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
@@ -55,7 +55,7 @@ Authorization: Bearer {{token}}
 }
 
 ### 8. Teste de Validação - Descrição muito longa
-POST http://localhost:3000/places/{{placeId}}/reports
+POST http://localhost:3333/places/{{placeId}}/reports
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
@@ -66,7 +66,7 @@ Authorization: Bearer {{token}}
 }
 
 ### 9. Teste de Validação - Campos obrigatórios ausentes
-POST http://localhost:3000/places/{{placeId}}/reports
+POST http://localhost:3333/places/{{placeId}}/reports
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
@@ -96,7 +96,7 @@ Authorization: Bearer token_invalido
 }
 
 ### 12. Teste de Local Inexistente
-POST http://localhost:3000/places/00000000-0000-0000-0000-000000000000/reports
+POST http://localhost:3333/places/00000000-0000-0000-0000-000000000000/reports
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
@@ -107,13 +107,13 @@ Authorization: Bearer {{token}}
 }
 
 ### 13. Teste de Paginação - Parâmetros inválidos
-GET http://localhost:3000/places/{{placeId}}/reports?page=0&limit=-1
+GET http://localhost:3333/places/{{placeId}}/reports?page=0&limit=-1
 
 ### 14. Teste de Paginação - Parâmetros não numéricos
-GET http://localhost:3000/places/{{placeId}}/reports?page=abc&limit=xyz
+GET http://localhost:3333/places/{{placeId}}/reports?page=abc&limit=xyz
 
 ### 15. Buscar Relatos de Local Inexistente
-GET http://localhost:3000/places/00000000-0000-0000-0000-000000000000/reports
+GET http://localhost:3333/places/00000000-0000-0000-0000-000000000000/reports
 
 ### Variáveis para teste:
 @placeId = 123e4567-e89b-12d3-a456-426614174000

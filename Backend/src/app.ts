@@ -7,7 +7,7 @@ import { getMeRoute, updateMeRoute, deleteMeRoute, getAllUsersRoute } from '../r
 import scalarAPIReference from '@scalar/fastify-api-reference'
 import { pingRoute } from '../routes/ping'
 import { registerRoute } from '../routes/auth/register'
-import { searchNearbyRoute, checkOrCreateRoute, getPlaceRoute, updatePlaceRoute, getAllPlacesRoute } from '../routes/places'
+import { searchNearbyRoute, checkOrCreateRoute, getPlaceRoute, updatePlaceRoute, getAllPlacesRoute, getPlaceReportsRoute } from '../routes/places'
 import { reportsRoutes } from '../routes/reports'
 
 
@@ -56,6 +56,7 @@ server.register(checkOrCreateRoute)
 server.register(getPlaceRoute)
 server.register(updatePlaceRoute)
 server.register(getAllPlacesRoute)
+server.register(getPlaceReportsRoute)
 server.register(reportsRoutes)
 
 export { server }

@@ -4,7 +4,7 @@ Esta documentação descreve as rotas relacionadas aos relatos de acessibilidade
 
 ## Base URL
 ```
-http://localhost:3000
+http://localhost:3333
 ```
 
 ## Autenticação
@@ -97,16 +97,29 @@ Busca todos os relatos de um local específico com paginação.
 
 #### Query Parameters
 - `page` (number, opcional): Número da página (padrão: 1)
-- `limit` (number, opcional): Número de itens por página (padrão: 10)
+- `limit` (number, opcional): Itens por página, 1-50 (padrão: 10)
 
 #### Headers
-- `Authorization`: Bearer token (opcional - se fornecido, retorna se o usuário votou em cada relato)
+- Nenhum (público)
 
 #### Respostas
 
 **200 - Sucesso**
 ```json
 {
+  "place": {
+    "id": "uuid",
+    "placeId": "google_place_id",
+    "name": "Nome do Local",
+    "address": "Endereço",
+    "latitude": -23.0,
+    "longitude": -46.0,
+    "types": ["restaurant"],
+    "rating": 4.2,
+    "userRatingsTotal": 10,
+    "createdAt": "2024-01-01T00:00:00.000Z",
+    "updatedAt": "2024-01-01T00:00:00.000Z"
+  },
   "reports": [
     {
       "id": "uuid",
@@ -116,12 +129,12 @@ Busca todos os relatos de um local específico com paginação.
       "createdAt": "2024-01-01T00:00:00.000Z",
       "user": {
         "id": "uuid",
-        "name": "Nome do usuário"
-      },
-      "votesCount": 5,
-      "userVoted": true
+        "name": "Nome do usuário",
+        "email": "email@exemplo.com"
+      }
     }
-  ],
+  ]
+  ,
   "pagination": {
     "page": 1,
     "limit": 10,
@@ -151,7 +164,7 @@ Busca todos os relatos de um local específico com paginação.
 
 ### Criar um relato de acessibilidade
 ```bash
-curl -X POST http://localhost:3000/places/123e4567-e89b-12d3-a456-426614174000/reports \
+curl -X POST http://localhost:3333/places/123e4567-e89b-12d3-a456-426614174000/reports \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer seu_token_aqui" \
   -d '{
@@ -163,13 +176,7 @@ curl -X POST http://localhost:3000/places/123e4567-e89b-12d3-a456-426614174000/r
 
 ### Buscar relatos de um local
 ```bash
-curl -X GET "http://localhost:3000/places/123e4567-e89b-12d3-a456-426614174000/reports?page=1&limit=5" \
-  -H "Authorization: Bearer seu_token_aqui"
-```
-
-### Buscar relatos sem autenticação
-```bash
-curl -X GET "http://localhost:3000/places/123e4567-e89b-12d3-a456-426614174000/reports?page=1&limit=5"
+curl -X GET "http://localhost:3333/places/123e4567-e89b-12d3-a456-426614174000/reports"
 ```
 
 ---
