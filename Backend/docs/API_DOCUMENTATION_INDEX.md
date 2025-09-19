@@ -34,11 +34,19 @@ Esta API permite gerenciar um sistema de mapeamento colaborativo de acessibilida
       - `GET /places` - Buscar todos os locais
 
 ### 📝 Relatos
-- **Base URL**: `/places/:placeId/reports`
+- **Base URLs**:
+  - `/places/:placeId/reports` (relatos por local)
+  - `/reports` (relatos gerais)
 - **Documentação**: [API_REPORTS_DOCUMENTATION.md](./API_REPORTS_DOCUMENTATION.md)
 - **Endpoints**:
   - `POST /places/:placeId/reports` - Criar relato para local
   - `GET /places/:placeId/reports` - Buscar relatos de um local
+  - `GET /reports` - Listar relatos com filtros (type, user_id)
+  - `GET /reports/:reportId` - Obter um relato
+  - `PUT /reports/:reportId` - Atualizar (somente autor)
+  - `DELETE /reports/:reportId` - Remover (somente autor)
+  - `POST /reports/:reportId/votes` - Votar em um relato
+  - `DELETE /reports/:reportId/votes` - Remover voto de um relato
 
 ## Autenticação
 
@@ -116,6 +124,7 @@ PORT=3333
 - [requisicoes-auth-users.http](./requisicoes-auth-users.http) - Testes para autenticação e usuários
 - [requisicoes-places.http](./requisicoes-places.http) - Testes para locais
 - [requisicoes-reports.http](./requisicoes-reports.http) - Testes para relatos
+- [requisicoes-votes.http](./requisicoes-votes.http) - Testes para votação em relatos
 
 ## Documentação Swagger
 

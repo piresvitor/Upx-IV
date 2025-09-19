@@ -2,13 +2,14 @@ import { describe, it, expect, beforeEach, afterEach } from 'vitest'
 import request from 'supertest'
 import { server } from '../../src/app.ts'
 import { db } from '../../src/database/cliente.ts'
-import { places } from '../../src/database/schema.ts'
+import { places, reports } from '../../src/database/schema.ts'
 
 describe('GET /places Route', () => {
   beforeEach(async () => {
     await server.ready()
     
-    // Limpar e criar locais de teste
+    // Limpar e criar locais de teste (remover relatos antes por FK)
+    await db.delete(reports)
     await db.delete(places)
     
     await db.insert(places).values([
@@ -46,7 +47,8 @@ describe('GET /places Route', () => {
   })
 
   afterEach(async () => {
-    // Limpar dados de teste após cada teste
+    // Limpar dados de teste após cada teste (remover relatos antes por FK)
+    await db.delete(reports)
     await db.delete(places)
   })
 

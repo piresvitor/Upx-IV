@@ -42,9 +42,13 @@ Esta pasta contém toda a documentação da API do sistema de mapeamento colabor
     - `PUT /places/:placeId` - Atualizar um local
     - `GET /places` - Buscar todos os locais
 
-### Relatos (`/places/:placeId/reports`)
+### Relatos
 - `POST /places/:placeId/reports` - Criar relato
-- `GET /places/:placeId/reports` - Buscar relatos
+- `GET /places/:placeId/reports` - Buscar relatos (paginação com `page` e `limit`)
+- `GET /reports` - Listar relatos (filtros: `type`, `user_id` + paginação)
+- `GET /reports/:reportId` - Obter um relato específico
+- `PUT /reports/:reportId` - Atualizar um relato (somente autor)
+- `DELETE /reports/:reportId` - Remover um relato (somente autor)
 
 ## 🔧 Configuração
 

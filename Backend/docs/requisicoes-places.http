@@ -35,6 +35,11 @@ Content-Type: application/json
 
 ###
 
+### 9.1. Buscar relatos deste local
+GET http://localhost:3333/places/{{placeId}}/reports
+
+###
+
 ### 10. Atualizar um local
 PUT http://localhost:3333/places/{{placeId}}
 Content-Type: application/json
