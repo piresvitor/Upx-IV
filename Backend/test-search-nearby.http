@@ -1,0 +1,21 @@
+### Teste simples - apenas latitude e longitude obrigatórios
+GET http://localhost:3333/places/search-nearby?latitude=-23.5505&longitude=-46.6333
+Content-Type: application/json
+
+###
+
+### Teste com todos os parâmetros
+GET http://localhost:3333/places/search-nearby?latitude=-23.5505&longitude=-46.6333&radius=1000&type=restaurant&keyword=pizza
+Content-Type: application/json
+
+###
+
+### Teste com valores inválidos (deve dar erro)
+GET http://localhost:3333/places/search-nearby?latitude=999&longitude=-46.6333
+Content-Type: application/json
+
+###
+
+### Teste sem parâmetros (deve dar erro)
+GET http://localhost:3333/places/search-nearby
+Content-Type: application/json

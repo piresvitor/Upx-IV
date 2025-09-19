@@ -1,0 +1,61 @@
+### Buscar locais próximos (São Paulo - Centro)
+GET http://localhost:3333/places/search-nearby?latitude=-23.5505&longitude=-46.6333&radius=1000&type=restaurant
+Content-Type: application/json
+
+###
+
+### Buscar locais próximos com palavra-chave
+GET http://localhost:3333/places/search-nearby?latitude=-23.5505&longitude=-46.6333&radius=2000&keyword=pizza
+Content-Type: application/json
+
+###
+
+### Verificar se local existe (substitua pelo place_id real)
+POST http://localhost:3333/places/check-or-create
+Content-Type: application/json
+
+{
+  "placeId": "ChIJN1t_tDeuEmsRUsoyG83frY4"
+}
+
+###
+
+### Criar relato para um local (substitua pelo UUID do local e adicione token de autenticação)
+POST http://localhost:3333/places/123e4567-e89b-12d3-a456-426614174000/reports
+Content-Type: application/json
+Authorization: Bearer SEU_TOKEN_JWT_AQUI
+
+{
+  "title": "Acessibilidade no restaurante",
+  "description": "O restaurante possui rampa de acesso e banheiro adaptado. Funcionários são atenciosos com pessoas com deficiência.",
+  "type": "acessibilidade"
+}
+
+###
+
+### Buscar relatos de um local (substitua pelo UUID do local)
+GET http://localhost:3333/places/123e4567-e89b-12d3-a456-426614174000/reports?page=1&limit=5
+Content-Type: application/json
+
+###
+
+### Buscar relatos de um local com autenticação (para ver se usuário votou)
+GET http://localhost:3333/places/123e4567-e89b-12d3-a456-426614174000/reports?page=1&limit=5
+Content-Type: application/json
+Authorization: Bearer SEU_TOKEN_JWT_AQUI
+
+###
+
+### Exemplo de busca por diferentes tipos de locais
+GET http://localhost:3333/places/search-nearby?latitude=-23.5505&longitude=-46.6333&radius=1500&type=hospital
+Content-Type: application/json
+
+###
+
+GET http://localhost:3333/places/search-nearby?latitude=-23.5505&longitude=-46.6333&radius=1500&type=school
+Content-Type: application/json
+
+###
+
+GET http://localhost:3333/places/search-nearby?latitude=-23.5505&longitude=-46.6333&radius=1500&type=shopping_mall
+Content-Type: application/json

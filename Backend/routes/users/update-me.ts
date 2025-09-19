@@ -89,6 +89,12 @@ export const updateMeRoute: FastifyPluginAsyncZod = async (server) => {
           role: users.role
         })
 
+      if (!updatedUser) {
+        return reply.status(404).send({ 
+          message: 'Usuário não encontrado' 
+        })
+      }
+
       return reply.status(200).send({
         message: 'Perfil atualizado com sucesso',
         user: updatedUser

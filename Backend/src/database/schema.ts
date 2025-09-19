@@ -17,23 +17,45 @@ export const usersRelations = relations(users, ({ many }) => ({
   interestAreas: many(interestAreasToUsers),
 }))
 
+// Tabela de Locais (Places)
+export const places = pgTable('places', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  placeId: text('place_id').notNull().unique(), // Google Maps Place ID
+  name: text('name').notNull(),
+  address: text('address'),
+  latitude: doublePrecision('latitude').notNull(),
+  longitude: doublePrecision('longitude').notNull(),
+  types: text('types').array().notNull().default([]), // Tipos do Google Maps (restaurant, hospital, etc.)
+  rating: doublePrecision('rating'),
+  userRatingsTotal: doublePrecision('user_ratings_total'),
+  createdAt: timestamp('created_at').notNull().defaultNow(),
+  updatedAt: timestamp('updated_at').notNull().defaultNow(),
+})
+
 // Tabela de Relatos (Report)
 export const reports = pgTable('reports', {
   id: uuid('id').primaryKey().defaultRandom(),
   title: text('title').notNull(),
   description: text('description').notNull(),
   type: text('type').notNull(),
-  latitude: doublePrecision('latitude').notNull(),
-  longitude: doublePrecision('longitude').notNull(),
-  photos: text("photos_url").array().notNull().default([]),
   createdAt: timestamp('created_at').notNull().defaultNow(),
   userId: uuid('user_id').notNull().references(() => users.id),
+  placeId: uuid('place_id').references(() => places.id), // Referência opcional ao local
 })
+
+// Relações para a tabela de Locais
+export const placesRelations = relations(places, ({ many }) => ({
+  reports: many(reports),
+}))
 
 export const reportsRelations = relations(reports, ({ one, many }) => ({
   user: one(users, {
     fields: [reports.userId],
     references: [users.id],
+  }),
+  place: one(places, {
+    fields: [reports.placeId],
+    references: [places.id],
   }),
   votes: many(votes),
 }))
