@@ -10,8 +10,9 @@ export const deleteMeRoute: FastifyPluginAsyncZod = async (server) => {
   server.delete('/users/me', {
     preHandler: authenticateToken,
     schema: {
-      tags: ['users'],
-      summary: 'Exclui conta do usuário autenticado',
+      tags: ['Users'],
+      summary: 'Delete User',
+      description: 'Exclui a conta do usuário autenticado',
       headers: z.object({
         authorization: z.string().regex(/^Bearer .+/, 'Authorization header must be Bearer token')
       }),

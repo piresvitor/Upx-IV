@@ -17,8 +17,9 @@ export const updateMeRoute: FastifyPluginAsyncZod = async (server) => {
   server.put('/users/me', {
     preHandler: authenticateToken,
     schema: {
-      tags: ['users'],
-      summary: 'Atualiza dados do perfil do usuário',
+      tags: ['Users'],
+      summary: 'Update User',
+      description: 'Atualiza dados do perfil do usuário',
       headers: z.object({
         authorization: z.string().regex(/^Bearer .+/, 'Authorization header must be Bearer token')
       }),

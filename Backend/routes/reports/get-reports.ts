@@ -28,8 +28,8 @@ export async function getReportsRoute(app: FastifyInstance) {
       }
     },
     schema: {
-      tags: ['Places'],
-      summary: "Get Reports",
+      tags: ['Relatos'],
+      summary: "Get Relatos",
       description: "Busca todos os relatos de um local específico com paginação.",
       params: z.object({
         placeId: z.string().uuid(),

@@ -10,8 +10,9 @@ export const getMeRoute: FastifyPluginAsyncZod = async (server) => {
   server.get('/users/me', {
     preHandler: authenticateToken,
     schema: {
-      tags: ['users'],
-      summary: 'Retorna dados do usuário autenticado',
+      tags: ['Users'],
+      summary: 'Get User',
+      description: 'Retorna dados do usuário autenticado',
       headers: z.object({
         authorization: z.string().regex(/^Bearer .+/, 'Authorization header must be Bearer token')
       }),

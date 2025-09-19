@@ -1,0 +1,58 @@
+### API Users - Rotas Estendidas
+
+### 1. Buscar todos os usuários (paginação padrão)
+GET http://localhost:3333/users
+
+### 2. Buscar todos os usuários com paginação customizada
+GET http://localhost:3333/users?page=1&limit=5
+
+### 3. Buscar usuários por parte do nome
+GET http://localhost:3333/users?search=João
+
+### 4. Buscar usuários por parte do email
+GET http://localhost:3333/users?search=@example.com
+
+### 5. Buscar usuários por role
+GET http://localhost:3333/users?role=admin
+
+### 6. Buscar usuários ordenados por nome (ascendente)
+GET http://localhost:3333/users?sortBy=name&sortOrder=asc
+
+### 7. Buscar usuários ordenados por email (descendente)
+GET http://localhost:3333/users?sortBy=email&sortOrder=desc
+
+### 9. Buscar usuários com múltiplos filtros
+GET http://localhost:3333/users?search=o&role=user&sortBy=name&sortOrder=asc&page=1&limit=10
+
+### 10. Buscar apenas administradores
+GET http://localhost:3333/users?role=admin&sortBy=name&sortOrder=asc
+
+### 11. Buscar usuários com nome que contém "Silva"
+GET http://localhost:3333/users?search=Silva
+
+### 12. Buscar usuários com email que contém "gmail"
+GET http://localhost:3333/users?search=gmail
+
+### 13. Teste de validação - Parâmetros de paginação inválidos
+GET http://localhost:3333/users?page=0&limit=-1
+
+### 14. Teste de validação - Parâmetros de ordenação inválidos
+GET http://localhost:3333/users?sortBy=invalid&sortOrder=invalid
+
+### 15. Teste de validação - Role inválido
+GET http://localhost:3333/users?role=invalid
+
+### 16. Buscar usuários com termo que não existe
+GET http://localhost:3333/users?search=inexistente
+
+### 17. Buscar usuários com filtro de role que não existe
+GET http://localhost:3333/users?role=moderator
+
+### 18. Buscar usuários com paginação na segunda página
+GET http://localhost:3333/users?page=2&limit=2
+
+### 19. Buscar usuários com limite alto
+GET http://localhost:3333/users?limit=50
+
+### 20. Buscar usuários com todos os parâmetros
+GET http://localhost:3333/users?page=1&limit=10&search=test&role=user&sortBy=email&sortOrder=desc

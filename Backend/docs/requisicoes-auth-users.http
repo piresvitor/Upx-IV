@@ -29,7 +29,7 @@ Authorization: Bearer SEU_TOKEN_JWT_AQUI
 ### Obter dados do usuário (substitua pelo token real)
 GET http://localhost:3333/users/me
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjMzQ1OWFjZS0zNGE2LTRhMDItOGEzOS01YzM5MzIyOTJjNDciLCJyb2xlIjoidXNlciIsImlhdCI6MTc1ODI1MjIwM30.fNdONC6DD_uEY6xNcODs-uu1J798dW_4qdUeHsCkdK8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZjAyZWI2MS0yZjc2LTRhZjMtYmFkMS1jMjJhZDZhMjE3ZTgiLCJyb2xlIjoidXNlciIsImlhdCI6MTc1ODI1OTc3M30.NqHmXT2NYx6kSk7ZbgLmc6xlwCK-e2E0LMKknBkn6VI
 
 ###
 
@@ -107,3 +107,31 @@ Authorization: Bearer token_invalido
 ### Teste de erro - Sem token
 GET http://localhost:3333/users/me
 Content-Type: application/json
+
+###
+
+### Buscar todos os usuários (substitua pelo token real)
+GET http://localhost:3333/users
+Content-Type: application/json
+Authorization: Bearer SEU_TOKEN_JWT_AQUI
+
+###
+
+### Buscar usuários com filtros (substitua pelo token real)
+GET http://localhost:3333/users?page=1&limit=5&search=João&role=user&sortBy=name&sortOrder=asc
+Content-Type: application/json
+Authorization: Bearer SEU_TOKEN_JWT_AQUI
+
+###
+
+### Buscar usuários por nome (substitua pelo token real)
+GET http://localhost:3333/users?search=Silva
+Content-Type: application/json
+Authorization: Bearer SEU_TOKEN_JWT_AQUI
+
+###
+
+### Buscar usuários por role (substitua pelo token real)
+GET http://localhost:3333/users?role=admin
+Content-Type: application/json
+Authorization: Bearer SEU_TOKEN_JWT_AQUI

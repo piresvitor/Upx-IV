@@ -9,11 +9,12 @@ Esta pasta contém toda a documentação da API do sistema de mapeamento colabor
 - **[API_AUTH_DOCUMENTATION.md](./API_AUTH_DOCUMENTATION.md)** - Documentação da API de autenticação
 - **[API_USERS_DOCUMENTATION.md](./API_USERS_DOCUMENTATION.md)** - Documentação da API de usuários
 - **[API_PLACES_DOCUMENTATION.md](./API_PLACES_DOCUMENTATION.md)** - Documentação da API de locais
+- **[API_REPORTS_DOCUMENTATION.md](./API_REPORTS_DOCUMENTATION.md)** - Documentação da API de relatos
 
-
-### Arquivos de Teste
-- **[requisicoes-auth-users.http](./requisicoes-auth-users.http)** - Requisições de teste para autenticação e usuários
-- **[requisicoes-places.http](./requisicoes-places.http)** - Requisições de teste para locais e relatórios
+    ### Arquivos de Teste
+    - **[requisicoes-auth-users.http](./requisicoes-auth-users.http)** - Requisições de teste para autenticação e usuários
+    - **[requisicoes-places.http](./requisicoes-places.http)** - Requisições de teste para locais
+    - **[requisicoes-reports.http](./requisicoes-reports.http)** - Requisições de teste para relatos
 
 ## 🚀 Como Usar
 
@@ -29,13 +30,19 @@ Esta pasta contém toda a documentação da API do sistema de mapeamento colabor
 - `POST /auth/logout` - Fazer logout
 
 ### Usuários (`/users`)
-- `GET /users/me` - Obter dados do usuário
-- `PUT /users/me` - Atualizar dados do usuário
-- `DELETE /users/me` - Excluir conta
+    - `GET /users/me` - Obter dados do usuário
+    - `PUT /users/me` - Atualizar dados do usuário
+    - `DELETE /users/me` - Excluir conta
+    - `GET /users` - Buscar todos os usuários
 
-### Locais (`/places`)
-- `GET /places/search-nearby` - Buscar locais próximos
-- `POST /places/check-or-create` - Verificar ou criar local
+    ### Locais (`/places`)
+    - `GET /places/search-nearby` - Buscar locais próximos
+    - `POST /places/check-or-create` - Verificar ou criar local
+    - `GET /places/:placeId` - Obter detalhes de um local
+    - `PUT /places/:placeId` - Atualizar um local
+    - `GET /places` - Buscar todos os locais
+
+### Relatos (`/places/:placeId/reports`)
 - `POST /places/:placeId/reports` - Criar relato
 - `GET /places/:placeId/reports` - Buscar relatos
 

@@ -3,11 +3,12 @@ import fastify from 'fastify'
 import { jsonSchemaTransform, serializerCompiler, validatorCompiler } from 'fastify-type-provider-zod'
 import { loginRoute } from '../routes/auth/login'
 import { logoutRoute } from '../routes/auth/logout'
-import { getMeRoute, updateMeRoute, deleteMeRoute } from '../routes/users'
+import { getMeRoute, updateMeRoute, deleteMeRoute, getAllUsersRoute } from '../routes/users'
 import scalarAPIReference from '@scalar/fastify-api-reference'
 import { pingRoute } from '../routes/ping'
 import { registerRoute } from '../routes/auth/register'
-import { searchNearbyRoute, checkOrCreateRoute, createReportRoute, getReportsRoute } from '../routes/places'
+import { searchNearbyRoute, checkOrCreateRoute, getPlaceRoute, updatePlaceRoute, getAllPlacesRoute } from '../routes/places'
+import { reportsRoutes } from '../routes/reports'
 
 
 const server = fastify({
@@ -49,9 +50,12 @@ server.register(registerRoute)
 server.register(getMeRoute)
 server.register(updateMeRoute)
 server.register(deleteMeRoute)
+server.register(getAllUsersRoute)
 server.register(searchNearbyRoute)
 server.register(checkOrCreateRoute)
-server.register(createReportRoute)
-server.register(getReportsRoute)
+server.register(getPlaceRoute)
+server.register(updatePlaceRoute)
+server.register(getAllPlacesRoute)
+server.register(reportsRoutes)
 
 export { server }
