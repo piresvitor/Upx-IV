@@ -9,6 +9,7 @@ export const listReportsRoute: FastifyPluginAsyncZod = async (server) => {
     schema: {
       tags: ['Reports'],
       summary: 'List Reports',
+      description: 'Lista relatos com filtros opcionais e paginação',
       querystring: z.object({
         type: z.string().optional(),
         user_id: z.string().uuid().optional(),
