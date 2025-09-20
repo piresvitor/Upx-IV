@@ -96,7 +96,7 @@ graph TB
     %% Database Layer
     subgraph "Database Layer"
         POSTGRES[(PostgreSQL Database<br/>Primary Data Store)]
-        TABLES[Tables:<br/>• users<br/>• places<br/>• reports<br/>• votes<br/>• interest_areas]
+        TABLES[Tables:<br/>• users<br/>• places<br/>• reports<br/>• votes]
     end
 
     %% Connections

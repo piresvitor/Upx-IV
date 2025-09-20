@@ -21,8 +21,7 @@ describe('Login Route', () => {
   })
 
   afterEach(async () => {
-    // Limpar dados de teste após cada teste
-    await db.delete(users)
+    // Não limpar o banco - usar banco de teste separado
   })
 
   test('should login successfully with valid credentials', async () => {

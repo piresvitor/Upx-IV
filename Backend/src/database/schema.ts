@@ -14,7 +14,6 @@ export const users = pgTable('users', {
 export const usersRelations = relations(users, ({ many }) => ({
   reports: many(reports),
   votes: many(votes),
-  interestAreas: many(interestAreasToUsers),
 }))
 
 // Tabela de Locais (Places)
@@ -80,34 +79,3 @@ export const votesRelations = relations(votes, ({ one }) => ({
     references: [reports.id],
   }),
 }))
-
-// Tabela de Áreas de Interesse (InterestArea)
-export const interestAreas = pgTable('interest_areas', {
-  id: uuid('id').primaryKey().defaultRandom(),
-  name: text('name').notNull().unique(),
-  description: text('description'),
-})
-
-export const interestAreasRelations = relations(interestAreas, ({ many }) => ({
-  users: many(interestAreasToUsers),
-}))
-
-// Tabela de Junção para a Relação Muitos-para-Muitos
-export const interestAreasToUsers = pgTable('interest_areas_to_users', {
-  userId: uuid('user_id').notNull().references(() => users.id),
-  interestAreaId: uuid('interest_area_id').notNull().references(() => interestAreas.id),
-}, table => ({
-  pk: uniqueIndex('pk').on(table.userId, table.interestAreaId),
-}))
-
-export const interestAreasToUsersRelations = relations(interestAreasToUsers, ({ one }) => ({
-  user: one(users, {
-    fields: [interestAreasToUsers.userId],
-    references: [users.id],
-  }),
-  interestArea: one(interestAreas, {
-    fields: [interestAreasToUsers.interestAreaId],
-    references: [interestAreas.id],
-  }),
-}))
-

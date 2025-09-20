@@ -22,8 +22,7 @@ describe('PUT /users/me Route', () => {
   })
 
   afterEach(async () => {
-    // Limpar dados de teste após cada teste
-    await db.delete(users)
+    // Não limpar o banco - usar banco de teste separado
   })
 
   test('should update user profile with valid data', async () => {
