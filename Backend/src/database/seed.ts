@@ -1,5 +1,5 @@
 import { db } from './cliente'
-import { users, places, reports } from './schema'
+import { users, places, reports, votes } from './schema'
 import { fakerPT_BR as faker } from '@faker-js/faker'
 import { hash } from 'argon2'
 
@@ -7,6 +7,7 @@ import { hash } from 'argon2'
  // Limpa as tabelas
 async function LimparTabelas() {
   console.log('Limpando tabelas...')
+  await db.delete(votes)
   await db.delete(reports)
   await db.delete(users)
   await db.delete(places)
@@ -113,6 +114,56 @@ async function seedReports() {
     console.log('Seed de relatos de acessibilidade concluído com sucesso!')
   } catch (error) {
     console.error('Erro durante o seed de relatos:', error)
+    throw error
+  }
+}
+
+async function seedVotes() {
+  try {
+    console.log('Iniciando seed de votos...')
+
+    // Buscar usuários e relatos para criar os votos
+    const allUsers = await db.select().from(users)
+    const allReports = await db.select().from(reports)
+
+    if (allUsers.length === 0) {
+      console.log('Nenhum usuário encontrado. Execute o seed de usuários primeiro!')
+      return
+    }
+
+    if (allReports.length === 0) {
+      console.log('Nenhum relato encontrado. Execute o seed de relatos primeiro!')
+      return
+    }
+
+    console.log(`Encontrados ${allUsers.length} usuários`)
+    console.log(`Encontrados ${allReports.length} relatos`)
+
+    // Criar votos aleatórios
+    const votesToInsert = []
+    
+    // Cada usuário vota em alguns relatos aleatórios
+    for (const user of allUsers) {
+      // Cada usuário vota em 2-5 relatos aleatórios
+      const numberOfVotes = Math.floor(Math.random() * 4) + 2 // 2-5 votos
+      const shuffledReports = [...allReports].sort(() => 0.5 - Math.random())
+      const reportsToVote = shuffledReports.slice(0, numberOfVotes)
+
+      for (const report of reportsToVote) {
+        votesToInsert.push({
+          userId: user.id,
+          reportId: report.id
+        })
+      }
+    }
+
+    // Inserir os votos
+    console.log(`Inserindo ${votesToInsert.length} votos...`)
+    await db.insert(votes).values(votesToInsert)
+
+    console.log('Seed de votos concluído com sucesso!')
+  } catch (error) {
+    console.error('Erro durante o seed de votos:', error)
     throw error
   }
 }
@@ -240,15 +291,18 @@ async function seed() {
   try {
     console.log('=== INICIANDO SEED DO BANCO DE DADOS ===')
 
-    // await LimparTabelas() 
+    await LimparTabelas() 
+    await seedUser()
     await seedPlaces()
     await seedReports()
+    await seedVotes()
     
     console.log('=== SEED CONCLUÍDO COM SUCESSO! ===')
     console.log('10 usuários criados')
     console.log('10 locais de Sorocaba criados')
     console.log('5 relatos de acessibilidade criados')
-    console.log(' Todos os dados foram inseridos no banco de dados')
+    console.log('Votos aleatórios criados')
+    console.log('Todos os dados foram inseridos no banco de dados')
     
   } catch (error) {
     console.error('Erro durante o processo de seed:', error)

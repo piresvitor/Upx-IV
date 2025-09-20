@@ -51,10 +51,7 @@ describe('POST /places/:placeId/reports Route', () => {
   })
 
   afterEach(async () => {
-    // Limpar dados de teste após cada teste
-    await db.delete(reports)
-    await db.delete(places)
-    await db.delete(users)
+    // Não limpar o banco - usar banco de teste separado
   })
 
   test('should create report with valid data', async () => {
