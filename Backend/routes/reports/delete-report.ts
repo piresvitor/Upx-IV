@@ -11,6 +11,7 @@ export const deleteReportRoute: FastifyPluginAsyncZod = async (server) => {
     schema: {
       tags: ['Reports'],
       summary: 'Delete Report',
+      description: 'Remove um relato específico',
       params: z.object({ reportId: z.string().uuid() }),
       response: {
         200: z.object({ message: z.string() }),

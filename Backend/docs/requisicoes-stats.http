@@ -1,0 +1,61 @@
+### Requisições para Estatísticas
+
+# Variáveis
+@baseUrl = http://localhost:3000
+
+### Estatísticas Gerais da Plataforma
+GET {{baseUrl}}/stats/general
+
+### Tendências de Relatos - Por Dia (padrão)
+GET {{baseUrl}}/stats/reports/trends
+
+### Tendências de Relatos - Por Semana
+GET {{baseUrl}}/stats/reports/trends?period=week
+
+### Tendências de Relatos - Por Mês
+GET {{baseUrl}}/stats/reports/trends?period=month
+
+### Tendências de Relatos - Limitado a 10 períodos
+GET {{baseUrl}}/stats/reports/trends?limit=10
+
+### Tendências de Relatos - Por Semana, limitado a 5 períodos
+GET {{baseUrl}}/stats/reports/trends?period=week&limit=5
+
+### Relatos por Tipo - Padrão (máximo 20 tipos)
+GET {{baseUrl}}/stats/reports/by-type
+
+### Relatos por Tipo - Limitado a 5 tipos
+GET {{baseUrl}}/stats/reports/by-type?limit=5
+
+### Exemplo de Resposta - Estatísticas Gerais
+# {
+#   "totalUsers": 150,
+#   "totalReports": 1250,
+#   "totalPlaces": 89,
+#   "totalVotes": 3200,
+#   "lastUpdated": "2024-01-15T10:30:00.000Z"
+# }
+
+### Exemplo de Resposta - Tendências
+# {
+#   "period": "day",
+#   "data": [
+#     { "date": "2024-01-15", "count": 12 },
+#     { "date": "2024-01-14", "count": 8 },
+#     { "date": "2024-01-13", "count": 15 }
+#   ],
+#   "total": 1250,
+#   "lastUpdated": "2024-01-15T10:30:00.000Z"
+# }
+
+### Exemplo de Resposta - Relatos por Tipo
+# {
+#   "data": [
+#     { "type": "accessibility", "count": 450, "percentage": 36.0 },
+#     { "type": "safety", "count": 320, "percentage": 25.6 },
+#     { "type": "cultural", "count": 280, "percentage": 22.4 }
+#   ],
+#   "total": 1250,
+#   "uniqueTypes": 8,
+#   "lastUpdated": "2024-01-15T10:30:00.000Z"
+# }

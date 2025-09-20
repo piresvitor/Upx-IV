@@ -17,6 +17,7 @@ export const updateReportRoute: FastifyPluginAsyncZod = async (server) => {
     schema: {
       tags: ['Reports'],
       summary: 'Update Report',
+      description: 'Atualiza um relato específico',
       params: z.object({ reportId: z.string().uuid() }),
       body: bodySchema,
       response: {

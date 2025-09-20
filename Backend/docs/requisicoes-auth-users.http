@@ -22,21 +22,21 @@ Content-Type: application/json
 ### Logout do usuário (substitua pelo token real)
 POST http://localhost:3333/auth/logout
 Content-Type: application/json
-Authorization: Bearer SEU_TOKEN_JWT_AQUI
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjYjY2ZTE4Yi1jZmQyLTQ4OWMtODA1Ni1kOGM3ZGVhYTI0MWYiLCJyb2xlIjoidXNlciIsImlhdCI6MTc1ODMwNTk3M30.XtPc_PGQP8pCzuKn-3DV30I2fjogbedkqiw9v7-gAyM
 
 ###
 
 ### Obter dados do usuário (substitua pelo token real)
 GET http://localhost:3333/users/me
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI5YmY0N2I2Ni1kOTkzLTQ0NTAtYTBlNC0wNzQxM2U1ZjZkMTIiLCJyb2xlIjoidXNlciIsImlhdCI6MTc1ODI2ODU3NH0.ib3XwOWISqE_rdCMrWyS12d9D0A3f-G8Nn1fps0zBuk
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhODVmYmQ3Yi0zYmVlLTQzNGItYjMxNi04MWE4YjQ2Y2ZiZGQiLCJyb2xlIjoidXNlciIsImlhdCI6MTc1ODMxMTc1MH0.oDWZ1SzAVBsoXfyWs7P4ec6mhUnidAysHQ7vCuAu8Bg
 
 ###
 
 ### Atualizar dados do usuário (substitua pelo token real)
 PUT http://localhost:3333/users/me
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjMzQ1OWFjZS0zNGE2LTRhMDItOGEzOS01YzM5MzIyOTJjNDciLCJyb2xlIjoidXNlciIsImlhdCI6MTc1ODI1MjIwM30.fNdONC6DD_uEY6xNcODs-uu1J798dW_4qdUeHsCkdK8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjYjY2ZTE4Yi1jZmQyLTQ4OWMtODA1Ni1kOGM3ZGVhYTI0MWYiLCJyb2xlIjoidXNlciIsImlhdCI6MTc1ODMwNTk3M30.XtPc_PGQP8pCzuKn-3DV30I2fjogbedkqiw9v7-gAyM
 
 {
   "name": "João Silva dos Santos",

@@ -54,13 +54,13 @@ Para uma visão completa da arquitetura e componentes do sistema, consulte:
   - `POST /reports/:reportId/votes` - Votar em um relato
   - `DELETE /reports/:reportId/votes` - Remover voto de um relato
 
-### 📊 Estatísticas (Futuro)
+### 📊 Estatísticas
 - **Base URL**: `/stats`
+- **Documentação**: [API_STATS_DOCUMENTATION.md](./API_STATS_DOCUMENTATION.md)
 - **Endpoints**:
-  - `GET /stats/reports` - Estatísticas de relatos
-  - `GET /stats/users` - Estatísticas de usuários
-  - `GET /stats/places` - Estatísticas de locais
-  - `GET /stats/votes` - Estatísticas de votos
+  - `GET /stats/general` - Estatísticas gerais da plataforma
+  - `GET /stats/reports/trends` - Tendências de relatos ao longo do tempo
+  - `GET /stats/reports/by-type` - Relatos agrupados por tipo
 
 ### 👨‍💼 Administração (Futuro)
 - **Base URL**: `/admin`
@@ -150,6 +150,7 @@ PORT=3333
 - [requisicoes-places.http](./requisicoes-places.http) - Testes para locais
 - [requisicoes-reports.http](./requisicoes-reports.http) - Testes para relatos
 - [requisicoes-votes.http](./requisicoes-votes.http) - Testes para votação em relatos
+- [requisicoes-stats.http](./requisicoes-stats.http) - Testes para estatísticas
 
 ## Documentação de Arquitetura
 

@@ -9,6 +9,7 @@ export const getReportRoute: FastifyPluginAsyncZod = async (server) => {
     schema: {
       tags: ['Reports'],
       summary: 'Get Report',
+      description: 'Obtém um relato específico',
       params: z.object({
         reportId: z.string().uuid(),
       }),

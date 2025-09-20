@@ -10,6 +10,7 @@ Esta pasta contém toda a documentação da API do sistema de mapeamento colabor
 - **[API_USERS_DOCUMENTATION.md](./API_USERS_DOCUMENTATION.md)** - Documentação da API de usuários
 - **[API_PLACES_DOCUMENTATION.md](./API_PLACES_DOCUMENTATION.md)** - Documentação da API de locais
 - **[API_REPORTS_DOCUMENTATION.md](./API_REPORTS_DOCUMENTATION.md)** - Documentação da API de relatos
+- **[API_STATS_DOCUMENTATION.md](./API_STATS_DOCUMENTATION.md)** - Documentação da API de estatísticas
 - **[COMPONENT_DIAGRAM.md](./COMPONENT_DIAGRAM.md)** - Diagrama de componentes e arquitetura do sistema
 - **[USE_CASE_DIAGRAM.md](./USE_CASE_DIAGRAM.md)** - Diagrama de caso de uso e interações do sistema
 
@@ -18,6 +19,7 @@ Esta pasta contém toda a documentação da API do sistema de mapeamento colabor
 - **[requisicoes-places.http](./requisicoes-places.http)** - Requisições de teste para locais
 - **[requisicoes-reports.http](./requisicoes-reports.http)** - Requisições de teste para relatos
 - **[requisicoes-votes.http](./requisicoes-votes.http)** - Requisições de teste para votação em relatos
+- **[requisicoes-stats.http](./requisicoes-stats.http)** - Requisições de teste para estatísticas
 
 ## 🚀 Como Usar
 
@@ -55,11 +57,10 @@ Esta pasta contém toda a documentação da API do sistema de mapeamento colabor
 - `POST /reports/:reportId/votes` - Votar em um relato
 - `DELETE /reports/:reportId/votes` - Remover voto de um relato
 
-### Estatísticas (Futuro)
-- `GET /stats/reports` - Estatísticas de relatos
-- `GET /stats/users` - Estatísticas de usuários
-- `GET /stats/places` - Estatísticas de locais
-- `GET /stats/votes` - Estatísticas de votos
+### Estatísticas
+- `GET /stats/general` - Estatísticas gerais da plataforma
+- `GET /stats/reports/trends` - Tendências de relatos ao longo do tempo
+- `GET /stats/reports/by-type` - Relatos agrupados por tipo
 
 ### Administração (Futuro)
 - `GET /admin/reports` - Gerenciar relatos

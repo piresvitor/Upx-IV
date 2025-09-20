@@ -9,6 +9,7 @@ import { pingRoute } from '../routes/ping'
 import { registerRoute } from '../routes/auth/register'
 import { searchNearbyRoute, checkOrCreateRoute, getPlaceRoute, updatePlaceRoute, getAllPlacesRoute, getPlaceReportsRoute } from '../routes/places'
 import { reportsRoutes } from '../routes/reports'
+import { statsRoutes } from '../routes/stats'
 
 
 const server = fastify({
@@ -58,5 +59,6 @@ server.register(updatePlaceRoute)
 server.register(getAllPlacesRoute)
 server.register(getPlaceReportsRoute)
 server.register(reportsRoutes)
+server.register(statsRoutes)
 
 export { server }
