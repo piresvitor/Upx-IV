@@ -15,7 +15,9 @@
     "test:coverage": "vitest run --coverage",
     "test:coverage:ui": "vitest run --coverage --reporter=html",
     "test:watch": "vitest",
-    "test:watch:coverage": "vitest --coverage"
+    "test:watch:coverage": "vitest --coverage",
+        "test:cors": "node test-cors/testcors.js",
+        "serve:cors": "node test-cors/serve-testcors.js"
   },
   "keywords": [],
   "author": "",
@@ -23,6 +25,7 @@
   "type": "commonjs",
   "dependencies": {
     "@faker-js/faker": "^10.0.0",
+    "@fastify/cors": "^11.1.0",
     "@fastify/swagger": "^9.5.1",
     "@fastify/swagger-ui": "^5.2.3",
     "@scalar/fastify-api-reference": "^1.35.6",

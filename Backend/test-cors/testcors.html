@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Teste CORS - Mapa Colaborativo</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f5f5f5;
+      }
+      .container {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      .test-section {
+        margin: 20px 0;
+        padding: 15px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+      }
+      .success {
+        border-color: #4caf50;
+        background-color: #f1f8e9;
+      }
+      .error {
+        border-color: #f44336;
+        background-color: #ffebee;
+      }
+      .info {
+        border-color: #2196f3;
+        background-color: #e3f2fd;
+      }
+      button {
+        background-color: #2196f3;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        margin: 5px;
+      }
+      button:hover {
+        background-color: #1976d2;
+      }
+      .result {
+        margin-top: 10px;
+        padding: 10px;
+        border-radius: 4px;
+        font-family: monospace;
+        white-space: pre-wrap;
+      }
+      .loading {
+        color: #666;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>🚀 Teste CORS - Mapa Colaborativo de Acessibilidade</h1>
+      <p>
+        Este arquivo testa se o CORS está configurado corretamente no backend.
+      </p>
+
+      <div class="test-section info">
+        <h3>📋 Instruções:</h3>
+        <ol>
+          <li>
+            Certifique-se de que o servidor backend está rodando em
+            <code>http://localhost:3333</code>
+          </li>
+          <li>Abra o console do navegador (F12) para ver os logs detalhados</li>
+          <li>Clique nos botões abaixo para testar diferentes endpoints</li>
+        </ol>
+      </div>
+
+      <div class="test-section">
+        <h3>🔍 Teste 1: Ping (GET)</h3>
+        <button onclick="testPing()">Testar Ping</button>
+        <div id="ping-result" class="result"></div>
+      </div>
+
+      <div class="test-section">
+        <h3>📊 Teste 2: Estatísticas (GET)</h3>
+        <button onclick="testStats()">Testar Stats</button>
+        <div id="stats-result" class="result"></div>
+      </div>
+
+      <div class="test-section">
+        <h3>👤 Teste 3: Registro (POST)</h3>
+        <button onclick="testRegister()">Testar Registro</button>
+        <div id="register-result" class="result"></div>
+      </div>
+
+      <div class="test-section">
+        <h3>🔐 Teste 4: Login (POST)</h3>
+        <button onclick="testLogin()">Testar Login</button>
+        <div id="login-result" class="result"></div>
+      </div>
+
+      <div class="test-section">
+        <h3>🔄 Teste 5: Preflight (OPTIONS)</h3>
+        <button onclick="testPreflight()">Testar Preflight</button>
+        <div id="preflight-result" class="result"></div>
+      </div>
+    </div>
+
+    <script>
+      const API_BASE_URL = "http://localhost:3333";
+
+      async function makeRequest(url, options = {}) {
+        try {
+          const response = await fetch(url, {
+            ...options,
+            credentials: "include",
+          });
+
+          const result = {
+            status: response.status,
+            statusText: response.statusText,
+            headers: Object.fromEntries(response.headers.entries()),
+            ok: response.ok,
+          };
+
+          if (response.ok) {
+            // Para requisições OPTIONS, não tentar fazer parse do JSON
+            if (response.status === 204 || options.method === "OPTIONS") {
+              result.data = {
+                message: "OPTIONS (Preflight) - CORS configurado corretamente!",
+              };
+            } else {
+              result.data = await response.json();
+            }
+          } else {
+            result.error = await response.text();
+          }
+
+          return result;
+        } catch (error) {
+          return {
+            error: error.message,
+            ok: false,
+          };
+        }
+      }
+
+      function displayResult(elementId, result) {
+        const element = document.getElementById(elementId);
+        const section = element.closest(".test-section");
+
+        if (result.ok) {
+          section.className = "test-section success";
+          element.textContent = `✅ Sucesso!\nStatus: ${
+            result.status
+          }\nHeaders CORS: ${JSON.stringify(
+            {
+              "access-control-allow-credentials":
+                result.headers["access-control-allow-credentials"],
+              "access-control-allow-origin":
+                result.headers["access-control-allow-origin"],
+              "access-control-allow-methods":
+                result.headers["access-control-allow-methods"],
+            },
+            null,
+            2
+          )}\nDados: ${JSON.stringify(result.data, null, 2)}`;
+        } else {
+          section.className = "test-section error";
+          element.textContent = `❌ Erro!\n${JSON.stringify(result, null, 2)}`;
+        }
+      }
+
+      async function testPing() {
+        const resultElement = document.getElementById("ping-result");
+        resultElement.textContent = "⏳ Testando...";
+
+        const result = await makeRequest(`${API_BASE_URL}/ping`);
+        displayResult("ping-result", result);
+      }
+
+      async function testStats() {
+        const resultElement = document.getElementById("stats-result");
+        resultElement.textContent = "⏳ Testando...";
+
+        const result = await makeRequest(`${API_BASE_URL}/stats/general`);
+        displayResult("stats-result", result);
+      }
+
+      async function testRegister() {
+        const resultElement = document.getElementById("register-result");
+        resultElement.textContent = "⏳ Testando...";
+
+        const result = await makeRequest(`${API_BASE_URL}/auth/register`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: "Usuário Teste CORS",
+            email: `teste.cors.${Date.now()}@exemplo.com`,
+            password: "senha123",
+          }),
+        });
+        displayResult("register-result", result);
+      }
+
+      async function testLogin() {
+        const resultElement = document.getElementById("login-result");
+        resultElement.textContent = "⏳ Testando...";
+
+        const result = await makeRequest(`${API_BASE_URL}/auth/login`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: "teste@exemplo.com",
+            password: "senha123",
+          }),
+        });
+        displayResult("login-result", result);
+      }
+
+      async function testPreflight() {
+        const resultElement = document.getElementById("preflight-result");
+        resultElement.textContent = "⏳ Testando...";
+
+        const result = await makeRequest(`${API_BASE_URL}/auth/login`, {
+          method: "OPTIONS",
+          headers: {
+            "Access-Control-Request-Method": "POST",
+            "Access-Control-Request-Headers": "Content-Type, Authorization",
+          },
+        });
+        displayResult("preflight-result", result);
+      }
+
+      // Teste automático ao carregar a página
+      window.addEventListener("load", () => {
+        console.log("🚀 Página de teste CORS carregada!");
+        console.log("📡 Backend esperado em:", API_BASE_URL);
+      });
+    </script>
+  </body>
+</html>
