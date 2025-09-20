@@ -16,8 +16,9 @@
     "test:coverage:ui": "vitest run --coverage --reporter=html",
     "test:watch": "vitest",
     "test:watch:coverage": "vitest --coverage",
-        "test:cors": "node test-cors/testcors.js",
-        "serve:cors": "node test-cors/serve-testcors.js"
+    "test:cors": "node test-cors/testcors.js",
+    "serve:cors": "node test-cors/serve-testcors.js"
+    
   },
   "keywords": [],
   "author": "",
