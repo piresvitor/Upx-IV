@@ -10,6 +10,7 @@ import { registerRoute } from '../routes/auth/register'
 import { searchNearbyRoute, checkOrCreateRoute, getPlaceRoute, updatePlaceRoute, getAllPlacesRoute, getPlaceReportsRoute } from '../routes/places'
 import { reportsRoutes } from '../routes/reports'
 import { statsRoutes } from '../routes/stats'
+// import cors from '@fastify/cors' // Removido temporariamente
 
 
 const server = fastify({
@@ -21,6 +22,25 @@ const server = fastify({
         ignore: 'pid,hostname',
       },
     },
+    }
+})
+
+// Configurar CORS manualmente
+server.addHook('onRequest', async (request, reply) => {
+    // Obter a origem da requisição
+    const origin = request.headers.origin || request.headers.host
+    
+    // Headers CORS para todas as requisições
+    reply.header('Access-Control-Allow-Origin', origin || '*')
+    reply.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
+    reply.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, Access-Control-Request-Method, Access-Control-Request-Headers')
+    reply.header('Access-Control-Allow-Credentials', 'true')
+    reply.header('Access-Control-Expose-Headers', 'Content-Length, X-Foo, X-Bar')
+    
+    // Lidar com requisições OPTIONS (preflight)
+    if (request.method === 'OPTIONS') {
+        reply.code(204)
+        return reply.send()
     }
 })
 
