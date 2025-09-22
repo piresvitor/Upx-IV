@@ -33,13 +33,13 @@ O front-end do projeto foi desenvolvido com foco em **performance, usabilidade e
 1. **Clone o repositório**:
     
     ```bash
-    git clone <https://github.com/juliamofardinii/frontend.git>
+    git clone <https://github.com/juliamofardinii/upx-iv.git>
     ```
     
 2. **Acesse o Diretório do Projeto**
     
     ```bash
-    cd frontend
+    cd upx-iv
     ```
     
 3. **Instale as Dependências**
