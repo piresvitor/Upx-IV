@@ -4,7 +4,7 @@ import Map from "@/pages/map";
 import LandingPage from "@/pages/ladingPage";
 import MapDetails from "@/pages/mapDetails";
 
-export const isAuthenticated = false;
+export const isAuthenticated = true;
 
 const router = createBrowserRouter([
   {
