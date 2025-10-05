@@ -1,3 +1,9 @@
+import PlaceDetails from "@/features/map/MapDetails";
+
 export default function MapDetails() {
-  return <div>Detalhes</div>;
+  return (
+    <div>
+      <PlaceDetails />;
+    </div>
+  );
 }

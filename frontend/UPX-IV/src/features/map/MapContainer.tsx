@@ -1,5 +1,6 @@
-import { GoogleMap, useLoadScript, InfoBox } from "@react-google-maps/api";
+import { GoogleMap, useLoadScript } from "@react-google-maps/api";
 import { useState, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 
 import {
   GOOGLE_MAPS_API_KEY,
@@ -12,11 +13,13 @@ interface InfoBoxData {
   position: google.maps.LatLng;
   name: string;
   address: string;
+  placeId: string;
 }
 
 const containerStyle = {
   width: "100%",
   height: "500px",
+  borderRadius: "8px",
 };
 
 const center = {
@@ -32,6 +35,8 @@ const campolimBounds = {
 };
 
 export default function MapContainer() {
+  const navigate = useNavigate();
+
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: GOOGLE_MAPS_API_KEY,
     libraries: ["places", ...GOOGLE_MAPS_LIBRARIES],
@@ -78,6 +83,7 @@ export default function MapContainer() {
               position,
               name: place.name,
               address: place.formatted_address,
+              placeId: event.placeId!,
             });
           } else {
             console.error("Erro ao buscar detalhes do local:", status);
@@ -110,35 +116,29 @@ export default function MapContainer() {
       }}
     >
       {infoBoxData && (
-        <InfoBox
-          position={infoBoxData.position}
-          options={{
-            enableEventPropagation: true,
-            pixelOffset: new google.maps.Size(-125, -100),
-          }}
-        >
-          <div className="bg-white p-5 rounded-2xl flex flex-row ">
-            <div className="w-[350px]">
-              <div className="mb-2">
-                <h2 className="text-xl">{infoBoxData.name}</h2>
-                <p className="text-sm text-muted-foreground">
-                  {infoBoxData.address}
-                </p>
-              </div>
-              <Button variant={"default"} className="cursor-pointer">
+        <div className="absolute bottom-0 left-0 w-full flex justify-start px-4 pb-4">
+          <div className="bg-white p-5 rounded-2xl shadow-lg w-[90%] max-w-lg flex flex-row items-start">
+            <div className="flex-1">
+              <h2 className="text-lg font-semibold">{infoBoxData.name}</h2>
+              <p className="text-sm text-muted-foreground">
+                {infoBoxData.address}
+              </p>
+              <Button
+                variant="default"
+                className="mt-3 cursor-pointer"
+                onClick={() => navigate(`/details/${infoBoxData.placeId}`)}
+              >
                 Ver Detalhes
               </Button>
             </div>
-            <div className="items-start flex">
-              <button
-                onClick={() => setInfoBoxData(null)}
-                className="cursor-pointer "
-              >
-                <X height={20} width={20} />
-              </button>
-            </div>
+            <button
+              onClick={() => setInfoBoxData(null)}
+              className="ml-3 mt-1 cursor-pointer text-gray-500 hover:text-gray-700"
+            >
+              <X size={20} />
+            </button>
           </div>
-        </InfoBox>
+        </div>
       )}
     </GoogleMap>
   );

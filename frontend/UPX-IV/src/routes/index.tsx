@@ -14,7 +14,7 @@ const router = createBrowserRouter([
       { index: true, element: <Home /> },
       { path: "map", element: <Map /> },
       {
-        path: "details",
+        path: "details/:placeId",
         element: isAuthenticated ? <MapDetails /> : <Navigate to="/" replace />,
       },
     ],
