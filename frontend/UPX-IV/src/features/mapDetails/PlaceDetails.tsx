@@ -26,7 +26,6 @@ export default function PlaceDetails() {
   useEffect(() => {
     if (!placeId || !window.google) return;
 
-    // Cria um div temporário para inicializar o PlacesService
     const mapDiv = document.createElement("div");
     const map = new window.google.maps.Map(mapDiv);
     const service = new window.google.maps.places.PlacesService(map);
@@ -84,7 +83,7 @@ export default function PlaceDetails() {
   }
 
   return (
-    <div className="min-h-screen p-6 ">
+    <div className=" p-6 pb-10">
       <Button
         onClick={() => navigate("/map")}
         variant={"ghost"}
