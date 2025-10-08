@@ -18,7 +18,7 @@ export default function AccessBilityInfo({
   hasVisualAccessibility = false,
 }: AccessbilityInfoProps) {
   return (
-    <div className=" flex justify-center  flex-col items-center gap-6">
+    <div className=" flex justify-center  flex-col items-center gap-6 pb-10">
       <h1 className="lg:text-2xl text-base font-semibold text-gray-800">
         Informações de Acessibilidade
       </h1>

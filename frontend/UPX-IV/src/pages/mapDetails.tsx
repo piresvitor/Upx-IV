@@ -3,6 +3,8 @@ import AccessibilityInfo from "@/features/mapDetails/AccessBilityInfo";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import NewComment from "@/features/mapDetails/NewComment";
+import CommentList from "@/features/mapDetails/Comments";
 
 export default function MapDetails() {
   const navigate = useNavigate();
@@ -18,6 +20,8 @@ export default function MapDetails() {
       </Button>
       <PlaceDetails />
       <AccessibilityInfo />
+      <CommentList />
+      <NewComment />
     </main>
   );
 }
