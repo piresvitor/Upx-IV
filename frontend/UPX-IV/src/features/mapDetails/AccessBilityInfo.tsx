@@ -19,9 +19,11 @@ export default function AccessBilityInfo({
 }: AccessbilityInfoProps) {
   return (
     <div className=" flex justify-center  flex-col items-center gap-6">
-      <h1 className="text-2xl text-gray-800">Informações de Acessibilidade</h1>
-      <Card title="Acessibilidade" className="w-200 p-8">
-        <div className="grid grid-cols-2 gap-15">
+      <h1 className="lg:text-2xl text-base font-semibold text-gray-800">
+        Informações de Acessibilidade
+      </h1>
+      <Card title="Acessibilidade" className="max-w-200 lg:p-8 p-4">
+        <div className="grid lg:grid-cols-2 lg:space-y-0 space-y-5 lg:gap-15">
           <div>
             <ul className="space-y-5 text-gray-700">
               {/* Rampa de acesso */}
@@ -31,7 +33,7 @@ export default function AccessBilityInfo({
                     height={18}
                     color={hasRamp ? "#2d8bba" : "#404040"}
                   />
-                  <p className="text-base font-medium text-neutral-700 mr-3">
+                  <p className="lg:text-base text-sm font-medium text-neutral-700 mr-3">
                     Rampa de acesso
                   </p>
                   <Badge
@@ -46,7 +48,8 @@ export default function AccessBilityInfo({
                   </Badge>
                 </div>
                 <p className="text-sm text-gray-500">
-                  Caminhos e rampas de acesso para acessibilidade
+                  Rampa disponível para facilitar o acesso de cadeirantes e
+                  pessoas com mobilidade reduzida.
                 </p>
               </li>
               {/*Banheiro */}
@@ -56,7 +59,7 @@ export default function AccessBilityInfo({
                     height={18}
                     color={hasAccessibleBathroom ? "#2d8bba" : "#404040"}
                   />
-                  <p className="text-base font-medium text-neutral-700 mr-3">
+                  <p className="lg:text-base text-sm font-medium text-neutral-700 mr-3">
                     Banheiro acessível
                   </p>
                   <Badge
@@ -73,7 +76,8 @@ export default function AccessBilityInfo({
                   </Badge>
                 </div>
                 <p className="text-sm text-gray-500">
-                  Qualquer frase banheiro acessível
+                  Banheiro adaptado com barras de apoio e espaço adequado para
+                  cadeira de rodas.{" "}
                 </p>
               </li>
             </ul>
@@ -87,7 +91,7 @@ export default function AccessBilityInfo({
                     height={18}
                     color={hasAccessibleParking ? "#2d8bba" : "#404040"}
                   />
-                  <p className="text-base font-medium text-neutral-700 mr-3">
+                  <p className="lg:text-base text-sm font-medium text-neutral-700 mr-3">
                     Estacionamento
                   </p>
                   <Badge
@@ -104,7 +108,8 @@ export default function AccessBilityInfo({
                   </Badge>
                 </div>
                 <p className="text-sm text-gray-500 ">
-                  Qualquer frase estacionamento
+                  Vagas reservadas próximas à entrada para pessoas com
+                  deficiência ou mobilidade reduzida.
                 </p>
               </li>
               {/*Visual*/}
@@ -114,7 +119,7 @@ export default function AccessBilityInfo({
                     height={18}
                     color={hasVisualAccessibility ? "#2d8bba" : "#404040"}
                   />
-                  <p className="text-base font-medium text-neutral-700 mr-3">
+                  <p className="lg:text-base text-sm font-medium text-neutral-700 mr-3">
                     Visual
                   </p>
                   <Badge
@@ -130,7 +135,11 @@ export default function AccessBilityInfo({
                     </p>
                   </Badge>
                 </div>
-                <p className="text-sm text-gray-500">Qualquer frase visual</p>
+                <p className="text-sm text-gray-500">
+                  {" "}
+                  Sinalização e recursos visuais para melhor orientação de
+                  pessoas com deficiência visual.
+                </p>
               </li>
             </ul>
           </div>

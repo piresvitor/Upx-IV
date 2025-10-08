@@ -1,7 +1,5 @@
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { ArrowLeft } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { MapPin } from "lucide-react";
 import { Phone } from "lucide-react";
 import { Clock } from "lucide-react";
@@ -19,7 +17,6 @@ interface PlaceDetails {
 
 export default function PlaceDetails() {
   const { placeId } = useParams();
-  const navigate = useNavigate();
   const [place, setPlace] = useState<PlaceDetails | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -83,58 +80,59 @@ export default function PlaceDetails() {
   }
 
   return (
-    <div className=" p-6 pb-10">
-      <Button
-        onClick={() => navigate("/map")}
-        variant={"ghost"}
-        className="flex items-center text-gray-600 hover:text-gray-900 mb-4 cursor-pointer"
-      >
-        <ArrowLeft className="mr-1 h-4 w-4" /> Voltar ao mapa
-      </Button>
-      <div className="grid grid-cols-2 gap-10">
-        <div>
+    <div className="pb-10">
+      <div className="grid lg:grid-cols-2 lg:gap-10 gap-5 items-start">
+        <div className="w-full flex items-center justify-center">
           {place.photos?.length ? (
             <img
               src={place.photos[0].getUrl({ maxWidth: 900, maxHeight: 400 })}
               alt={place.name}
-              className="w-full h-90 object-cover rounded-2xl"
+              className="w-full h-auto object-contain rounded-2xl"
             />
           ) : (
-            <div className="w-full h-64 bg-gray-200 flex items-center justify-center text-gray-500">
+            <div className="w-full h-64 bg-gray-200 flex items-center justify-center text-gray-500 rounded-2xl">
               Sem imagem disponível
             </div>
           )}
         </div>
 
-        <div className="p-6 space-y-5">
+        <div className="space-y-5">
           <div>
-            <h1 className="text-2xl font-semibold text-gray-800">
+            <h1 className="lg:text-2xl text-base font-semibold text-gray-800">
               {place.name ?? "Sem nome disponível"}
             </h1>
           </div>
           <div className="space-y-1">
             <div className="flex flex-row gap-2">
-              <MapPin height={20} width={20} color="#2d8bba" />
-              <p className="text-gray-700 mb-2">
+              <div className="max-w-[20px]">
+                <MapPin height={20} width={20} color="#2d8bba" />
+              </div>
+              <p className="text-gray-700 mb-2 lg:text-base text-sm">
                 {place.formatted_address ?? "Não informado"}
               </p>
             </div>
 
             <div className="flex flex-row gap-2">
-              <Phone height={20} width={20} color="#2d8bba" />
-              <p className="text-gray-700 mb-2">
+              <div className="max-w-[20px]">
+                <Phone height={20} width={20} color="#2d8bba" />
+              </div>
+              <p className="text-gray-700 mb-2 lg:text-base text-sm">
                 {place.formatted_phone_number ?? "Não informado"}
               </p>
             </div>
 
             <div className="flex flex-row gap-2">
-              <Clock height={20} width={20} color="#2d8bba" />
-
+              <div className="max-w-[20px]">
+                <Clock height={20} width={20} color="#2d8bba" />
+              </div>
               {place.opening_hours && (
                 <div>
                   <ul>
                     {place.opening_hours.weekday_text.map((dia, i) => (
-                      <li key={i} className="text-gray-700">
+                      <li
+                        key={i}
+                        className="text-gray-700 lg:text-base text-sm"
+                      >
                         {dia}
                       </li>
                     ))}

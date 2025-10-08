@@ -11,6 +11,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { Menu } from "lucide-react";
 
 interface NavBarProps {
   isAuthenticated: boolean;
@@ -27,97 +28,82 @@ export default function NavBar({ isAuthenticated, onLogout }: NavBarProps) {
   const navigationLinks = isAuthenticated ? privateLinks : [];
 
   return (
-    <header className="border-b px-4 md:px-6">
-      <div className="flex h-16 items-center justify-between gap-4">
-        {/* Left side */}
-        <div className="flex items-center gap-2">
-          {/* Mobile menu trigger */}
-          {isAuthenticated && (
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button
-                  className="group size-8 md:hidden"
-                  variant="ghost"
-                  size="icon"
-                >
-                  <svg
-                    className="pointer-events-none"
-                    width={16}
-                    height={16}
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path
-                      d="M4 12L20 12"
-                      className="origin-center -translate-y-[7px] transition-all duration-300 ease-[cubic-bezier(.5,.85,.25,1.1)] group-aria-expanded:translate-x-0 group-aria-expanded:translate-y-0 group-aria-expanded:rotate-[315deg]"
-                    />
-                    <path
-                      d="M4 12H20"
-                      className="origin-center transition-all duration-300 ease-[cubic-bezier(.5,.85,.25,1.8)] group-aria-expanded:rotate-45"
-                    />
-                    <path
-                      d="M4 12H20"
-                      className="origin-center translate-y-[7px] transition-all duration-300 ease-[cubic-bezier(.5,.85,.25,1.1)] group-aria-expanded:translate-y-0 group-aria-expanded:rotate-[135deg]"
-                    />
-                  </svg>
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent align="start" className="w-36 p-1 md:hidden">
-                <NavigationMenu className="max-w-none *:w-full">
-                  <NavigationMenuList className="flex-col items-start gap-0 md:gap-2">
-                    {navigationLinks.map((link, index) => (
-                      <NavigationMenuItem key={index} className="w-full">
-                        <NavigationMenuLink asChild>
-                          <Link to={link.href} className="block w-full py-1.5">
-                            {link.label}
-                          </Link>
-                        </NavigationMenuLink>
-                      </NavigationMenuItem>
-                    ))}
-                  </NavigationMenuList>
-                </NavigationMenu>
-              </PopoverContent>
-            </Popover>
-          )}
+    <header className="border-b bg-white sticky top-0 z-50 px-4 md:px-6">
+      <div className="flex h-16 items-center justify-between">
+        {/* Lado esquerdo */}
+        <div className="flex items-center gap-3">
+          {/* LOGO */}
+          <Link
+            to="/"
+            className="text-lg font-semibold text-primary hover:text-primary/90"
+          >
+            MyApp
+          </Link>
 
-          {/* Logo + desktop nav */}
-          <div className="flex items-center gap-6">
-            <Link to="/" className="text-primary hover:text-primary/90"></Link>
-            {isAuthenticated && (
-              <NavigationMenu className="max-md:hidden">
-                <NavigationMenuList className="gap-2">
-                  {navigationLinks.map((link, index) => (
-                    <NavigationMenuItem key={index}>
-                      <NavigationMenuLink asChild>
-                        <Link
-                          to={link.href}
-                          className="text-muted-foreground hover:text-primary py-1.5 font-medium"
-                        >
-                          {link.label}
-                        </Link>
-                      </NavigationMenuLink>
-                    </NavigationMenuItem>
-                  ))}
-                </NavigationMenuList>
-              </NavigationMenu>
-            )}
-          </div>
+          {/* Menu Desktop */}
+          {isAuthenticated && (
+            <NavigationMenu className="hidden md:flex">
+              <NavigationMenuList className="gap-4">
+                {navigationLinks.map((link) => (
+                  <NavigationMenuItem key={link.href}>
+                    <NavigationMenuLink asChild>
+                      <Link
+                        to={link.href}
+                        className="text-sm text-muted-foreground hover:text-primary font-medium transition-colors"
+                      >
+                        {link.label}
+                      </Link>
+                    </NavigationMenuLink>
+                  </NavigationMenuItem>
+                ))}
+              </NavigationMenuList>
+            </NavigationMenu>
+          )}
         </div>
 
-        {/* Right side */}
+        {/* Lado direito */}
         <div className="flex items-center gap-2">
           {isAuthenticated ? (
-            <Button
-              onClick={onLogout}
-              size="sm"
-              className="text-sm bg-red-500 hover:bg-red-600"
-            >
-              Sair
-            </Button>
+            <>
+              {/* Botão de Logout (desktop e mobile) */}
+              <Button
+                onClick={onLogout}
+                size="sm"
+                className="text-sm bg-red-500 hover:bg-red-600"
+              >
+                Sair
+              </Button>
+
+              {/* Menu Mobile */}
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="md:hidden text-gray-700"
+                  >
+                    <Menu size={22} />
+                  </Button>
+                </PopoverTrigger>
+
+                <PopoverContent
+                  align="end"
+                  className="w-40 p-2 md:hidden bg-white shadow-md rounded-xl"
+                >
+                  <nav className="flex flex-col gap-1">
+                    {navigationLinks.map((link) => (
+                      <Link
+                        key={link.href}
+                        to={link.href}
+                        className="text-sm text-gray-700 hover:text-primary py-1.5"
+                      >
+                        {link.label}
+                      </Link>
+                    ))}
+                  </nav>
+                </PopoverContent>
+              </Popover>
+            </>
           ) : (
             <>
               <Button asChild variant="ghost" size="sm" className="text-sm">
