@@ -3,6 +3,7 @@ import Layout from "@/layouts/navbar";
 import Map from "@/pages/map";
 import Home from "@/pages/home";
 import MapDetails from "@/pages/mapDetails";
+import RegisterAccount from "@/pages/createUser";
 
 export const isAuthenticated = true;
 
@@ -18,6 +19,10 @@ const router = createBrowserRouter([
         element: isAuthenticated ? <MapDetails /> : <Navigate to="/" replace />,
       },
     ],
+  },
+  {
+    path: "/account/register",
+    element: <RegisterAccount />,
   },
 ]);
 

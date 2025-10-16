@@ -1,22 +1,48 @@
-import { useId } from "react";
-
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import type { NewReport } from "@/services/reportService";
 
-export default function NewComment() {
-  const id = useId();
+import { reportService } from "@/services/reportService";
+interface NewCommentProps {
+  placeId: string;
+  onSuccess?: () => void;
+}
+
+export default function NewComment({ placeId, onSuccess }: NewCommentProps) {
+  const [description, setDescription] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async () => {
+    if (!description) return;
+    setLoading(true);
+    try {
+      const newReport: NewReport = {
+        title: "Relato do usuário",
+        description,
+        type: "general", // ou outro tipo que faça sentido
+      };
+      await reportService.create(placeId, newReport);
+      setDescription("");
+      onSuccess?.();
+    } catch (err) {
+      console.error("Erro ao criar relato:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <div className="*:not-first:mt-2 ">
-      <Label
-        htmlFor={id}
-        className="lg:text-2xl text-base font-semibold text-gray-800"
-      >
-        Compartilhe a sua experiência
-      </Label>
-      <Textarea id={id} placeholder="Leave a comment" />
-      <div className="flex justify-end">
-        <Button variant="outline">Enviar</Button>
+    <div className="mt-5">
+      <Textarea
+        value={description}
+        onChange={(e) => setDescription(e.target.value)}
+        placeholder="Compartilhe sua experiência"
+      />
+      <div className="flex justify-end mt-2">
+        <Button onClick={handleSubmit} disabled={loading}>
+          {loading ? "Enviando..." : "Enviar"}
+        </Button>
       </div>
     </div>
   );
