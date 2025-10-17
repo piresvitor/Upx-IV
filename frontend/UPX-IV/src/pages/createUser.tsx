@@ -134,7 +134,7 @@ export default function RegisterAccount() {
               )}
               <Button
                 type="submit"
-                className="w-full bg-primary hover:bg-primary-dark text-white font-semibold py-2 rounded-lg transition-colors"
+                className="cursor-pointer w-full bg-primary hover:bg-primary-dark text-white font-semibold py-2 rounded-lg transition-colors"
                 disabled={loading}
               >
                 {loading ? "Cadastrando..." : "Cadastrar"}

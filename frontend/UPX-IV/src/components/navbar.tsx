@@ -21,7 +21,6 @@ interface NavBarProps {
 const privateLinks = [
   { href: "/", label: "Home" },
   { href: "/map", label: "Mapa" },
-  { href: "/details", label: "Detalhes" },
 ];
 
 export default function NavBar({ isAuthenticated, onLogout }: NavBarProps) {
@@ -30,9 +29,7 @@ export default function NavBar({ isAuthenticated, onLogout }: NavBarProps) {
   return (
     <header className="border-b bg-white sticky top-0 z-50 px-4 md:px-6">
       <div className="flex h-16 items-center justify-between">
-        {/* Lado esquerdo */}
         <div className="flex items-center gap-3">
-          {/* LOGO */}
           <Link
             to="/"
             className="text-lg font-semibold text-primary hover:text-primary/90"
@@ -40,7 +37,6 @@ export default function NavBar({ isAuthenticated, onLogout }: NavBarProps) {
             MyApp
           </Link>
 
-          {/* Menu Desktop */}
           {isAuthenticated && (
             <NavigationMenu className="hidden md:flex">
               <NavigationMenuList className="gap-4">
@@ -61,20 +57,17 @@ export default function NavBar({ isAuthenticated, onLogout }: NavBarProps) {
           )}
         </div>
 
-        {/* Lado direito */}
         <div className="flex items-center gap-2">
           {isAuthenticated ? (
             <>
-              {/* Botão de Logout (desktop e mobile) */}
               <Button
                 onClick={onLogout}
                 size="sm"
-                className="text-sm bg-red-500 hover:bg-red-600"
+                className="text-sm bg-gray-400 hover:bg-gray-500 cursor-pointer"
               >
                 Sair
               </Button>
 
-              {/* Menu Mobile */}
               <Popover>
                 <PopoverTrigger asChild>
                   <Button

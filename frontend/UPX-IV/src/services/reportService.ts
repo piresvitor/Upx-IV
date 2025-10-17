@@ -4,11 +4,13 @@ export interface NewReport {
   title: string;
   description: string;
   type: string;
+  placeId: string;
+  userId: string;
 }
 
 export const reportService = {
-  async create(placeId: string, report: NewReport) {
-    const res = await api.post(`/places/${placeId}/reports`, { report });
+  async create(report: NewReport) {
+    const res = await api.post(`/places/${report.placeId}/reports`, report);
     return res.data;
   },
 };

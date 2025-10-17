@@ -20,9 +20,11 @@ export default function NewComment({ placeId, onSuccess }: NewCommentProps) {
       const newReport: NewReport = {
         title: "Relato do usuário",
         description,
-        type: "general", // ou outro tipo que faça sentido
+        type: "general",
+        placeId,
+        userId: localStorage.getItem("userId") || "",
       };
-      await reportService.create(placeId, newReport);
+      await reportService.create(newReport);
       setDescription("");
       onSuccess?.();
     } catch (err) {
