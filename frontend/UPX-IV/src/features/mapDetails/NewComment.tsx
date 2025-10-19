@@ -42,7 +42,11 @@ export default function NewComment({ placeId, onSuccess }: NewCommentProps) {
         placeholder="Compartilhe sua experiência"
       />
       <div className="flex justify-end mt-2">
-        <Button onClick={handleSubmit} disabled={loading}>
+        <Button
+          onClick={handleSubmit}
+          disabled={loading}
+          className="cursor-pointer"
+        >
           {loading ? "Enviando..." : "Enviar"}
         </Button>
       </div>
