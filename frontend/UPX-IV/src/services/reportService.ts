@@ -51,13 +51,11 @@ export interface NewReport {
 }
 
 export const reportService = {
-  // Criar relato
   async create(report: NewReport) {
     const res = await api.post(`/places/${report.placeId}/reports`, report);
     return res.data;
   },
 
-  // Listar relatos de um local
   async list(placeId: string): Promise<ReportsResponse> {
     const res = await api.get(`/places/${placeId}/reports`);
     return res.data;
