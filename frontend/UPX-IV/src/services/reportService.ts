@@ -47,12 +47,13 @@ export interface NewReport {
   description: string;
   type: string;
   placeId: string;
-  userId: string;
+  userId?: string;
 }
 
 export const reportService = {
   async create(report: NewReport) {
-    const res = await api.post(`/places/${report.placeId}/reports`, report);
+    const { placeId, ...data } = report;
+    const res = await api.post(`/places/${placeId}/reports`, data);
     return res.data;
   },
 

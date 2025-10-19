@@ -41,7 +41,7 @@ export default function CommentList({ placeId }: CommentListProps) {
       <h1 className="lg:text-2xl text-base font-semibold text-gray-800 mb-4">
         Comentários
       </h1>
-      <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-2">
+      <div className="grid gap-4 grid-cols-1 md:grid-cols-2">
         {comments.map((comment) => (
           <div
             key={comment.id}
@@ -49,15 +49,16 @@ export default function CommentList({ placeId }: CommentListProps) {
           >
             <div className="flex justify-between items-center mb-2">
               <div className="flex items-center gap-2">
-                {/* Avatar genérico */}
-                <div className="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center">
-                  <span className="text-gray-700 font-medium">
+                <div className="lg:w-10 lg:h-10 w-7 h-7 bg-gray-300 rounded-full flex items-center justify-center">
+                  <span className="text-gray-700 font-bold text-sm lg:text-base">
                     {comment.user.name.charAt(0).toUpperCase()}
                   </span>
                 </div>
-                <h3 className="font-semibold">{comment.user.name}</h3>
+                <h3 className="font-semibold text-gray-700  text-sm lg:text-base">
+                  {comment.user.name}
+                </h3>
               </div>
-              <span className="text-sm text-gray-500">
+              <span className="text-sm text-gray-500 lg:text-base">
                 {new Date(comment.createdAt).toLocaleDateString("pt-BR")}
               </span>
             </div>
