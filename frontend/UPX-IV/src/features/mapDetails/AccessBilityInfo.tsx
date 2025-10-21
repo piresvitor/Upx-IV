@@ -26,7 +26,6 @@ export default function AccessBilityInfo({
         <div className="grid lg:grid-cols-2 lg:space-y-0 space-y-5 lg:gap-15">
           <div>
             <ul className="space-y-5 text-gray-700">
-              {/* Rampa de acesso */}
               <li className=" flex flex-col  gap-1">
                 <div className="flex flex-row gap-1">
                   <AccessibilityIcon
@@ -52,7 +51,6 @@ export default function AccessBilityInfo({
                   pessoas com mobilidade reduzida.
                 </p>
               </li>
-              {/*Banheiro */}
               <li className=" flex flex-col  gap-1">
                 <div className="flex flex-row gap-1">
                   <Users
@@ -84,7 +82,6 @@ export default function AccessBilityInfo({
           </div>
           <div>
             <ul className="space-y-5 text-gray-700">
-              {/*Estacionamento */}
               <li className=" flex flex-col  gap-1">
                 <div className="flex flex-row gap-1">
                   <ParkingSquare
@@ -112,7 +109,6 @@ export default function AccessBilityInfo({
                   deficiência ou mobilidade reduzida.
                 </p>
               </li>
-              {/*Visual*/}
               <li className=" flex flex-col  gap-1">
                 <div className="flex flex-row gap-1">
                   <Eye

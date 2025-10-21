@@ -2,31 +2,25 @@ import { GoogleMap, useLoadScript } from "@react-google-maps/api";
 import { useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 
+import { X } from "lucide-react";
+import { Button } from "@/components/ui/button";
+
 import {
   GOOGLE_MAPS_API_KEY,
   GOOGLE_MAPS_LIBRARIES,
 } from "@/services/googleMaps";
+import { placeService } from "@/services/placeService";
+import type { Place } from "@/services/placeService";
 
-import { X } from "lucide-react";
-import { Button } from "@/components/ui/button";
 interface InfoBoxData {
   position: google.maps.LatLng;
   name: string;
   address: string;
-  placeId: string;
+  placeId: string; // UUID do backend
 }
 
-const containerStyle = {
-  width: "100%",
-  height: "500px",
-  borderRadius: "8px",
-};
-
-const center = {
-  lat: -23.5425,
-  lng: -47.4561,
-};
-
+const containerStyle = { width: "100%", height: "500px", borderRadius: "8px" };
+const center = { lat: -23.5425, lng: -47.4561 };
 const campolimBounds = {
   north: -23.535,
   south: -23.55,
@@ -36,7 +30,6 @@ const campolimBounds = {
 
 export default function MapContainer() {
   const navigate = useNavigate();
-
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: GOOGLE_MAPS_API_KEY,
     libraries: ["places", ...GOOGLE_MAPS_LIBRARIES],
@@ -49,49 +42,35 @@ export default function MapContainer() {
     setMap(mapInstance);
   }, []);
 
-  const onUnmount = useCallback(() => {
-    setMap(null);
-  }, []);
+  const onUnmount = useCallback(() => setMap(null), []);
 
   interface MapMouseEventWithPlaceId extends google.maps.MapMouseEvent {
     placeId?: string;
   }
 
-  const handleMapClick = (event: MapMouseEventWithPlaceId) => {
-    if (event.placeId && map && event.latLng) {
-      event.stop();
+  const handleMapClick = async (event: MapMouseEventWithPlaceId) => {
+    if (!event.placeId || !map || !event.latLng) {
+      setInfoBoxData(null);
+      return;
+    }
 
-      const position = new google.maps.LatLng(
-        event.latLng.lat(),
-        event.latLng.lng()
-      );
+    event.stop();
 
-      const service = new google.maps.places.PlacesService(map);
-      service.getDetails(
-        {
-          placeId: event.placeId,
-          fields: ["name", "formatted_address"],
-        },
-        (place, status) => {
-          if (
-            status === google.maps.places.PlacesServiceStatus.OK &&
-            place &&
-            place.formatted_address &&
-            place.name
-          ) {
-            setInfoBoxData({
-              position,
-              name: place.name,
-              address: place.formatted_address,
-              placeId: event.placeId!,
-            });
-          } else {
-            console.error("Erro ao buscar detalhes do local:", status);
-            setInfoBoxData(null);
-          }
-        }
-      );
-    } else {
+    try {
+      // Verifica ou cria o local no backend
+      const place: Place = await placeService.checkOrCreate(event.placeId);
+
+      // Cria a posição para o infoBox
+      const position = new google.maps.LatLng(place.latitude, place.longitude);
+
+      setInfoBoxData({
+        position,
+        name: place.name,
+        address: place.address,
+        placeId: place.id, // UUID do backend
+      });
+    } catch (err) {
+      console.error("Erro ao verificar/criar local:", err);
       setInfoBoxData(null);
     }
   };
@@ -108,10 +87,7 @@ export default function MapContainer() {
       onUnmount={onUnmount}
       onClick={handleMapClick}
       options={{
-        restriction: {
-          latLngBounds: campolimBounds,
-          strictBounds: true,
-        },
+        restriction: { latLngBounds: campolimBounds, strictBounds: true },
         disableDefaultUI: false,
       }}
     >
