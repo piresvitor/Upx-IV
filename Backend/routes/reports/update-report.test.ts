@@ -34,6 +34,10 @@ describe('PUT /reports/:reportId', () => {
       description: 'Old Desc',
       type: 'accessibility',
       userId: user.id,
+      rampaAcesso: false,
+      banheiroAcessivel: false,
+      estacionamentoAcessivel: false,
+      acessibilidadeVisual: false,
     }).returning()
 
     const res = await request(server.server)
@@ -56,7 +60,15 @@ describe('PUT /reports/:reportId', () => {
     const token = jwt.sign({ sub: intruder.id, role: intruder.role }, process.env.JWT_SECRET || 'test-secret')
 
     const [report] = await db.insert(reports).values({
-      id: randomUUID(), title: 'T', description: 'D', type: 'accessibility', userId: author.id
+      id: randomUUID(), 
+      title: 'T', 
+      description: 'D', 
+      type: 'accessibility', 
+      userId: author.id,
+      rampaAcesso: false,
+      banheiroAcessivel: false,
+      estacionamentoAcessivel: false,
+      acessibilidadeVisual: false,
     }).returning()
 
     const res = await request(server.server)
@@ -65,6 +77,43 @@ describe('PUT /reports/:reportId', () => {
       .send({ title: 'Updated Title' })
 
     expect(res.status).toBe(403)
+  })
+
+  test('should update boolean fields when provided', async () => {
+    const [user] = await db.insert(users).values({
+      id: randomUUID(),
+      name: 'Author',
+      email: `author-${Date.now()}@mail.com`,
+      passwordHash: await hash('password-123'),
+      role: 'user'
+    }).returning()
+
+    const token = jwt.sign({ sub: user.id, role: user.role }, process.env.JWT_SECRET || 'test-secret')
+
+    const [report] = await db.insert(reports).values({
+      id: randomUUID(),
+      title: 'Test Report',
+      description: 'Test Description',
+      type: 'accessibility',
+      userId: user.id,
+      rampaAcesso: false,
+      banheiroAcessivel: false,
+      estacionamentoAcessivel: false,
+      acessibilidadeVisual: false,
+    }).returning()
+
+    const res = await request(server.server)
+      .put(`/reports/${report.id}`)
+      .set('Authorization', `Bearer ${token}`)
+      .send({ 
+        rampaAcesso: true,
+        banheiroAcessivel: true,
+        estacionamentoAcessivel: true,
+        acessibilidadeVisual: true
+      })
+
+    expect(res.status).toBe(200)
+    expect(res.body).toMatchObject({ message: 'Relato atualizado com sucesso' })
   })
 })
 

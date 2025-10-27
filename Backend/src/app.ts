@@ -1,13 +1,17 @@
+import dotenv from 'dotenv'
 import fastifySwagger from '@fastify/swagger'
 import fastify from 'fastify'
+import swaggerUI from '@fastify/swagger-ui'
 import { jsonSchemaTransform, serializerCompiler, validatorCompiler } from 'fastify-type-provider-zod'
+
+dotenv.config()
 import { loginRoute } from '../routes/auth/login'
 import { logoutRoute } from '../routes/auth/logout'
 import { getMeRoute, updateMeRoute, deleteMeRoute, getAllUsersRoute } from '../routes/users'
 import scalarAPIReference from '@scalar/fastify-api-reference'
 import { pingRoute } from '../routes/ping'
 import { registerRoute } from '../routes/auth/register'
-import { searchNearbyRoute, checkOrCreateRoute, getPlaceRoute, updatePlaceRoute, getAllPlacesRoute, getPlaceReportsRoute } from '../routes/places'
+import { searchNearbyRoute, checkOrCreateRoute, getPlaceRoute, updatePlaceRoute, getAllPlacesRoute, getPlaceReportsRoute, getPlaceAccessibilityStats } from '../routes/places'
 import { reportsRoutes } from '../routes/reports'
 import { statsRoutes } from '../routes/stats'
 // import cors from '@fastify/cors' // Removido temporariamente
@@ -56,8 +60,14 @@ if (process.env.NODE_ENV === "development"){
     transform: jsonSchemaTransform,
 })
 
+// Scalar UI em /docs
 server.register(scalarAPIReference, {
     routePrefix: '/docs',
+})
+
+// Swagger UI em /reference
+server.register(swaggerUI, {
+    routePrefix: '/reference',
 })
 }
 
@@ -78,6 +88,7 @@ server.register(getPlaceRoute)
 server.register(updatePlaceRoute)
 server.register(getAllPlacesRoute)
 server.register(getPlaceReportsRoute)
+server.register(getPlaceAccessibilityStats)
 server.register(reportsRoutes)
 server.register(statsRoutes)
 

@@ -23,7 +23,7 @@ export const getMeRoute: FastifyPluginAsyncZod = async (server) => {
           email: z.string(),
           role: z.string(),
         }),
-        401: z.object({
+        500: z.object({
           message: z.string()
         }),
         404: z.object({

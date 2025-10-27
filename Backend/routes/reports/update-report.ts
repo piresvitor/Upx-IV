@@ -9,6 +9,10 @@ const bodySchema = z.object({
   title: z.string().min(3).optional(),
   description: z.string().min(3).optional(),
   type: z.string().optional(),
+  rampaAcesso: z.boolean().optional(),
+  banheiroAcessivel: z.boolean().optional(),
+  estacionamentoAcessivel: z.boolean().optional(),
+  acessibilidadeVisual: z.boolean().optional(),
 }).refine(data => Object.keys(data).length > 0, { message: 'Nenhum campo para atualizar' })
 
 export const updateReportRoute: FastifyPluginAsyncZod = async (server) => {
@@ -31,7 +35,15 @@ export const updateReportRoute: FastifyPluginAsyncZod = async (server) => {
   }, async (request, reply) => {
     try {
       const { reportId } = request.params as { reportId: string }
-      const { title, description, type } = request.body as z.infer<typeof bodySchema>
+      const { 
+        title, 
+        description, 
+        type, 
+        rampaAcesso, 
+        banheiroAcessivel, 
+        estacionamentoAcessivel, 
+        acessibilidadeVisual 
+      } = request.body as z.infer<typeof bodySchema>
       const userId = request.user.id
 
       const existing = await db.select().from(reports).where(eq(reports.id, reportId)).limit(1)
@@ -43,6 +55,10 @@ export const updateReportRoute: FastifyPluginAsyncZod = async (server) => {
         title: title ?? report.title,
         description: description ?? report.description,
         type: type ?? report.type,
+        rampaAcesso: rampaAcesso ?? report.rampaAcesso,
+        banheiroAcessivel: banheiroAcessivel ?? report.banheiroAcessivel,
+        estacionamentoAcessivel: estacionamentoAcessivel ?? report.estacionamentoAcessivel,
+        acessibilidadeVisual: acessibilidadeVisual ?? report.acessibilidadeVisual,
       }).where(eq(reports.id, reportId))
 
       return reply.status(200).send({ message: 'Relato atualizado com sucesso' })

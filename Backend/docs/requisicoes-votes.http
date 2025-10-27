@@ -1,7 +1,7 @@
 ### Requisições para Votação em Relatos
 
 # Variáveis
-@baseUrl = http://localhost:3000
+@baseUrl = http://localhost:3333
 @token = SEU_TOKEN_AQUI
 @reportId = ID_DO_RELATO_AQUI
 

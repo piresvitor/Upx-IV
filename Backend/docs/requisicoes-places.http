@@ -26,7 +26,6 @@ Content-Type: application/json
 GET http://localhost:3333/places/search-nearby?latitude=-23.5015&longitude=-47.4526&radius=1500&type=hospital
 Content-Type: application/json
 
-###
 
 
 ### 9. Obter detalhes de um local específico

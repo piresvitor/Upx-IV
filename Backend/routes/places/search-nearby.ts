@@ -48,9 +48,6 @@ export async function searchNearbyRoute(app: FastifyInstance) {
             user_ratings_total: z.number().optional(),
           })),
         }),
-        400: z.object({
-          error: z.string(),
-        }),
         500: z.object({
           error: z.string(),
         }),

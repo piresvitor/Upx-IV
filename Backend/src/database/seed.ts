@@ -71,31 +71,51 @@ async function seedReports() {
         placeId: sorocabaPlaces[0].id, // Sorocaba, SP
         title: "Acessibilidade no Centro de Sorocaba",
         description: "O centro da cidade possui algumas rampas de acesso, mas ainda há muitas calçadas irregulares que dificultam a locomoção de pessoas com deficiência. As faixas de pedestres precisam de melhor sinalização sonora para deficientes visuais.",
-        type: "accessibility"
+        type: "accessibility",
+        rampaAcesso: true,
+        banheiroAcessivel: false,
+        estacionamentoAcessivel: true,
+        acessibilidadeVisual: false
       },
       {
         placeId: sorocabaPlaces[1].id, // Parque da Biquinha
         title: "Parque da Biquinha - Acessibilidade Limitada",
         description: "O parque tem algumas áreas acessíveis, mas a maior parte dos caminhos não possui piso tátil. Os banheiros públicos não são totalmente adaptados para cadeirantes. Seria importante instalar mais rampas e melhorar a sinalização.",
-        type: "accessibility"
+        type: "accessibility",
+        rampaAcesso: false,
+        banheiroAcessivel: false,
+        estacionamentoAcessivel: true,
+        acessibilidadeVisual: false
       },
       {
         placeId: sorocabaPlaces[2].id, // Shopping Iguatemi
         title: "Shopping Iguatemi - Boa Acessibilidade",
         description: "O shopping possui excelente infraestrutura de acessibilidade: elevadores, rampas, banheiros adaptados e vagas especiais. Há também funcionários treinados para auxiliar pessoas com deficiência. Recomendo para todos!",
-        type: "accessibility"
+        type: "accessibility",
+        rampaAcesso: true,
+        banheiroAcessivel: true,
+        estacionamentoAcessivel: true,
+        acessibilidadeVisual: true
       },
       {
         placeId: sorocabaPlaces[3].id, // Hospital Regional
         title: "Hospital Regional - Acessibilidade Adequada",
         description: "O hospital possui boa infraestrutura de acessibilidade com rampas, elevadores e banheiros adaptados. Porém, a sinalização poderia ser melhorada para facilitar a orientação de pacientes e visitantes com deficiência visual.",
-        type: "accessibility"
+        type: "accessibility",
+        rampaAcesso: true,
+        banheiroAcessivel: true,
+        estacionamentoAcessivel: true,
+        acessibilidadeVisual: false
       },
       {
         placeId: sorocabaPlaces[4].id, // Catedral Metropolitana
         title: "Catedral - Acessibilidade Precisa Melhorar",
         description: "A Catedral Metropolitana é um local histórico importante, mas possui limitações de acessibilidade. As escadas na entrada principal dificultam o acesso de cadeirantes. Seria importante instalar uma rampa lateral ou elevador para garantir acesso universal.",
-        type: "accessibility"
+        type: "accessibility",
+        rampaAcesso: false,
+        banheiroAcessivel: false,
+        estacionamentoAcessivel: false,
+        acessibilidadeVisual: false
       }
     ]
 
@@ -107,7 +127,11 @@ async function seedReports() {
         description: report.description,
         type: report.type,
         userId: user.id,
-        placeId: report.placeId
+        placeId: report.placeId,
+        rampaAcesso: report.rampaAcesso,
+        banheiroAcessivel: report.banheiroAcessivel,
+        estacionamentoAcessivel: report.estacionamentoAcessivel,
+        acessibilidadeVisual: report.acessibilidadeVisual
       }))
     )
 

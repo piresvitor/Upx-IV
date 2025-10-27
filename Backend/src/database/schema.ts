@@ -1,5 +1,5 @@
 import { relations } from "drizzle-orm"
-import { pgTable, uniqueIndex, uuid, text, timestamp, doublePrecision, serial } from "drizzle-orm/pg-core"
+import { pgTable, uniqueIndex, uuid, text, timestamp, doublePrecision, serial, boolean } from "drizzle-orm/pg-core"
 
 // Tabela de Usuários (User)
 export const users = pgTable('users', {
@@ -40,6 +40,10 @@ export const reports = pgTable('reports', {
   createdAt: timestamp('created_at').notNull().defaultNow(),
   userId: uuid('user_id').notNull().references(() => users.id),
   placeId: uuid('place_id').references(() => places.id), // Referência opcional ao local
+  rampaAcesso: boolean('rampa_acesso').notNull().default(false),
+  banheiroAcessivel: boolean('banheiro_acessivel').notNull().default(false),
+  estacionamentoAcessivel: boolean('estacionamento_acessivel').notNull().default(false),
+  acessibilidadeVisual: boolean('acessibilidade_visual').notNull().default(false),
 })
 
 // Relações para a tabela de Locais

@@ -22,9 +22,9 @@ describe('GET /reports (list with filters)', () => {
     const [place] = await db.insert(places).values({ id: randomUUID(), placeId: 'pl-' + Date.now(), name: 'P', latitude: -23, longitude: -46, types: ['x'] }).returning()
 
     await db.insert(reports).values([
-      { id: randomUUID(), title: 'A', description: 'A', type: 'accessibility', userId: user.id, placeId: place.id },
-      { id: randomUUID(), title: 'B', description: 'B', type: 'safety', userId: user.id, placeId: place.id },
-      { id: randomUUID(), title: 'C', description: 'C', type: 'accessibility', userId: user.id, placeId: place.id },
+      { id: randomUUID(), title: 'A', description: 'A', type: 'accessibility', userId: user.id, placeId: place.id, rampaAcesso: true, banheiroAcessivel: false, estacionamentoAcessivel: true, acessibilidadeVisual: false },
+      { id: randomUUID(), title: 'B', description: 'B', type: 'safety', userId: user.id, placeId: place.id, rampaAcesso: false, banheiroAcessivel: true, estacionamentoAcessivel: false, acessibilidadeVisual: true },
+      { id: randomUUID(), title: 'C', description: 'C', type: 'accessibility', userId: user.id, placeId: place.id, rampaAcesso: true, banheiroAcessivel: true, estacionamentoAcessivel: true, acessibilidadeVisual: true },
     ])
 
     const res = await request(server.server)
@@ -34,6 +34,19 @@ describe('GET /reports (list with filters)', () => {
     expect(Array.isArray(res.body.reports)).toBe(true)
     expect(res.body.reports.length).toBeLessThanOrEqual(2)
     expect(res.body.pagination).toMatchObject({ page: 1, limit: 2 })
+    
+    // Verificar se os campos booleanos estão presentes
+    if (res.body.reports.length > 0) {
+      const report = res.body.reports[0]
+      expect(report).toHaveProperty('rampaAcesso')
+      expect(report).toHaveProperty('banheiroAcessivel')
+      expect(report).toHaveProperty('estacionamentoAcessivel')
+      expect(report).toHaveProperty('acessibilidadeVisual')
+      expect(typeof report.rampaAcesso).toBe('boolean')
+      expect(typeof report.banheiroAcessivel).toBe('boolean')
+      expect(typeof report.estacionamentoAcessivel).toBe('boolean')
+      expect(typeof report.acessibilidadeVisual).toBe('boolean')
+    }
   })
 })
 

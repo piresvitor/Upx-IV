@@ -58,7 +58,11 @@ describe('POST /places/:placeId/reports Route', () => {
     const reportData = {
       title: 'Test Report',
       description: 'This is a test report description',
-      type: 'safety'
+      type: 'safety',
+      rampaAcesso: true,
+      banheiroAcessivel: false,
+      estacionamentoAcessivel: true,
+      acessibilidadeVisual: false
     }
 
     const response = await request(server.server)
@@ -74,6 +78,10 @@ describe('POST /places/:placeId/reports Route', () => {
     expect(response.body.report.type).toBe(reportData.type)
     expect(response.body.report.userId).toBe(testUser.id)
     expect(response.body.report.placeId).toBe(testPlace.id)
+    expect(response.body.report.rampaAcesso).toBe(true)
+    expect(response.body.report.banheiroAcessivel).toBe(false)
+    expect(response.body.report.estacionamentoAcessivel).toBe(true)
+    expect(response.body.report.acessibilidadeVisual).toBe(false)
   })
 
   test('should return 400 for missing title', async () => {
@@ -253,5 +261,24 @@ describe('POST /places/:placeId/reports Route', () => {
       .send(reportData)
 
     expect(response.status).toEqual(400)
+  })
+
+  test('should create report with default boolean values when not provided', async () => {
+    const reportData = {
+      title: 'Test Report',
+      description: 'This is a test report description',
+      type: 'safety'
+    }
+
+    const response = await request(server.server)
+      .post(`/places/${testPlace.id}/reports`)
+      .set('Authorization', `Bearer ${validToken}`)
+      .send(reportData)
+
+    expect(response.status).toEqual(201)
+    expect(response.body.report.rampaAcesso).toBe(false)
+    expect(response.body.report.banheiroAcessivel).toBe(false)
+    expect(response.body.report.estacionamentoAcessivel).toBe(false)
+    expect(response.body.report.acessibilidadeVisual).toBe(false)
   })
 })

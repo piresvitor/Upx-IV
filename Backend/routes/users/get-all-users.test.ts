@@ -2,14 +2,16 @@ import { describe, it, expect, beforeEach, afterEach } from 'vitest'
 import request from 'supertest'
 import { server } from '../../src/app.ts'
 import { db } from '../../src/database/cliente.ts'
-import { users } from '../../src/database/schema.ts'
+import { users, reports, votes } from '../../src/database/schema.ts'
 import { hash } from 'argon2'
 
 describe('GET /users Route', () => {
   beforeEach(async () => {
     await server.ready()
     
-    // Limpar e criar usuários de teste
+    // Limpar dados de teste na ordem correta (primeiro dependentes, depois principais)
+    await db.delete(votes)
+    await db.delete(reports)
     await db.delete(users)
     
     await db.insert(users).values([
@@ -35,7 +37,9 @@ describe('GET /users Route', () => {
   })
 
   afterEach(async () => {
-    // Limpar dados de teste após cada teste
+    // Limpar dados de teste após cada teste na ordem correta
+    await db.delete(votes)
+    await db.delete(reports)
     await db.delete(users)
   })
 

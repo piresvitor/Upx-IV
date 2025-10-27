@@ -36,6 +36,13 @@
       "when": 1758400589935,
       "tag": "0004_short_beyonder",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1761540506044,
+      "tag": "0005_chunky_sabretooth",
+      "breakpoints": true
     }
   ]
 }
