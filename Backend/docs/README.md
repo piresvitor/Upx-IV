@@ -13,8 +13,10 @@ O **Mapa Colaborativo de Acessibilidade** é uma plataforma que permite aos usu�
 ### ✨ Funcionalidades Principais
 - **🗺️ Mapeamento de Locais**: Integração com Google Maps para localização precisa
 - **📝 Sistema de Relatos**: Usuários podem criar relatos sobre acessibilidade de locais
+- **🎯 Campos de Acessibilidade**: Relatos específicos para rampa de acesso, banheiro acessível, estacionamento acessível e acessibilidade visual
+- **📊 Estatísticas de Acessibilidade**: Análise automática de padrões de acessibilidade por local
 - **👍 Sistema de Votação**: Comunidade pode validar e classificar relatos
-- **📊 Estatísticas**: Análise de dados para entender padrões de acessibilidade
+- **📈 Estatísticas Gerais**: Análise de dados para entender padrões de acessibilidade
 - **🔐 Autenticação Segura**: Sistema de login com JWT e hash de senhas
 - **👥 Gestão de Usuários**: Perfis personalizáveis e controle de acesso
 
@@ -101,6 +103,7 @@ Esta pasta contém toda a documentação da API do sistema de mapeamento colabor
 - **[requisicoes-reports.http](./requisicoes-reports.http)** - Requisições de teste para relatos
 - **[requisicoes-votes.http](./requisicoes-votes.http)** - Requisições de teste para votação em relatos
 - **[requisicoes-stats.http](./requisicoes-stats.http)** - Requisições de teste para estatísticas
+- **[requisicoes-accessibility-stats.http](./requisicoes-accessibility-stats.http)** - Requisições de teste para estatísticas de acessibilidade
 
 ## 🚀 Como Usar
 
@@ -167,9 +170,10 @@ Esta pasta contém toda a documentação da API do sistema de mapeamento colabor
 - `GET /places/:placeId` - Obter detalhes de um local
 - `PUT /places/:placeId` - Atualizar um local
 - `GET /places` - Buscar todos os locais
+- `GET /places/:placeId/accessibility-stats` - Estatísticas de acessibilidade do local
 
 ### Relatos (`/reports`)
-- `POST /places/:placeId/reports` - Criar relato
+- `POST /places/:placeId/reports` - Criar relato (com campos de acessibilidade)
 - `GET /places/:placeId/reports` - Buscar relatos (paginação com `page` e `limit`)
 - `GET /reports` - Listar relatos (filtros: `type`, `user_id` + paginação)
 - `GET /reports/:reportId` - Obter um relato específico
@@ -177,6 +181,12 @@ Esta pasta contém toda a documentação da API do sistema de mapeamento colabor
 - `DELETE /reports/:reportId` - Remover um relato (somente autor)
 - `POST /reports/:reportId/votes` - Votar em um relato
 - `DELETE /reports/:reportId/votes` - Remover voto de um relato
+
+**Novos Campos de Acessibilidade nos Relatos:**
+- `rampaAcesso` (boolean) - Rampa de acesso disponível
+- `banheiroAcessivel` (boolean) - Banheiro adaptado para cadeirantes
+- `estacionamentoAcessivel` (boolean) - Vagas especiais para PCD
+- `acessibilidadeVisual` (boolean) - Recursos para deficientes visuais
 
 ### Estatísticas(`/stats`)
 - `GET /stats/general` - Estatísticas gerais da plataforma
@@ -288,6 +298,6 @@ Este projeto está licenciado sob a Licença MIT - veja o arquivo [LICENSE](../.
 - **Feedback Positivo**: Depoimentos de usuários beneficiados
 
 
-**Desenvolvido com ❤️ para promover acessibilidade e inclusão**
+**Desenvolvido para promover acessibilidade e inclusão**
 
 *"A acessibilidade não é um privilégio, é um direito fundamental de todos os cidadãos."*

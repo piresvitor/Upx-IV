@@ -38,6 +38,7 @@ Para uma visão completa da arquitetura e componentes do sistema, consulte:
       - `GET /places/:placeId` - Obter detalhes de um local
       - `PUT /places/:placeId` - Atualizar um local
       - `GET /places` - Buscar todos os locais
+      - `GET /places/:placeId/accessibility-stats` - Estatísticas de acessibilidade do local
 
 ### 📝 Relatos
 - **Base URLs**:
@@ -45,7 +46,7 @@ Para uma visão completa da arquitetura e componentes do sistema, consulte:
   - `/reports` (relatos gerais)
 - **Documentação**: [API_REPORTS_DOCUMENTATION.md](./API_REPORTS_DOCUMENTATION.md)
 - **Endpoints**:
-  - `POST /places/:placeId/reports` - Criar relato para local
+  - `POST /places/:placeId/reports` - Criar relato para local (com campos de acessibilidade)
   - `GET /places/:placeId/reports` - Buscar relatos de um local
   - `GET /reports` - Listar relatos com filtros (type, user_id)
   - `GET /reports/:reportId` - Obter um relato
@@ -53,6 +54,11 @@ Para uma visão completa da arquitetura e componentes do sistema, consulte:
   - `DELETE /reports/:reportId` - Remover (somente autor)
   - `POST /reports/:reportId/votes` - Votar em um relato
   - `DELETE /reports/:reportId/votes` - Remover voto de um relato
+- **Novos Campos de Acessibilidade**:
+  - `rampaAcesso` (boolean) - Rampa de acesso disponível
+  - `banheiroAcessivel` (boolean) - Banheiro adaptado para cadeirantes
+  - `estacionamentoAcessivel` (boolean) - Vagas especiais para PCD
+  - `acessibilidadeVisual` (boolean) - Recursos para deficientes visuais
 
 ### 📊 Estatísticas
 - **Base URL**: `/stats`
@@ -144,6 +150,11 @@ PORT=3333
    GET /places/:placeId/reports
    ```
 
+7. **Ver estatísticas de acessibilidade**:
+   ```bash
+   GET /places/:placeId/accessibility-stats
+   ```
+
 ## Arquivos de Teste
 
 - [requisicoes-auth-users.http](./requisicoes-auth-users.http) - Testes para autenticação e usuários
@@ -151,6 +162,7 @@ PORT=3333
 - [requisicoes-reports.http](./requisicoes-reports.http) - Testes para relatos
 - [requisicoes-votes.http](./requisicoes-votes.http) - Testes para votação em relatos
 - [requisicoes-stats.http](./requisicoes-stats.http) - Testes para estatísticas
+- [requisicoes-accessibility-stats.http](./requisicoes-accessibility-stats.http) - Testes para estatísticas de acessibilidade
 
 ## Documentação de Arquitetura
 

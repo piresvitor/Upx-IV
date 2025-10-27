@@ -34,9 +34,19 @@ Cria um novo relato para um local específico.
 {
   "title": "Título do relato",
   "description": "Descrição detalhada do relato",
-  "type": "Tipo do relato (ex: accessibility, safety, etc.)"
+  "type": "Tipo do relato (ex: accessibility, safety, etc.)",
+  "rampaAcesso": true,
+  "banheiroAcessivel": false,
+  "estacionamentoAcessivel": true,
+  "acessibilidadeVisual": false
 }
 ```
+
+**Campos de Acessibilidade (opcionais, default: false):**
+- `rampaAcesso` (boolean): Indica se o local possui rampa de acesso
+- `banheiroAcessivel` (boolean): Indica se há banheiro adaptado para cadeirantes
+- `estacionamentoAcessivel` (boolean): Indica se há vagas especiais para PCD
+- `acessibilidadeVisual` (boolean): Indica se há recursos para deficientes visuais
 
 #### Respostas
 
@@ -50,7 +60,11 @@ Cria um novo relato para um local específico.
     "type": "Tipo do relato",
     "createdAt": "2024-01-01T00:00:00.000Z",
     "userId": "uuid",
-    "placeId": "uuid"
+    "placeId": "uuid",
+    "rampaAcesso": true,
+    "banheiroAcessivel": false,
+    "estacionamentoAcessivel": true,
+    "acessibilidadeVisual": false
   },
   "message": "Relato criado com sucesso"
 }
@@ -131,7 +145,11 @@ Busca todos os relatos de um local específico com paginação.
         "id": "uuid",
         "name": "Nome do usuário",
         "email": "email@exemplo.com"
-      }
+      },
+      "rampaAcesso": true,
+      "banheiroAcessivel": false,
+      "estacionamentoAcessivel": true,
+      "acessibilidadeVisual": false
     }
   ]
   ,
@@ -185,7 +203,11 @@ Lista relatos com filtros opcionais e paginação.
       "type": "accessibility",
       "createdAt": "2024-01-01T00:00:00.000Z",
       "user": { "id": "uuid", "name": "Nome", "email": "email@x.com" },
-      "place": { "id": "uuid", "name": "Lugar" }
+      "place": { "id": "uuid", "name": "Lugar" },
+      "rampaAcesso": true,
+      "banheiroAcessivel": false,
+      "estacionamentoAcessivel": true,
+      "acessibilidadeVisual": false
     }
   ],
   "pagination": { "page": 1, "limit": 10, "total": 25, "totalPages": 3 }
@@ -214,7 +236,11 @@ Retorna um relato específico.
   "type": "accessibility",
   "createdAt": "2024-01-01T00:00:00.000Z",
   "user": { "id": "uuid", "name": "Nome", "email": "email@x.com" },
-  "place": { "id": "uuid", "name": "Lugar" }
+  "place": { "id": "uuid", "name": "Lugar" },
+  "rampaAcesso": true,
+  "banheiroAcessivel": false,
+  "estacionamentoAcessivel": true,
+  "acessibilidadeVisual": false
 }
 ```
 
@@ -239,9 +265,19 @@ Atualiza campos do relato; requer autenticação do autor.
 {
   "title": "Novo título",
   "description": "Nova descrição",
-  "type": "accessibility"
+  "type": "accessibility",
+  "rampaAcesso": true,
+  "banheiroAcessivel": false,
+  "estacionamentoAcessivel": true,
+  "acessibilidadeVisual": false
 }
 ```
+
+**Campos de Acessibilidade (opcionais):**
+- `rampaAcesso` (boolean): Atualiza se o local possui rampa de acesso
+- `banheiroAcessivel` (boolean): Atualiza se há banheiro adaptado para cadeirantes
+- `estacionamentoAcessivel` (boolean): Atualiza se há vagas especiais para PCD
+- `acessibilidadeVisual` (boolean): Atualiza se há recursos para deficientes visuais
 
 #### Respostas
 - `200` { "message": "Relato atualizado com sucesso" }
@@ -376,7 +412,11 @@ curl -X POST http://localhost:3333/places/123e4567-e89b-12d3-a456-426614174000/r
   -d '{
     "title": "Rampa de acesso quebrada",
     "description": "A rampa de acesso na entrada principal está com o piso solto, representando risco para cadeirantes.",
-    "type": "accessibility"
+    "type": "accessibility",
+    "rampaAcesso": false,
+    "banheiroAcessivel": true,
+    "estacionamentoAcessivel": true,
+    "acessibilidadeVisual": false
   }'
 ```
 
@@ -400,7 +440,13 @@ curl -X GET "http://localhost:3333/reports/123e4567-e89b-12d3-a456-426614174000"
 curl -X PUT "http://localhost:3333/reports/123e4567-e89b-12d3-a456-426614174000" \
   -H "Authorization: Bearer <token>" \
   -H "Content-Type: application/json" \
-  -d '{"title":"Novo título"}'
+  -d '{
+    "title": "Novo título",
+    "rampaAcesso": true,
+    "banheiroAcessivel": true,
+    "estacionamentoAcessivel": false,
+    "acessibilidadeVisual": true
+  }'
 ```
 
 ### Remover um relato (autor)

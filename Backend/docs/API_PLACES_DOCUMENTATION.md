@@ -150,7 +150,65 @@ Atualiza informações de um local específico.
 }
 ```
 
-### 5. Buscar Todos os Locais
+### 5. Estatísticas de Acessibilidade de um Local
+
+**GET** `/places/:placeId/accessibility-stats`
+
+Calcula estatísticas de acessibilidade para um local específico baseado nos relatos existentes.
+
+#### Parâmetros:
+- `placeId` (string, obrigatório): UUID do local no banco de dados
+
+#### Exemplo de Requisição:
+```http
+GET /places/123e4567-e89b-12d3-a456-426614174000/accessibility-stats
+```
+
+#### Resposta:
+```json
+{
+  "place": {
+    "id": "123e4567-e89b-12d3-a456-426614174000",
+    "name": "Shopping Iguatemi Sorocaba",
+    "address": "Rod. Sen. José Ermírio de Moraes, 1425 - Alto da Boa Vista, Sorocaba - SP, Brasil"
+  },
+  "totalReports": 3,
+  "accessibilityStats": {
+    "rampaAcesso": {
+      "percentage": 100.0,
+      "hasMajority": true,
+      "positiveCount": 3,
+      "totalCount": 3
+    },
+    "banheiroAcessivel": {
+      "percentage": 66.67,
+      "hasMajority": true,
+      "positiveCount": 2,
+      "totalCount": 3
+    },
+    "estacionamentoAcessivel": {
+      "percentage": 100.0,
+      "hasMajority": true,
+      "positiveCount": 3,
+      "totalCount": 3
+    },
+    "acessibilidadeVisual": {
+      "percentage": 33.33,
+      "hasMajority": false,
+      "positiveCount": 1,
+      "totalCount": 3
+    }
+  }
+}
+```
+
+#### Explicação dos Campos:
+- **`percentage`**: Percentual de relatos positivos (0-100)
+- **`hasMajority`**: `true` se > 50% dos relatos são positivos, `false` se ≤ 50%
+- **`positiveCount`**: Quantidade de relatos com valor `true`
+- **`totalCount`**: Total de relatos analisados
+
+### 6. Buscar Todos os Locais
 
 **GET** `/places`
 
@@ -204,6 +262,7 @@ GET /places?page=1&limit=5&search=restaurante&type=restaurant&sortBy=rating&sort
 3. **Se o local existe**: Mostre a página do local com os relatos existentes
 4. **Se o local não existe**: O sistema cria automaticamente e você pode mostrar a página vazia
 5. **Para gerenciar relatos**: Use as rotas da API de Relatos (`/reports/`)
+6. **Para estatísticas de acessibilidade**: Use `/places/:placeId/accessibility-stats` para dashboards e análises
 
 ## Códigos de Erro
 
