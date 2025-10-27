@@ -9,6 +9,10 @@ const createReportSchema = z.object({
   title: z.string().min(1).max(200),
   description: z.string().min(1).max(2000),
   type: z.string().min(1),
+  rampaAcesso: z.boolean().optional().default(false),
+  banheiroAcessivel: z.boolean().optional().default(false),
+  estacionamentoAcessivel: z.boolean().optional().default(false),
+  acessibilidadeVisual: z.boolean().optional().default(false),
 })
 
 export async function createReportRoute(app: FastifyInstance) {
@@ -32,6 +36,10 @@ export async function createReportRoute(app: FastifyInstance) {
               createdAt: z.date(),
               userId: z.string(),
               placeId: z.string(),
+              rampaAcesso: z.boolean(),
+              banheiroAcessivel: z.boolean(),
+              estacionamentoAcessivel: z.boolean(),
+              acessibilidadeVisual: z.boolean(),
             }),
             message: z.string(),
           }),
@@ -52,7 +60,23 @@ export async function createReportRoute(app: FastifyInstance) {
   }, async (request, reply) => {
     try {
       const { placeId } = request.params as { placeId: string }
-      const { title, description, type } = request.body as { title: string; description: string; type: string }
+      const { 
+        title, 
+        description, 
+        type, 
+        rampaAcesso = false, 
+        banheiroAcessivel = false, 
+        estacionamentoAcessivel = false, 
+        acessibilidadeVisual = false 
+      } = request.body as { 
+        title: string; 
+        description: string; 
+        type: string;
+        rampaAcesso?: boolean;
+        banheiroAcessivel?: boolean;
+        estacionamentoAcessivel?: boolean;
+        acessibilidadeVisual?: boolean;
+      }
       const userId = request.user.id
 
       // Verifica se o local existe
@@ -72,6 +96,10 @@ export async function createReportRoute(app: FastifyInstance) {
           type,
           userId,
           placeId,
+          rampaAcesso,
+          banheiroAcessivel,
+          estacionamentoAcessivel,
+          acessibilidadeVisual,
         })
         .returning()
 

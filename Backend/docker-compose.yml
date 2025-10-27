@@ -13,3 +13,7 @@ services:
       # Volume persistente para os dados do PostgreSQL
       - postgres_data:/var/lib/postgresql/data
     restart: unless-stopped
+
+volumes:
+  postgres_data:
+    driver: local

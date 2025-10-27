@@ -1,6 +1,10 @@
+import dotenv from 'dotenv'
 import fastifySwagger from '@fastify/swagger'
 import fastify from 'fastify'
+import swaggerUI from '@fastify/swagger-ui'
 import { jsonSchemaTransform, serializerCompiler, validatorCompiler } from 'fastify-type-provider-zod'
+
+dotenv.config()
 import { loginRoute } from '../routes/auth/login'
 import { logoutRoute } from '../routes/auth/logout'
 import { getMeRoute, updateMeRoute, deleteMeRoute, getAllUsersRoute } from '../routes/users'
@@ -56,8 +60,14 @@ if (process.env.NODE_ENV === "development"){
     transform: jsonSchemaTransform,
 })
 
+// Scalar UI em /docs
 server.register(scalarAPIReference, {
     routePrefix: '/docs',
+})
+
+// Swagger UI em /reference
+server.register(swaggerUI, {
+    routePrefix: '/reference',
 })
 }
 

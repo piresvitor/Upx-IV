@@ -5,7 +5,6 @@ import { hash } from 'argon2'
 import z from 'zod'
 import { eq } from "drizzle-orm"
 
-
 export const registerRoute: FastifyPluginAsyncZod = async (server) => {
   server.post('/auth/register', {
     schema: {
@@ -14,7 +13,7 @@ export const registerRoute: FastifyPluginAsyncZod = async (server) => {
       description: 'Cadastro de novo usuário',
       body: z.object({
         name: z.string().min(3),
-        email: z.string().email(),
+        email: z.email(),
         password: z.string().min(8),
       }),
       response: {

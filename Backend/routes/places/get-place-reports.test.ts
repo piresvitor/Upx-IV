@@ -39,6 +39,10 @@ describe('GET /places/:placeId/reports', () => {
         type: 'positive',
         userId: user.id,
         placeId: place.id,
+        rampaAcesso: true,
+        banheiroAcessivel: false,
+        estacionamentoAcessivel: true,
+        acessibilidadeVisual: false,
       },
       {
         id: randomUUID(),
@@ -47,6 +51,10 @@ describe('GET /places/:placeId/reports', () => {
         type: 'positive',
         userId: user.id,
         placeId: place.id,
+        rampaAcesso: false,
+        banheiroAcessivel: true,
+        estacionamentoAcessivel: false,
+        acessibilidadeVisual: true,
       },
     ])
 
@@ -61,6 +69,19 @@ describe('GET /places/:placeId/reports', () => {
     expect(response.body.reports.length).toBeLessThanOrEqual(2)
     expect(response.body).toHaveProperty('pagination')
     expect(response.body.pagination).toMatchObject({ page: 1, limit: 2 })
+    
+    // Verificar se os campos booleanos estão presentes nos relatos
+    if (response.body.reports.length > 0) {
+      const report = response.body.reports[0]
+      expect(report).toHaveProperty('rampaAcesso')
+      expect(report).toHaveProperty('banheiroAcessivel')
+      expect(report).toHaveProperty('estacionamentoAcessivel')
+      expect(report).toHaveProperty('acessibilidadeVisual')
+      expect(typeof report.rampaAcesso).toBe('boolean')
+      expect(typeof report.banheiroAcessivel).toBe('boolean')
+      expect(typeof report.estacionamentoAcessivel).toBe('boolean')
+      expect(typeof report.acessibilidadeVisual).toBe('boolean')
+    }
 
     // cleanup
     await db.delete(reports)

@@ -23,7 +23,7 @@ Authorization: Bearer {{token}}
 }
 
 ### 3. Buscar Relatos do Local (página 1)
-GET http://localhost:3333/places/{{placeId}}/reports?page=1&limit=5
+GET http://localhost:3333/places/{{"123e4567-e89b-12d3-a456-426614174000"}}/reports?page=1&limit=5
 
 ### 4. Buscar Relatos do Local (página 2)
 GET http://localhost:3333/places/{{placeId}}/reports?page=2&limit=5

@@ -9,7 +9,7 @@ export async function getPlaceRoute(app: FastifyInstance) {
       summary: "Get Place",
       description: "Obtém detalhes de um local específico pelo ID.",
       params: z.object({
-        placeId: z.string().uuid(),
+        placeId: z.uuid(),
       }),
       response: {
         200: z.object({

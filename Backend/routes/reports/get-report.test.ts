@@ -42,6 +42,10 @@ describe('GET /reports/:reportId', () => {
       type: 'accessibility',
       userId: user.id,
       placeId: place.id,
+      rampaAcesso: true,
+      banheiroAcessivel: false,
+      estacionamentoAcessivel: true,
+      acessibilidadeVisual: false,
     }).returning()
 
     const res = await request(server.server)
@@ -51,6 +55,10 @@ describe('GET /reports/:reportId', () => {
     expect(res.body).toMatchObject({ id: report.id, title: 'Relato 1' })
     expect(res.body.user).toMatchObject({ id: user.id, name: 'User A' })
     expect(res.body.place).toMatchObject({ id: place.id, name: 'Place A' })
+    expect(res.body.rampaAcesso).toBe(true)
+    expect(res.body.banheiroAcessivel).toBe(false)
+    expect(res.body.estacionamentoAcessivel).toBe(true)
+    expect(res.body.acessibilidadeVisual).toBe(false)
   })
 })
 

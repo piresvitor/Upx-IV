@@ -22,6 +22,10 @@ export const getReportRoute: FastifyPluginAsyncZod = async (server) => {
           createdAt: z.date(),
           user: z.object({ id: z.string(), name: z.string(), email: z.string() }),
           place: z.object({ id: z.string(), name: z.string() }).nullable(),
+          rampaAcesso: z.boolean(),
+          banheiroAcessivel: z.boolean(),
+          estacionamentoAcessivel: z.boolean(),
+          acessibilidadeVisual: z.boolean(),
         }),
         404: z.object({ message: z.string() }),
         500: z.object({ message: z.string() })
@@ -43,6 +47,10 @@ export const getReportRoute: FastifyPluginAsyncZod = async (server) => {
           userEmail: users.email,
           placeId: places.id,
           placeName: places.name,
+          rampaAcesso: reports.rampaAcesso,
+          banheiroAcessivel: reports.banheiroAcessivel,
+          estacionamentoAcessivel: reports.estacionamentoAcessivel,
+          acessibilidadeVisual: reports.acessibilidadeVisual,
         })
         .from(reports)
         .innerJoin(users, eq(reports.userId, users.id))
@@ -63,6 +71,10 @@ export const getReportRoute: FastifyPluginAsyncZod = async (server) => {
         createdAt: row.createdAt,
         user: { id: row.userId, name: row.userName, email: row.userEmail },
         place: row.placeId ? { id: row.placeId, name: row.placeName! } : null,
+        rampaAcesso: row.rampaAcesso,
+        banheiroAcessivel: row.banheiroAcessivel,
+        estacionamentoAcessivel: row.estacionamentoAcessivel,
+        acessibilidadeVisual: row.acessibilidadeVisual,
       })
     } catch (error) {
       console.error('Erro ao buscar relato:', error)

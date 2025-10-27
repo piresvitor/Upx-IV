@@ -42,7 +42,11 @@ export const getPlaceReportsRoute: FastifyPluginAsyncZod = async (server) => {
               id: z.string(),
               name: z.string(),
               email: z.string()
-            })
+            }),
+            rampaAcesso: z.boolean(),
+            banheiroAcessivel: z.boolean(),
+            estacionamentoAcessivel: z.boolean(),
+            acessibilidadeVisual: z.boolean(),
           })),
           pagination: z.object({
             page: z.number(),
@@ -96,7 +100,11 @@ export const getPlaceReportsRoute: FastifyPluginAsyncZod = async (server) => {
             id: users.id,
             name: users.name,
             email: users.email
-          }
+          },
+          rampaAcesso: reports.rampaAcesso,
+          banheiroAcessivel: reports.banheiroAcessivel,
+          estacionamentoAcessivel: reports.estacionamentoAcessivel,
+          acessibilidadeVisual: reports.acessibilidadeVisual,
         })
         .from(reports)
         .innerJoin(users, eq(reports.userId, users.id))

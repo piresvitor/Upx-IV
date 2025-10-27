@@ -29,8 +29,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjYjY2ZTE4Y
 ### Obter dados do usuário (substitua pelo token real)
 GET http://localhost:3333/users/me
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhODVmYmQ3Yi0zYmVlLTQzNGItYjMxNi04MWE4YjQ2Y2ZiZGQiLCJyb2xlIjoidXNlciIsImlhdCI6MTc1ODMxMTc1MH0.oDWZ1SzAVBsoXfyWs7P4ec6mhUnidAysHQ7vCuAu8Bg
-
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1ZGM4NTc3ZC0yNzFjLTQ4YjMtYTNiMS1kNDFlYzhmY2VlZmQiLCJyb2xlIjoidXNlciIsImlhdCI6MTc1ODU3MzA0NH0.-KmYWzbwyBXnzv-4OuocZFrzt5Q9m-mzDVbmh788WhM
 ###
 
 ### Atualizar dados do usuário (substitua pelo token real)
