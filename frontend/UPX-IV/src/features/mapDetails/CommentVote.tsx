@@ -17,14 +17,26 @@ export default function CommentVote({
   const [loading, setLoading] = useState(false);
 
   const handleVote = async () => {
-    if (loading || hasVoted) return;
+    if (loading) return;
     setLoading(true);
+
     try {
       await reportService.vote(reportId);
       setCount((prev) => prev + 1);
       setHasVoted(true);
-    } catch (err) {
-      console.error("Erro ao votar:", err);
+    } catch (err: any) {
+      // se o backend retorna que o usuário já votou, interpretamos como "toggle"
+      if (err?.response?.data?.message?.includes("Você já votou")) {
+        try {
+          await reportService.deleteVote(reportId);
+          setCount((prev) => Math.max(prev - 1, 0));
+          setHasVoted(false);
+        } catch (deleteErr) {
+          console.error("Erro ao remover voto:", deleteErr);
+        }
+      } else {
+        console.error("Erro ao votar:", err);
+      }
     } finally {
       setLoading(false);
     }
@@ -36,8 +48,10 @@ export default function CommentVote({
         variant="ghost"
         size="icon"
         onClick={handleVote}
-        disabled={loading || hasVoted}
-        className={`w-6 h-6 ${hasVoted ? "text-blue-600" : "text-gray-500"}`}
+        disabled={loading}
+        className={`w-6 h-6 transition-colors ${
+          hasVoted ? "text-blue-600" : "text-gray-500 hover:text-blue-600"
+        }`}
       >
         <ThumbsUp size={14} />
       </Button>

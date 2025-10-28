@@ -94,4 +94,9 @@ export const reportService = {
     const response = await api.post(`/reports/${reportId}/votes`);
     return response.data;
   },
+
+  async deleteVote(reportId: string) {
+    const response = await api.delete(`/reports/${reportId}/votes`);
+    return response.data;
+  },
 };
