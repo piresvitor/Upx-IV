@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { ChevronLeft, ChevronRight, Pencil, Trash } from "lucide-react";
+import CommentVote from "./CommentVote";
 
 interface CommentListProps {
   placeId: string;
@@ -128,6 +129,10 @@ export default function CommentList({ placeId }: CommentListProps) {
                     <p className="text-gray-700 text-sm mt-3">
                       {comment.description}
                     </p>
+                    <CommentVote
+                      reportId={comment.id}
+                      initialCount={comment.votesCount || 0}
+                    />
                   </div>
                 </div>
 

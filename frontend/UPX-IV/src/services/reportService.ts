@@ -18,6 +18,7 @@ export interface Report {
   banheiroAcessivel: boolean;
   estacionamentoAcessivel: boolean;
   acessibilidadeVisual: boolean;
+  votesCount?: number;
 }
 
 export interface Place {
@@ -87,5 +88,10 @@ export const reportService = {
   async deleteReport(reportId: string) {
     const res = await api.delete(`/reports/${reportId}`);
     return res.data;
+  },
+
+  async vote(reportId: string) {
+    const response = await api.post(`/reports/${reportId}/votes`);
+    return response.data;
   },
 };
