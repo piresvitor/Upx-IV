@@ -14,10 +14,18 @@ export default function CommentCheckBox({
   const id = useId();
 
   const options = [
-    { id: `${id}-a`, label: "Rampa de acesso", value: "rampa" },
-    { id: `${id}-b`, label: "Banheiro acessível", value: "banheiro" },
-    { id: `${id}-c`, label: "Estacionamento", value: "estacionamento" },
-    { id: `${id}-d`, label: "Acessibilidade visual", value: "visual" },
+    { id: `${id}-a`, label: "Rampa de acesso", value: "rampaAcesso" },
+    { id: `${id}-b`, label: "Banheiro acessível", value: "banheiroAcessível" },
+    {
+      id: `${id}-c`,
+      label: "Estacionamento",
+      value: "estacionamentoAcessivel",
+    },
+    {
+      id: `${id}-d`,
+      label: "Acessibilidade visual",
+      value: "acessibilidadeVisual",
+    },
   ];
 
   const handleToggle = (value: string) => {

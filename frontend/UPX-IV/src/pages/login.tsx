@@ -32,7 +32,12 @@ export default function Login() {
 
     try {
       const { token } = await authService.login(form);
-      login(token);
+
+      // Decodifica o JWT para pegar o userId (sub)
+      const payload = JSON.parse(atob(token.split(".")[1]));
+      const userId = payload.sub; // normalmente o id do usuário está em 'sub'
+
+      login(token, userId);
       router("/map");
     } catch (err: any) {
       setError(err.response?.data?.message || "Erro ao entrar");
