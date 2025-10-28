@@ -16,6 +16,7 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
+import { ChevronLeft, ChevronRight, Pencil, Trash } from "lucide-react";
 
 interface CommentListProps {
   placeId: string;
@@ -108,39 +109,47 @@ export default function CommentList({ placeId }: CommentListProps) {
           comments.map((comment) => (
             <div
               key={comment.id}
-              className="border rounded-lg p-4 shadow-sm bg-white"
+              className="border rounded-lg p-4 shadow-sm bg-white space-y-2"
             >
-              <div className="flex justify-between items-center mb-2">
-                <div className="flex items-center gap-2">
+              <div className="flex justify-between items-start mb-2">
+                <div className="flex items-start gap-2">
                   <div className="lg:w-10 lg:h-10 w-7 h-7 bg-gray-300 rounded-full flex items-center justify-center">
                     <span className="text-gray-700 font-bold text-sm lg:text-base">
                       {comment.user.name.charAt(0).toUpperCase()}
                     </span>
                   </div>
-                  <h3 className="font-semibold text-gray-700 text-sm lg:text-base">
-                    {comment.user.name}
-                  </h3>
+                  <div className="space-y-[2px] leading-[0.9]">
+                    <h3 className="font-semibold text-gray-700 text-sm lg:text-base">
+                      {comment.user.name}
+                    </h3>
+                    <span className="text-[12px] text-gray-500">
+                      {new Date(comment.createdAt).toLocaleDateString("pt-BR")}
+                    </span>
+                    <p className="text-gray-700 text-sm mt-3">
+                      {comment.description}
+                    </p>
+                  </div>
                 </div>
-                <span className="text-sm text-gray-500 lg:text-base">
-                  {new Date(comment.createdAt).toLocaleDateString("pt-BR")}
-                </span>
-              </div>
-              <p className="text-gray-700">{comment.description}</p>
 
-              {comment.user.id === userId && (
-                <div className="flex gap-2 mt-2">
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    onClick={() => openEditModal(comment)}
-                  >
-                    Editar
-                  </Button>
-                  <Button variant="destructive" onClick={handleDelete}>
-                    Deletar
-                  </Button>
-                </div>
-              )}
+                {comment.user.id === userId && (
+                  <div className="flex">
+                    <Button
+                      className="w-6 h-6"
+                      variant="ghost"
+                      onClick={() => openEditModal(comment)}
+                    >
+                      <Pencil size={10} />
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      onClick={handleDelete}
+                      className="w-6 h-6"
+                    >
+                      <Trash size={10} />
+                    </Button>
+                  </div>
+                )}
+              </div>
             </div>
           ))
         )}
@@ -152,8 +161,9 @@ export default function CommentList({ placeId }: CommentListProps) {
           variant="outline"
           onClick={() => page > 1 && setPage(page - 1)}
           disabled={page === 1}
+          className="cursor-pointer"
         >
-          Anterior
+          <ChevronLeft />
         </Button>
         <span className="flex items-center px-3">
           {page} / {totalPages}
@@ -163,7 +173,7 @@ export default function CommentList({ placeId }: CommentListProps) {
           onClick={() => page < totalPages && setPage(page + 1)}
           disabled={page === totalPages}
         >
-          Próximo
+          <ChevronRight />{" "}
         </Button>
       </div>
 
