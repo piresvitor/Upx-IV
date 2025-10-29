@@ -33,9 +33,8 @@ export default function Login() {
     try {
       const { token } = await authService.login(form);
 
-      // Decodifica o JWT para pegar o userId (sub)
       const payload = JSON.parse(atob(token.split(".")[1]));
-      const userId = payload.sub; // normalmente o id do usuário está em 'sub'
+      const userId = payload.sub;
 
       login(token, userId);
       router("/map");

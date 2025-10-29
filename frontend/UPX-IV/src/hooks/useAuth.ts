@@ -6,7 +6,7 @@ export const useAuth = () => {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    const id = localStorage.getItem("userId"); // pega o id do storage
+    const id = localStorage.getItem("userId");
     setIsAuthenticated(!!token);
     setUserId(id);
   }, []);

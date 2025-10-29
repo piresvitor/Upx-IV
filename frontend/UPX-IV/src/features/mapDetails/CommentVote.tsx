@@ -25,7 +25,6 @@ export default function CommentVote({
       setCount((prev) => prev + 1);
       setHasVoted(true);
     } catch (err: any) {
-      // se o backend retorna que o usuário já votou, interpretamos como "toggle"
       if (err?.response?.data?.message?.includes("Você já votou")) {
         try {
           await reportService.deleteVote(reportId);

@@ -31,7 +31,6 @@ export default function NewComment({ placeId, onSuccess }: NewCommentProps) {
         acessibilidadeVisual: selectedTypes.includes("acessibilidadeVisual"),
       };
 
-      // placeId vai na URL, token já no header via axios
       const response = await reportService.create(placeId, newReport);
 
       console.log("Relato criado:", response.report);
