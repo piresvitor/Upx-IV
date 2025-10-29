@@ -1,6 +1,9 @@
 import { FastifyInstance } from 'fastify'
 import { z } from 'zod'
 import { placesService } from '../../src/services/places'
+import { db } from '../../src/database/cliente'
+import { reports } from '../../src/database/schema'
+import { eq, count } from 'drizzle-orm'
 
 export async function getPlaceRoute(app: FastifyInstance) {
   app.get('/places/:placeId', {
@@ -24,6 +27,7 @@ export async function getPlaceRoute(app: FastifyInstance) {
           userRatingsTotal: z.number().nullable(),
           createdAt: z.date(),
           updatedAt: z.date(),
+          reportsCount: z.number(),
         }),
         404: z.object({
           error: z.string(),
@@ -45,7 +49,18 @@ export async function getPlaceRoute(app: FastifyInstance) {
         })
       }
 
-      return reply.status(200).send(place)
+      // Buscar contagem de relatos para este local
+      const reportsResult = await db
+        .select({ count: count() })
+        .from(reports)
+        .where(eq(reports.placeId, placeId))
+
+      const reportsCount = reportsResult[0]?.count || 0
+
+      return reply.status(200).send({
+        ...place,
+        reportsCount: reportsCount,
+      })
     } catch (error) {
       console.error('Erro na rota get-place:', error)
       

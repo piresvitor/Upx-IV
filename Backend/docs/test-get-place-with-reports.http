@@ -1,0 +1,56 @@
+### Teste GET /places/:placeId com contagem de relatos
+
+### 1. Buscar um local específico (substitua {{placeId}} pelo ID de um local existente)
+GET http://localhost:3333/places/{{placeId}}
+
+### 2. Criar alguns relatos para o local (substitua {{placeId}} e {{token}})
+POST http://localhost:3333/places/{{placeId}}/reports
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "title": "Rampa de acesso em bom estado",
+  "description": "A rampa de acesso está funcionando perfeitamente, com boa inclinação e piso antiderrapante.",
+  "type": "accessibility",
+  "rampaAcesso": true,
+  "banheiroAcessivel": false,
+  "estacionamentoAcessivel": true,
+  "acessibilidadeVisual": false
+}
+
+### 3. Criar outro relato
+POST http://localhost:3333/places/{{placeId}}/reports
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "title": "Banheiro adaptado precisa de manutenção",
+  "description": "O banheiro adaptado está com a porta emperrada e precisa de reparo urgente.",
+  "type": "accessibility",
+  "rampaAcesso": false,
+  "banheiroAcessivel": true,
+  "estacionamentoAcessivel": false,
+  "acessibilidadeVisual": true
+}
+
+### 4. Criar terceiro relato
+POST http://localhost:3333/places/{{placeId}}/reports
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "title": "Estacionamento acessível bem sinalizado",
+  "description": "As vagas para PCD estão bem sinalizadas e em local de fácil acesso.",
+  "type": "infrastructure",
+  "rampaAcesso": false,
+  "banheiroAcessivel": false,
+  "estacionamentoAcessivel": true,
+  "acessibilidadeVisual": true
+}
+
+### 5. Buscar o local novamente para ver a contagem de relatos atualizada
+GET http://localhost:3333/places/{{placeId}}
+
+### Variáveis para teste:
+@placeId = 123e4567-e89b-12d3-a456-426614174000
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c

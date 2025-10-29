@@ -1,7 +1,7 @@
 import { FastifyPluginAsyncZod } from 'fastify-type-provider-zod'
 import { db } from '../../src/database/cliente.ts'
-import { reports, users, places } from '../../src/database/schema.ts'
-import { eq } from 'drizzle-orm'
+import { reports, users, places, votes } from '../../src/database/schema.ts'
+import { eq, count } from 'drizzle-orm'
 import z from 'zod'
 
 export const getReportRoute: FastifyPluginAsyncZod = async (server) => {
@@ -26,6 +26,7 @@ export const getReportRoute: FastifyPluginAsyncZod = async (server) => {
           banheiroAcessivel: z.boolean(),
           estacionamentoAcessivel: z.boolean(),
           acessibilidadeVisual: z.boolean(),
+          votesCount: z.number(),
         }),
         404: z.object({ message: z.string() }),
         500: z.object({ message: z.string() })
@@ -58,10 +59,18 @@ export const getReportRoute: FastifyPluginAsyncZod = async (server) => {
         .where(eq(reports.id, reportId))
         .limit(1)
 
+      // Buscar contagem de votos separadamente
+      const votesResult = await db
+        .select({ count: count() })
+        .from(votes)
+        .where(eq(votes.reportId, reportId))
+
       const row = result[0]
       if (!row) {
         return reply.status(404).send({ message: 'Relato não encontrado' })
       }
+
+      const votesCount = votesResult[0]?.count || 0
 
       return reply.status(200).send({
         id: row.id,
@@ -75,6 +84,7 @@ export const getReportRoute: FastifyPluginAsyncZod = async (server) => {
         banheiroAcessivel: row.banheiroAcessivel,
         estacionamentoAcessivel: row.estacionamentoAcessivel,
         acessibilidadeVisual: row.acessibilidadeVisual,
+        votesCount: votesCount,
       })
     } catch (error) {
       console.error('Erro ao buscar relato:', error)

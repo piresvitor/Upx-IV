@@ -1,0 +1,36 @@
+### Teste GET /reports/:reportId com contagem de votos
+
+### 1. Primeiro, vamos criar um relato
+POST http://localhost:3333/places/{{placeId}}/reports
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "title": "Teste de Relato com Votos",
+  "description": "Este é um relato para testar a contagem de votos",
+  "type": "accessibility",
+  "rampaAcesso": true,
+  "banheiroAcessivel": false,
+  "estacionamentoAcessivel": true,
+  "acessibilidadeVisual": false
+}
+
+### 2. Agora vamos buscar o relato específico (substitua {{reportId}} pelo ID retornado)
+GET http://localhost:3333/reports/{{reportId}}
+
+### 3. Vamos votar no relato (substitua {{reportId}} pelo ID retornado)
+POST http://localhost:3333/reports/{{reportId}}/votes
+Authorization: Bearer {{token}}
+
+### 4. Vamos votar novamente com outro usuário (se tiver)
+POST http://localhost:3333/reports/{{reportId}}/votes
+Authorization: Bearer {{token2}}
+
+### 5. Agora vamos buscar o relato novamente para ver a contagem de votos
+GET http://localhost:3333/reports/{{reportId}}
+
+### Variáveis para teste:
+@placeId = 123e4567-e89b-12d3-a456-426614174000
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+@token2 = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+@reportId = SUBSTITUA_PELO_ID_DO_RELATO_CRIADO
