@@ -34,7 +34,7 @@ export default function NavBar({ isAuthenticated, onLogout }: NavBarProps) {
             to="/"
             className="text-lg font-semibold text-primary hover:text-primary/90"
           >
-            MyApp
+            MobiAccess
           </Link>
 
           {isAuthenticated && (
