@@ -8,20 +8,20 @@ interface CommentVoteProps {
 }
 
 export default function CommentVote({ reportId }: CommentVoteProps) {
-  const { userId } = useAuth(); // ID do usuário logado
+  const { userId } = useAuth();
   const [votes, setVotes] = useState<number>(0);
   const [userVote, setUserVote] = useState<"up" | null>(null);
   const [loading, setLoading] = useState(false);
 
-  // Busca os votos do backend e se o usuário votou
+  // Busca votos e verifica se o usuário já votou
   const fetchVotes = async () => {
     try {
       const comment = await reportService.getReport(reportId);
       setVotes(comment.votesCount || 0);
 
-      // Aqui definimos se o usuário atual já votou
+      // Checa se o usuário atual votou
       const hasUserVoted = comment.voters?.some(
-        (v: { userId: string | null }) => v.userId === userId
+        (v: { userId: string }) => v.userId === userId
       );
       setUserVote(hasUserVoted ? "up" : null);
     } catch (err) {
@@ -33,25 +33,24 @@ export default function CommentVote({ reportId }: CommentVoteProps) {
     fetchVotes();
   }, [reportId]);
 
-  // Função para votar/desvotar
   const handleVote = async () => {
     if (loading) return;
     setLoading(true);
 
     try {
       if (userVote === "up") {
-        // Já votou, então remove o voto
+        // Já votou → desfaz o voto
         await reportService.deleteVote(reportId);
+        setVotes((prev) => prev - 1);
         setUserVote(null);
       } else {
-        // Não votou, então adiciona o voto
+        // Não votou → adiciona voto
         await reportService.vote(reportId);
+        setVotes((prev) => prev + 1);
         setUserVote("up");
       }
-
-      await fetchVotes(); // Atualiza a contagem real do backend
-    } catch (err) {
-      console.error("Erro ao votar:", err);
+    } catch (err: any) {
+      console.error("Erro ao votar/desvotar:", err.response?.data || err);
     } finally {
       setLoading(false);
     }
