@@ -68,7 +68,6 @@ export interface ReportUpdateData {
   acessibilidadeVisual: boolean;
 }
 
-// Adicione no reportService.ts
 export const reportService = {
   create: async (placeId: string, data: NewReport) => {
     const res = await api.post(`/places/${placeId}/reports`, data);
@@ -91,12 +90,18 @@ export const reportService = {
   },
 
   async vote(reportId: string) {
-    const response = await api.post(`/reports/${reportId}/votes`);
-    return response.data;
+    const res = await api.post(`/reports/${reportId}/votes`);
+    return res.data;
   },
 
   async deleteVote(reportId: string) {
-    const response = await api.delete(`/reports/${reportId}/votes`);
-    return response.data;
+    const res = await api.delete(`/reports/${reportId}/votes`);
+    return res.data;
+  },
+
+  // <<< ADICIONE ISTO >>>
+  async getReport(reportId: string) {
+    const res = await api.get(`/reports/${reportId}`);
+    return res.data;
   },
 };
