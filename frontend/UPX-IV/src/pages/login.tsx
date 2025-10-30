@@ -32,7 +32,11 @@ export default function Login() {
 
     try {
       const { token } = await authService.login(form);
-      login(token);
+
+      const payload = JSON.parse(atob(token.split(".")[1]));
+      const userId = payload.sub;
+
+      login(token, userId);
       router("/map");
     } catch (err: any) {
       setError(err.response?.data?.message || "Erro ao entrar");

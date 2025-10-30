@@ -20,6 +20,10 @@ export interface LoginData {
 }
 export interface LoginResponse {
   token: string;
+  user: {
+    id: string;
+    name: string;
+  };
 }
 
 export const authService = {

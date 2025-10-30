@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { reportService, type NewReport } from "@/services/reportService";
+import { reportService } from "@/services/reportService";
 import CommentCheckBox from "@/components/comp-139";
 
 interface NewCommentProps {
@@ -19,15 +19,21 @@ export default function NewComment({ placeId, onSuccess }: NewCommentProps) {
     setLoading(true);
 
     try {
-      const newReport: NewReport = {
+      const newReport = {
         title: "Relato do usuário",
         description,
         type: selectedTypes.join(", ") || "comentário",
-        placeId,
-        userId: localStorage.getItem("userId") || "",
+        rampaAcesso: selectedTypes.includes("rampaAcesso"),
+        banheiroAcessivel: selectedTypes.includes("banheiroAcessível"),
+        estacionamentoAcessivel: selectedTypes.includes(
+          "estacionamentoAcessível"
+        ),
+        acessibilidadeVisual: selectedTypes.includes("acessibilidadeVisual"),
       };
 
-      await reportService.create(newReport);
+      const response = await reportService.create(placeId, newReport);
+
+      console.log("Relato criado:", response.report);
       setDescription("");
       setSelectedTypes([]);
       onSuccess?.();

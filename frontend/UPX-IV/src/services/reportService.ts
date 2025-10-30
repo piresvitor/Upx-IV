@@ -1,3 +1,4 @@
+// reportService.ts
 import { api } from "./api";
 
 export interface ReportUser {
@@ -13,6 +14,11 @@ export interface Report {
   type: string;
   createdAt: string;
   user: ReportUser;
+  rampaAcesso: boolean;
+  banheiroAcessivel: boolean;
+  estacionamentoAcessivel: boolean;
+  acessibilidadeVisual: boolean;
+  votesCount?: number;
 }
 
 export interface Place {
@@ -46,19 +52,51 @@ export interface NewReport {
   title: string;
   description: string;
   type: string;
-  placeId: string;
-  userId?: string;
+  rampaAcesso?: boolean;
+  banheiroAcessivel?: boolean;
+  estacionamentoAcessivel?: boolean;
+  acessibilidadeVisual?: boolean;
 }
 
+export interface ReportUpdateData {
+  title: string;
+  description: string;
+  type: string;
+  rampaAcesso: boolean;
+  banheiroAcessivel: boolean;
+  estacionamentoAcessivel: boolean;
+  acessibilidadeVisual: boolean;
+}
+
+// Adicione no reportService.ts
 export const reportService = {
-  async create(report: NewReport) {
-    const { placeId, ...data } = report;
+  create: async (placeId: string, data: NewReport) => {
     const res = await api.post(`/places/${placeId}/reports`, data);
     return res.data;
   },
 
-  async list(placeId: string): Promise<ReportsResponse> {
+  list: async (placeId: string): Promise<ReportsResponse> => {
     const res = await api.get(`/places/${placeId}/reports`);
     return res.data;
+  },
+
+  async updateReport(reportId: string, data: ReportUpdateData) {
+    const res = await api.put(`/reports/${reportId}`, data);
+    return res.data;
+  },
+
+  async deleteReport(reportId: string) {
+    const res = await api.delete(`/reports/${reportId}`);
+    return res.data;
+  },
+
+  async vote(reportId: string) {
+    const response = await api.post(`/reports/${reportId}/votes`);
+    return response.data;
+  },
+
+  async deleteVote(reportId: string) {
+    const response = await api.delete(`/reports/${reportId}/votes`);
+    return response.data;
   },
 };

@@ -57,17 +57,15 @@ export default function MapContainer() {
     event.stop();
 
     try {
-      // Verifica ou cria o local no backend
       const place: Place = await placeService.checkOrCreate(event.placeId);
 
-      // Cria a posição para o infoBox
       const position = new google.maps.LatLng(place.latitude, place.longitude);
 
       setInfoBoxData({
         position,
         name: place.name,
         address: place.address,
-        placeId: place.id, // UUID do backend
+        placeId: place.id,
       });
     } catch (err) {
       console.error("Erro ao verificar/criar local:", err);
