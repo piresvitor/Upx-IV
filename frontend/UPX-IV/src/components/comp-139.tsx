@@ -15,7 +15,7 @@ export default function CommentCheckBox({
 
   const options = [
     { id: `${id}-a`, label: "Rampa de acesso", value: "rampaAcesso" },
-    { id: `${id}-b`, label: "Banheiro acessível", value: "banheiroAcessível" },
+    { id: `${id}-b`, label: "Banheiro acessível", value: "banheiroAcessivel" },
     {
       id: `${id}-c`,
       label: "Estacionamento",

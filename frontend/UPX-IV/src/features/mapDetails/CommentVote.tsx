@@ -1,72 +1,74 @@
 import { useEffect, useState } from "react";
-import { ThumbsUp } from "lucide-react";
 import { reportService } from "@/services/reportService";
-import { useAuth } from "@/hooks/useAuth";
+import { Button } from "@/components/ui/button";
+import { ThumbsUp } from "lucide-react";
 
 interface CommentVoteProps {
   reportId: string;
 }
 
 export default function CommentVote({ reportId }: CommentVoteProps) {
-  const { userId } = useAuth();
-  const [votes, setVotes] = useState<number>(0);
-  const [userVote, setUserVote] = useState<"up" | null>(null);
-  const [loading, setLoading] = useState(false);
-
-  // Busca votos e verifica se o usuário já votou
-  const fetchVotes = async () => {
-    try {
-      const comment = await reportService.getReport(reportId);
-      setVotes(comment.votesCount || 0);
-
-      // Checa se o usuário atual votou
-      const hasUserVoted = comment.voters?.some(
-        (v: { userId: string }) => v.userId === userId
-      );
-      setUserVote(hasUserVoted ? "up" : null);
-    } catch (err) {
-      console.error("Erro ao buscar votos do comentário:", err);
-    }
-  };
+  const [hasVoted, setHasVoted] = useState(false);
+  const [votesCount, setVotesCount] = useState(0);
 
   useEffect(() => {
-    fetchVotes();
+    const fetchVoteStatus = async () => {
+      try {
+        const report = await reportService.getReport(reportId);
+        setVotesCount(report.votesCount || 0);
+
+        const votedReports = JSON.parse(
+          localStorage.getItem("votedReports") || "[]"
+        );
+        setHasVoted(votedReports.includes(reportId));
+      } catch (err) {
+        console.error("Erro ao carregar voto:", err);
+      }
+    };
+    fetchVoteStatus();
   }, [reportId]);
 
   const handleVote = async () => {
-    if (loading) return;
-    setLoading(true);
-
     try {
-      if (userVote === "up") {
-        // Já votou → desfaz o voto
+      if (hasVoted) {
         await reportService.deleteVote(reportId);
-        setVotes((prev) => prev - 1);
-        setUserVote(null);
+        setVotesCount((prev) => Math.max(prev - 1, 0));
+        setHasVoted(false);
+        updateLocalStorage(false);
       } else {
-        // Não votou → adiciona voto
         await reportService.vote(reportId);
-        setVotes((prev) => prev + 1);
-        setUserVote("up");
+        setVotesCount((prev) => prev + 1);
+        setHasVoted(true);
+        updateLocalStorage(true);
       }
     } catch (err: any) {
-      console.error("Erro ao votar/desvotar:", err.response?.data || err);
-    } finally {
-      setLoading(false);
+      console.error("Erro ao votar:", err);
     }
   };
 
+  const updateLocalStorage = (voted: boolean) => {
+    const votedReports = JSON.parse(
+      localStorage.getItem("votedReports") || "[]"
+    );
+    const updated = voted
+      ? [...votedReports, reportId]
+      : votedReports.filter((id: string) => id !== reportId);
+    localStorage.setItem("votedReports", JSON.stringify(updated));
+  };
+
   return (
-    <div className="flex items-center gap-2 mt-2">
-      <button
+    <div className="flex flex-col items-start mt-1">
+      <Button
+        variant="ghost"
+        size="sm"
         onClick={handleVote}
-        disabled={loading}
-        className={`flex items-center gap-1 text-sm cursor-pointer ${
-          userVote === "up" ? "text-green-600 font-semibold" : "text-gray-500"
+        className={`h-6 px-1.5 py-0.5 text-[11px] leading-none flex items-center gap-1 rounded-sm ${
+          hasVoted ? "text-yellow-500" : "text-gray-500"
         }`}
       >
-        <ThumbsUp size={16} /> {votes}
-      </button>
+        <ThumbsUp className="w-3.5 h-3.5" />
+        {votesCount}
+      </Button>
     </div>
   );
 }

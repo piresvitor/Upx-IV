@@ -22,11 +22,11 @@ export default function NewComment({ placeId, onSuccess }: NewCommentProps) {
       const newReport = {
         title: "Relato do usuário",
         description,
-        type: selectedTypes.join(", ") || "comentário",
+        type: selectedTypes.length > 0 ? "accessibility" : "report",
         rampaAcesso: selectedTypes.includes("rampaAcesso"),
-        banheiroAcessivel: selectedTypes.includes("banheiroAcessível"),
+        banheiroAcessivel: selectedTypes.includes("banheiroAcessivel"),
         estacionamentoAcessivel: selectedTypes.includes(
-          "estacionamentoAcessível"
+          "estacionamentoAcessivel"
         ),
         acessibilidadeVisual: selectedTypes.includes("acessibilidadeVisual"),
       };
