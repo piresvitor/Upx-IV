@@ -13,9 +13,24 @@ export default function NewComment({ placeId, onSuccess }: NewCommentProps) {
   const [description, setDescription] = useState("");
   const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(""); // para descrição
+  const [typesError, setTypesError] = useState(""); // para checkboxes
 
   const handleSubmit = async () => {
-    if (!description.trim()) return;
+    // valida descrição
+    if (!description.trim()) {
+      setError("Digite algum comentário antes de enviar.");
+      return;
+    }
+
+    // valida pelo menos 1 tipo selecionado
+    if (selectedTypes.length === 0) {
+      setTypesError("Selecione pelo menos uma opção.");
+      return;
+    }
+
+    setError("");
+    setTypesError("");
     setLoading(true);
 
     try {
@@ -52,9 +67,14 @@ export default function NewComment({ placeId, onSuccess }: NewCommentProps) {
 
       <Textarea
         value={description}
-        onChange={(e) => setDescription(e.target.value)}
+        onChange={(e) => {
+          setDescription(e.target.value);
+          if (error) setError("");
+        }}
         placeholder="Escreva aqui sobre sua experiência..."
       />
+
+      {error && <p className="text-sm text-red-500 mt-1">{error}</p>}
 
       <div className="mt-5">
         <p className="text-sm text-gray-600 mb-3">
@@ -62,8 +82,18 @@ export default function NewComment({ placeId, onSuccess }: NewCommentProps) {
         </p>
         <CommentCheckBox
           selectedTypes={selectedTypes}
-          onChange={setSelectedTypes}
+          onChange={(types) => {
+            setSelectedTypes(types);
+            if (typesError && types.length > 0) setTypesError("");
+          }}
+          onTouched={() => {
+            if (typesError) setTypesError("");
+          }}
         />
+
+        {typesError && (
+          <p className="text-sm text-red-500 mt-2">{typesError}</p>
+        )}
       </div>
 
       <div className="flex justify-end mt-2">

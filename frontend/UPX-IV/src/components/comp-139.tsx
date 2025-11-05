@@ -5,11 +5,13 @@ import { Label } from "@/components/ui/label";
 interface CommentCheckBoxProps {
   selectedTypes: string[];
   onChange: (types: string[]) => void;
+  onTouched?: () => void; // chamada quando o usuário interage
 }
 
 export default function CommentCheckBox({
   selectedTypes,
   onChange,
+  onTouched,
 }: CommentCheckBoxProps) {
   const id = useId();
 
@@ -29,6 +31,7 @@ export default function CommentCheckBox({
   ];
 
   const handleToggle = (value: string) => {
+    onTouched?.(); // informa o pai que houve interação
     const updated = selectedTypes.includes(value)
       ? selectedTypes.filter((t) => t !== value)
       : [...selectedTypes, value];
@@ -37,17 +40,19 @@ export default function CommentCheckBox({
   };
 
   return (
-    <div className="lg:flex lg:flex-row grid grid-cols-1 gap-6">
-      {options.map((option) => (
-        <div key={option.id} className="flex items-center gap-2">
-          <Checkbox
-            id={option.id}
-            checked={selectedTypes.includes(option.value)}
-            onCheckedChange={() => handleToggle(option.value)}
-          />
-          <Label htmlFor={option.id}>{option.label}</Label>
-        </div>
-      ))}
+    <div>
+      <div className="lg:flex lg:flex-row grid grid-cols-1 gap-6">
+        {options.map((option) => (
+          <div key={option.id} className="flex items-center gap-2">
+            <Checkbox
+              id={option.id}
+              checked={selectedTypes.includes(option.value)}
+              onCheckedChange={() => handleToggle(option.value)}
+            />
+            <Label htmlFor={option.id}>{option.label}</Label>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
