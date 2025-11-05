@@ -1,9 +1,20 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/hooks/useAuth"; // ✅ importa auth
 
 const CTA = () => {
   const navigate = useNavigate();
+  const { isAuthenticated } = useAuth(); // ✅ pega se está logado
+
+  const handleClick = () => {
+    if (isAuthenticated) {
+      navigate("/map");
+    } else {
+      navigate("/account/register");
+    }
+  };
+
   return (
     <section className="py-24 relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-secondary/10 to-accent/10" />
@@ -25,7 +36,7 @@ const CTA = () => {
             <Button
               size="lg"
               className="text-lg px-8 py-6 shadow-lg hover:shadow-xl transition-all group"
-              onClick={() => navigate("/account/register")}
+              onClick={handleClick} // ✅ aqui
             >
               Começar Agora
               <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />

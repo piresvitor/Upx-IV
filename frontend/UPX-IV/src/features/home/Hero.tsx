@@ -2,13 +2,22 @@ import { Button } from "@/components/ui/button";
 import { MapPin } from "lucide-react";
 import heroImage from "@/assets/hero-accessibility.jpg";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/hooks/useAuth"; // ✅ importa o hook
 
 const Hero = () => {
   const navigate = useNavigate();
+  const { isAuthenticated } = useAuth(); // ✅ pega se está logado
+
+  const handleClick = () => {
+    if (isAuthenticated) {
+      navigate("/map");
+    } else {
+      navigate("/account/register");
+    }
+  };
 
   return (
     <section className="relative min-h-[90vh] flex items-center overflow-hidden">
-      {/* Background Image with Overlay */}
       <div className="absolute inset-0 z-0">
         <img
           src={heroImage}
@@ -18,12 +27,11 @@ const Hero = () => {
         <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/85 to-background/70" />
       </div>
 
-      {/* Content */}
       <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl">
           <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
             Tornando a cidade mais{" "}
-            <span className=" text-primary">acessível </span> para todos
+            <span className="text-primary">acessível</span> para todos
           </h1>
 
           <p className="text-xl sm:text-2xl text-muted-foreground mb-8 leading-relaxed">
@@ -35,7 +43,7 @@ const Hero = () => {
             <Button
               size="lg"
               className="text-lg px-8 py-6 shadow-lg hover:shadow-xl transition-all"
-              onClick={() => navigate("/account/register")}
+              onClick={handleClick}
             >
               <MapPin className="w-5 h-5 mr-2" />
               Explorar Mapa
