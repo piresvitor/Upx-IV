@@ -67,25 +67,23 @@ export default function CommentList({
     }
   };
 
-  const handleDelete = async () => {
-    if (!editingComment) return;
+  const handleDelete = async (commentToDelete: Report) => {
     try {
-      await reportService.deleteReport(editingComment.id);
-      setIsModalOpen(false);
+      await reportService.deleteReport(commentToDelete.id);
       onCommentsUpdate();
     } catch (err) {
       console.error("Erro ao deletar comentário:", err);
     }
   };
 
-  if (!comments.length) return <p>Nenhum comentário disponível.</p>;
-
   return (
     <div className="mt-6">
       <h2 className="lg:text-2xl text-base font-semibold text-gray-800 mb-4">
         Comentários
       </h2>
-
+      {!comments.length && (
+        <p className="text-gray-600">Nenhum comentário disponível.</p>
+      )}
       <div className="grid gap-4 grid-cols-1 md:grid-cols-2">
         {currentComments.map((comment) => (
           <div
@@ -109,10 +107,7 @@ export default function CommentList({
                   <p className="text-gray-700 text-sm mt-3">
                     {comment.description}
                   </p>
-                  <CommentVote
-                    reportId={comment.id}
-                    initialCount={comment.votesCount || 0}
-                  />
+                  <CommentVote reportId={comment.id} />
                 </div>
               </div>
 
@@ -127,7 +122,7 @@ export default function CommentList({
                   </Button>
                   <Button
                     variant="ghost"
-                    onClick={handleDelete}
+                    onClick={() => handleDelete(comment)}
                     className="w-6 h-6"
                   >
                     <Trash size={10} />

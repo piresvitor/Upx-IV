@@ -1,13 +1,17 @@
-import { Button } from "@/components/ui/button";
-import { useNavigate } from "react-router-dom";
+import Hero from "@/features/home/Hero";
+import Stats from "@/features/home/Stats";
+import HowItWorks from "@/features/home/HowlWorks";
+import CTA from "@/features/home/CTA";
+import Footer from "@/features/home/Footer";
 
 export default function Home() {
-  const navigate = useNavigate();
-
   return (
     <div className="gap-5">
-      <h1>Landing Page</h1>
-      <Button onClick={() => navigate("/map")}>Ir pro mapa</Button>
+      <Hero />
+      <HowItWorks />
+      <Stats />
+      <CTA />
+      <Footer />
     </div>
   );
 }

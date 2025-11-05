@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export const useAuth = () => {
+export function useAuth() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userId, setUserId] = useState<string | null>(null);
 
@@ -27,4 +27,4 @@ export const useAuth = () => {
   };
 
   return { isAuthenticated, userId, login, logout };
-};
+}
