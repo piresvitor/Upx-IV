@@ -1,10 +1,11 @@
 import { createBrowserRouter } from "react-router-dom";
 import Layout from "@/layouts/navbar";
-import Map from "@/pages/map";
 import Home from "@/pages/home";
+import Map from "@/pages/map";
 import MapDetails from "@/pages/mapDetails";
 import RegisterAccount from "@/pages/createUser";
 import Login from "@/pages/login";
+import PrivateRoute from "./privateRoutes";
 
 const router = createBrowserRouter([
   {
@@ -12,10 +13,18 @@ const router = createBrowserRouter([
     element: <Layout />,
     children: [
       { index: true, element: <Home /> },
-      { path: "map", element: <Map /> },
-      { path: "details/:placeId", element: <MapDetails /> },
+
+      // ✅ Rotas protegidas
+      {
+        element: <PrivateRoute />,
+        children: [
+          { path: "map", element: <Map /> },
+          { path: "details/:placeId", element: <MapDetails /> },
+        ],
+      },
     ],
   },
+
   { path: "/account/register", element: <RegisterAccount /> },
   { path: "/login", element: <Login /> },
 ]);

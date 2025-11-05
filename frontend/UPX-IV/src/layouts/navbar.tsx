@@ -1,9 +1,9 @@
 import { Outlet } from "react-router-dom";
 import NavBar from "@/components/navbar";
-import { useAuth } from "@/hooks/useAuth";
+import { useAuthContext } from "@/context/useAuthContext";
 
 export default function Layout() {
-  const { isAuthenticated, logout } = useAuth();
+  const { isAuthenticated, logout } = useAuthContext();
 
   return (
     <div className="flex flex-col min-h-screen">
