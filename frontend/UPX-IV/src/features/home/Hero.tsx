@@ -1,8 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { MapPin } from "lucide-react";
 import heroImage from "@/assets/hero-accessibility.jpg";
+import { useNavigate } from "react-router-dom";
 
 const Hero = () => {
+  const navigate = useNavigate();
+
   return (
     <section className="relative min-h-[90vh] flex items-center overflow-hidden">
       {/* Background Image with Overlay */}
@@ -20,10 +23,7 @@ const Hero = () => {
         <div className="max-w-3xl">
           <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
             Tornando a cidade mais{" "}
-            <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-              acessível
-            </span>{" "}
-            para todos
+            <span className=" text-primary">acessível </span> para todos
           </h1>
 
           <p className="text-xl sm:text-2xl text-muted-foreground mb-8 leading-relaxed">
@@ -35,6 +35,7 @@ const Hero = () => {
             <Button
               size="lg"
               className="text-lg px-8 py-6 shadow-lg hover:shadow-xl transition-all"
+              onClick={() => navigate("/account/register")}
             >
               <MapPin className="w-5 h-5 mr-2" />
               Explorar Mapa

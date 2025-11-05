@@ -9,7 +9,6 @@ export default function Home() {
     <div className="gap-5">
       <Hero />
       <HowItWorks />
-
       <Stats />
       <CTA />
       <Footer />

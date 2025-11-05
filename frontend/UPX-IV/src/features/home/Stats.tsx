@@ -70,14 +70,11 @@ const Stats = () => {
   ];
 
   return (
-    <section className="py-24 bg-gradient-to-b from-muted/30 to-background">
+    <section className="py-12 bg-gradient-to-b from-muted/30 to-background">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-3xl mx-auto mb-16">
           <h2 className="text-4xl sm:text-5xl font-bold mb-4">
-            Impacto{" "}
-            <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-              em números
-            </span>
+            Impacto <span className="text-primary">em números</span>
           </h2>
           <p className="text-xl text-muted-foreground">
             Nossa comunidade está crescendo e fazendo a diferença todos os dias
@@ -124,19 +121,6 @@ const Stats = () => {
             );
           })}
         </div>
-
-        {stats?.lastUpdated && (
-          <p className="text-center text-sm text-muted-foreground mt-8">
-            Última atualização:{" "}
-            {new Date(stats.lastUpdated).toLocaleDateString("pt-BR", {
-              day: "2-digit",
-              month: "long",
-              year: "numeric",
-              hour: "2-digit",
-              minute: "2-digit",
-            })}
-          </p>
-        )}
       </div>
     </section>
   );
