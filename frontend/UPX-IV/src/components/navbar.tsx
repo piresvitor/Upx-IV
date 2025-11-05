@@ -11,7 +11,9 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Menu } from "lucide-react";
+import { Menu, User } from "lucide-react";
+import { useState } from "react";
+import EditUserModal from "@/components/EditUserModal";
 
 interface NavBarProps {
   isAuthenticated: boolean;
@@ -25,6 +27,7 @@ const privateLinks = [
 
 export default function NavBar({ isAuthenticated, onLogout }: NavBarProps) {
   const navigationLinks = isAuthenticated ? privateLinks : [];
+  const [openEdit, setOpenEdit] = useState(false);
 
   return (
     <header className="border-b bg-white sticky top-0 z-50 px-4 md:px-6">
@@ -57,9 +60,18 @@ export default function NavBar({ isAuthenticated, onLogout }: NavBarProps) {
           )}
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-3">
           {isAuthenticated ? (
             <>
+              {/* Botão de Avatar */}
+              <button
+                onClick={() => setOpenEdit(true)}
+                className="w-9 h-9 rounded-full bg-gray-200 flex items-center justify-center hover:bg-gray-300 transition"
+              >
+                <User size={18} className="text-gray-700" />
+              </button>
+
+              {/* Botão Sair */}
               <Button
                 onClick={onLogout}
                 size="sm"
@@ -68,6 +80,7 @@ export default function NavBar({ isAuthenticated, onLogout }: NavBarProps) {
                 Sair
               </Button>
 
+              {/* Menu Mobile */}
               <Popover>
                 <PopoverTrigger asChild>
                   <Button
@@ -96,6 +109,12 @@ export default function NavBar({ isAuthenticated, onLogout }: NavBarProps) {
                   </nav>
                 </PopoverContent>
               </Popover>
+
+              {/* Modal de edição de perfil */}
+              <EditUserModal
+                open={openEdit}
+                onClose={() => setOpenEdit(false)}
+              />
             </>
           ) : (
             <>
