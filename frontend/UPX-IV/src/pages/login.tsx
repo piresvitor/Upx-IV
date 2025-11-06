@@ -65,7 +65,7 @@ export default function Login() {
         <Button
           type="button"
           variant="link"
-          onClick={() => router("/login")}
+          onClick={() => router("/account/register")}
           className="lg:hidden flex text-white font-semibold underline hover:text-amber-200 transition-colors pt-7"
         >
           Criar Conta
