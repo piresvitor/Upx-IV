@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight, Pencil, Trash } from "lucide-react";
 import CommentVote from "./CommentVote";
-import { useAuth } from "@/hooks/useAuth";
+import { useAuthContext } from "@/context/useAuthContext";
 import {
   Dialog,
   DialogContent,
@@ -27,7 +27,7 @@ export default function CommentList({
   comments,
   onCommentsUpdate,
 }: CommentListProps) {
-  const { userId } = useAuth();
+  const { userId } = useAuthContext();
   const [page, setPage] = useState(1);
   const limit = 4;
   const totalPages = Math.ceil(comments.length / limit);

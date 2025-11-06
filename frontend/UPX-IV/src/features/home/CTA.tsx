@@ -1,11 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "@/hooks/useAuth"; // ✅ importa auth
+import { useAuthContext } from "@/context/useAuthContext"; // ✅ importa auth
 
 const CTA = () => {
   const navigate = useNavigate();
-  const { isAuthenticated } = useAuth(); // ✅ pega se está logado
+  const { isAuthenticated } = useAuthContext(); // ✅ pega se está logado
 
   const handleClick = () => {
     if (isAuthenticated) {

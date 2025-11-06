@@ -2,11 +2,11 @@ import { Button } from "@/components/ui/button";
 import { MapPin } from "lucide-react";
 import heroImage from "@/assets/hero-accessibility.jpg";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "@/hooks/useAuth"; // ✅ importa o hook
+import { useAuthContext } from "@/context/useAuthContext"; // ✅ importa o hook
 
 const Hero = () => {
   const navigate = useNavigate();
-  const { isAuthenticated } = useAuth(); // ✅ pega se está logado
+  const { isAuthenticated } = useAuthContext(); // ✅ pega se está logado
 
   const handleClick = () => {
     if (isAuthenticated) {

@@ -9,11 +9,11 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { LoginData } from "@/services/authService";
-import { useAuth } from "@/hooks/useAuth";
+import { useAuthContext } from "@/context/useAuthContext";
 
 export default function Login() {
   const router = useNavigate();
-  const { login } = useAuth();
+  const { login } = useAuthContext();
   const [form, setForm] = useState<LoginData>({
     email: "",
     password: "",
@@ -37,6 +37,14 @@ export default function Login() {
       const userId = payload.sub;
 
       login(token, userId);
+      
+      // Aguarda o próximo ciclo de renderização para garantir que o estado seja atualizado
+      await new Promise((resolve) => {
+        setTimeout(() => {
+          resolve(undefined);
+        }, 0);
+      });
+      
       router("/map");
     } catch (err: any) {
       setError(err.response?.data?.message || "Erro ao entrar");
