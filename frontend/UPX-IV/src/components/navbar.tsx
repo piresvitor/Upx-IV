@@ -119,7 +119,7 @@ export default function NavBar({ isAuthenticated, onLogout }: NavBarProps) {
                 <Link to="/login">Login</Link>
               </Button>
               <Button asChild size="sm" className="text-sm">
-                <Link to="/register">Registrar</Link>
+                <Link to="/account/register">Registrar</Link>
               </Button>
             </>
           )}
