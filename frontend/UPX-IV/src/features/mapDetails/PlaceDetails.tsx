@@ -11,6 +11,14 @@ export default function PlaceDetails({ place }: PlaceDetailsProps) {
   const googleLoaded = useGoogleMapsApi();
   const [photoUrl, setPhotoUrl] = useState<string | null>(null);
 
+  // ✅ Ao montar, tenta recuperar do localStorage
+  useEffect(() => {
+    if (!place?.placeId) return;
+
+    const cached = localStorage.getItem(`photo_${place.placeId}`);
+    if (cached) setPhotoUrl(cached);
+  }, [place]);
+
   useEffect(() => {
     if (!place?.placeId || !googleLoaded) return;
 
@@ -28,12 +36,15 @@ export default function PlaceDetails({ place }: PlaceDetailsProps) {
           status === window.google.maps.places.PlacesServiceStatus.OK &&
           result?.photos?.length
         ) {
-          setPhotoUrl(
-            result.photos[0].getUrl({
-              maxWidth: 900,
-              maxHeight: 400,
-            })
-          );
+          const url = result.photos[0].getUrl({
+            maxWidth: 900,
+            maxHeight: 400,
+          });
+
+          setPhotoUrl(url);
+
+          // ✅ Salva cache da imagem por placeId
+          localStorage.setItem(`photo_${place.placeId}`, url);
         }
       }
     );
