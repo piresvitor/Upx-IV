@@ -9,7 +9,15 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Eye, EyeOff } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Eye, EyeOff, CheckCircle2 } from "lucide-react";
 
 export default function RegisterAccount() {
   const router = useNavigate();
@@ -22,6 +30,8 @@ export default function RegisterAccount() {
   const [error, setError] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
   const [isPasswordFocused, setIsPasswordFocused] = useState(false);
+  const [successModal, setSuccessModal] = useState(false);
+  const [createdAccount, setCreatedAccount] = useState<{ name: string; email: string } | null>(null);
 
   const handleChange = (field: keyof RegisterData, value: string) => {
     setForm({ ...form, [field]: value });
@@ -57,14 +67,40 @@ export default function RegisterAccount() {
     setError(null);
 
     try {
+      // Salvar os dados do formulário antes de limpar
+      const accountData = {
+        name: form.name,
+        email: form.email,
+      };
+
       await authService.register(form);
-      router("/login");
+      
+      // Definir os dados da conta criada e mostrar o modal
+      setCreatedAccount(accountData);
+      setSuccessModal(true);
+      
+      // Limpar o formulário após sucesso
+      setForm({
+        name: "",
+        email: "",
+        password: "",
+      });
     } catch (err) {
       const error = err as { response?: { data?: { message?: string } } };
       const errorMessage = error.response?.data?.message || "Erro ao criar usuário";
       setError(formatErrorMessage(errorMessage));
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleGoToLogin = () => {
+    setSuccessModal(false);
+    // Redirecionar para login com o email como parâmetro
+    if (createdAccount?.email) {
+      router(`/login?email=${encodeURIComponent(createdAccount.email)}`);
+    } else {
+      router("/login");
     }
   };
 
@@ -194,6 +230,49 @@ export default function RegisterAccount() {
           </CardContent>
         </Card>
       </div>
+
+      {/* Modal de Sucesso */}
+      <Dialog open={successModal} onOpenChange={setSuccessModal}>
+        <DialogContent className="max-w-sm">
+          <DialogHeader>
+            <div className="flex items-center justify-center mb-2">
+              <div className="rounded-full bg-green-100 p-2">
+                <CheckCircle2 className="h-6 w-6 text-green-600" />
+              </div>
+            </div>
+            <DialogTitle className="text-center text-lg">
+              Conta criada com sucesso!
+            </DialogTitle>
+            <DialogDescription className="text-center text-sm pt-1">
+              Sua conta foi criada corretamente.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="py-2">
+            <div className="bg-gray-50 rounded-lg p-3 space-y-1.5 text-sm">
+              <div className="flex items-center justify-between">
+                <span className="text-gray-600">Nome:</span>
+                <span className="font-semibold text-gray-900">
+                  {createdAccount?.name}
+                </span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-gray-600">Email:</span>
+                <span className="font-semibold text-gray-900 truncate ml-2">
+                  {createdAccount?.email}
+                </span>
+              </div>
+            </div>
+          </div>
+          <DialogFooter className="sm:justify-center pt-2">
+            <Button
+              onClick={handleGoToLogin}
+              className="w-full bg-primary hover:bg-primary-dark text-white text-sm"
+            >
+              Ir para Login
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

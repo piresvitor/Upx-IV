@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { authService } from "@/services/authService";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -14,6 +14,7 @@ import { Eye, EyeOff } from "lucide-react";
 
 export default function Login() {
   const router = useNavigate();
+  const [searchParams] = useSearchParams();
   const { login } = useAuthContext();
   const [form, setForm] = useState<LoginData>({
     email: "",
@@ -22,6 +23,14 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
+
+  // Preencher email se vier como parâmetro da URL
+  useEffect(() => {
+    const emailParam = searchParams.get("email");
+    if (emailParam) {
+      setForm((prev) => ({ ...prev, email: emailParam }));
+    }
+  }, [searchParams]);
 
   const handleChange = (field: keyof LoginData, value: string) => {
     setForm({ ...form, [field]: value });
