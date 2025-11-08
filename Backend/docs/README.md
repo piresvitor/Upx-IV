@@ -16,7 +16,11 @@ O **Mapa Colaborativo de Acessibilidade** é uma plataforma que permite aos usu�
 - **🎯 Campos de Acessibilidade**: Relatos específicos para rampa de acesso, banheiro acessível, estacionamento acessível e acessibilidade visual
 - **📊 Estatísticas de Acessibilidade**: Análise automática de padrões de acessibilidade por local
 - **👍 Sistema de Votação**: Comunidade pode validar e classificar relatos
-- **📈 Estatísticas Gerais**: Análise de dados para entender padrões de acessibilidade
+- **📈 Dashboard de Estatísticas**: API completa para estatísticas do sistema:
+  - Estatísticas gerais (usuários, relatórios, locais, votos)
+  - Tendências de relatórios ao longo do tempo (dia, semana, mês)
+  - Relatórios agrupados por tipo
+  - Estatísticas de características de acessibilidade
 - **🔐 Autenticação Segura**: Sistema de login com JWT e hash de senhas
 - **👥 Gestão de Usuários**: Perfis personalizáveis e controle de acesso
 
@@ -188,10 +192,14 @@ Esta pasta contém toda a documentação da API do sistema de mapeamento colabor
 - `estacionamentoAcessivel` (boolean) - Vagas especiais para PCD
 - `acessibilidadeVisual` (boolean) - Recursos para deficientes visuais
 
-### Estatísticas(`/stats`)
-- `GET /stats/general` - Estatísticas gerais da plataforma
+### Estatísticas (`/stats`)
+- `GET /stats/general` - Estatísticas gerais da plataforma (usuários, relatórios, locais, votos)
 - `GET /stats/reports/trends` - Tendências de relatos ao longo do tempo
+  - Parâmetros: `period` (day/week/month), `limit` (padrão: 30)
 - `GET /stats/reports/by-type` - Relatos agrupados por tipo
+  - Parâmetros: `limit` (padrão: 20)
+- `GET /stats/reports/accessibility-features` - Estatísticas de características de acessibilidade
+  - Retorna estatísticas sobre rampa de acesso, banheiro acessível, estacionamento acessível e acessibilidade visual
 
 ## 🔧 Configuração
 
@@ -254,17 +262,19 @@ const response = await fetch('http://localhost:3333/auth/login', {
 
 ### 🏢 Para Organizações
 - **Empresas**: Avaliar e melhorar acessibilidade de seus estabelecimentos
-- **Governo**: Monitorar políticas públicas de acessibilidade
-- **Universidades**: Pesquisas sobre acessibilidade urbana
-- **Mídia**: Jornalistas cobrindo temas de inclusão
+- **Governo**: Monitorar políticas públicas de acessibilidade através do dashboard de estatísticas
+- **Universidades**: Pesquisas sobre acessibilidade urbana com dados estatísticos
+- **Mídia**: Jornalistas cobrindo temas de inclusão com dados visuais
+- **Analistas**: Visualizar tendências e padrões através das APIs de estatísticas
 
 ## 📊 Métricas do Projeto
 
 ### 🏗️ Estrutura do Código
-- **Rotas**: 20+ endpoints organizados por módulos
+- **Rotas**: 25+ endpoints organizados por módulos
 - **Testes**: Cobertura de testes E2E
 - **Documentação**: 10+ arquivos de documentação
 - **Validação**: Schemas Zod para todas as APIs
+- **Estatísticas**: 4 endpoints de estatísticas completos
 
 ### 🗄️ Banco de Dados
 - **Tabelas**: 4 tabelas principais (users, places, reports, votes)
