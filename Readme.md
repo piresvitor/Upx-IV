@@ -89,9 +89,11 @@ UPX 4/
 
 ### Pré-requisitos
 - **Node.js** (v20+)
-- **PostgreSQL** (v15+)
+- **Docker** e **Docker Compose** (para o banco de dados PostgreSQL)
 - **Git**
 - **Chave da API do Google Maps**
+
+**Nota**: O PostgreSQL é gerenciado via Docker Compose, então não é necessário instalar PostgreSQL localmente.
 
 ### 1. Clone o Repositório
 ```bash
@@ -112,18 +114,21 @@ npm install
 cp .env.example .env
 # Edite o arquivo .env com suas configurações
 
-# Inicie o banco de dados
+# Inicie o banco de dados PostgreSQL via Docker Compose
 docker-compose up -d
 
-# Execute as migrações
+# Aguarde alguns segundos para o banco estar pronto
+# Execute as migrações do banco de dados
 npm run db:migrate
 
-# Popule o banco com dados de exemplo
+# (Opcional) Popule o banco com dados de exemplo
 npm run db:seed
 
-# Inicie o servidor
+# Inicie o servidor de desenvolvimento
 npm run dev
 ```
+
+**Nota**: O PostgreSQL é iniciado automaticamente via Docker Compose. Certifique-se de que o Docker está rodando antes de executar `docker-compose up -d`.
 
 ### 3. Configuração do Frontend
 
@@ -301,7 +306,22 @@ npm test                 # Executa testes
 O backend está configurado com CORS para permitir requisições do frontend durante o desenvolvimento.
 
 ### Docker para Banco de Dados
-O projeto inclui configuração Docker para o PostgreSQL com persistência de dados.
+O projeto inclui configuração Docker Compose para o PostgreSQL com persistência de dados. O banco de dados é gerenciado automaticamente via Docker, então não é necessário instalar PostgreSQL localmente.
+
+**Comandos úteis do Docker Compose:**
+```bash
+# Iniciar o banco de dados
+docker-compose up -d
+
+# Parar o banco de dados
+docker-compose down
+
+# Ver logs do banco de dados
+docker-compose logs -f
+
+# Reiniciar o banco de dados
+docker-compose restart
+```
 
 ## 📈 Métricas do Projeto
 
