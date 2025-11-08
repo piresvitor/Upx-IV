@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { LoginData } from "@/services/authService";
 import { useAuthContext } from "@/context/useAuthContext";
+import { Eye, EyeOff } from "lucide-react";
 
 export default function Login() {
   const router = useNavigate();
@@ -20,6 +21,7 @@ export default function Login() {
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleChange = (field: keyof LoginData, value: string) => {
     setForm({ ...form, [field]: value });
@@ -46,8 +48,9 @@ export default function Login() {
       });
       
       router("/map");
-    } catch (err: any) {
-      setError(err.response?.data?.message || "Erro ao entrar");
+    } catch (err) {
+      const error = err as { response?: { data?: { message?: string } } };
+      setError(error.response?.data?.message || "Erro ao entrar");
     } finally {
       setLoading(false);
     }
@@ -113,15 +116,29 @@ export default function Login() {
                 >
                   Senha
                 </Label>
-                <Input
-                  id="password"
-                  type="password"
-                  placeholder="••••••••"
-                  value={form.password}
-                  onChange={(e) => handleChange("password", e.target.value)}
-                  required
-                  className="focus:ring-2 focus:ring-amber-400"
-                />
+                <div className="relative">
+                  <Input
+                    id="password"
+                    type={showPassword ? "text" : "password"}
+                    placeholder="••••••••"
+                    value={form.password}
+                    onChange={(e) => handleChange("password", e.target.value)}
+                    required
+                    className="focus:ring-2 focus:ring-amber-400 pr-10"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 focus:outline-none"
+                    aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}
+                  >
+                    {showPassword ? (
+                      <EyeOff className="h-5 w-5" />
+                    ) : (
+                      <Eye className="h-5 w-5" />
+                    )}
+                  </button>
+                </div>
               </div>
               {error && (
                 <p className="text-red-500 text-sm mt-1 text-center">{error}</p>

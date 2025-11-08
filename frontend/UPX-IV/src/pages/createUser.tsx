@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Eye, EyeOff } from "lucide-react";
 
 export default function RegisterAccount() {
   const router = useNavigate();
@@ -19,9 +20,35 @@ export default function RegisterAccount() {
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [showPassword, setShowPassword] = useState(false);
+  const [isPasswordFocused, setIsPasswordFocused] = useState(false);
 
   const handleChange = (field: keyof RegisterData, value: string) => {
     setForm({ ...form, [field]: value });
+  };
+
+  const formatErrorMessage = (message: string): string => {
+    // Mensagens de erro mais amigáveis
+    if (message.includes("password") && message.includes("Too small")) {
+      return "A senha deve conter no mínimo 8 caracteres";
+    }
+    if (message.includes("name") && message.includes("Too small")) {
+      return "O nome deve conter no mínimo 3 caracteres";
+    }
+    if (message.includes("email") && message.includes("Invalid")) {
+      return "Por favor, insira um email válido";
+    }
+    if (message.includes("email") && message.includes("Required")) {
+      return "O email é obrigatório";
+    }
+    if (message.includes("name") && message.includes("Required")) {
+      return "O nome é obrigatório";
+    }
+    if (message.includes("password") && message.includes("Required")) {
+      return "A senha é obrigatória";
+    }
+    // Retorna a mensagem original se não houver correspondência
+    return message;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -32,8 +59,10 @@ export default function RegisterAccount() {
     try {
       await authService.register(form);
       router("/login");
-    } catch (err: any) {
-      setError(err.response?.data?.message || "Erro ao criar usuário");
+    } catch (err) {
+      const error = err as { response?: { data?: { message?: string } } };
+      const errorMessage = error.response?.data?.message || "Erro ao criar usuário";
+      setError(formatErrorMessage(errorMessage));
     } finally {
       setLoading(false);
     }
@@ -119,15 +148,37 @@ export default function RegisterAccount() {
                 >
                   Senha
                 </Label>
-                <Input
-                  id="password"
-                  type="password"
-                  placeholder="••••••••"
-                  value={form.password}
-                  onChange={(e) => handleChange("password", e.target.value)}
-                  required
-                  className="focus:ring-2 focus:ring-amber-400"
-                />
+                <div className="relative">
+                  <Input
+                    id="password"
+                    type={showPassword ? "text" : "password"}
+                    placeholder="••••••••"
+                    value={form.password}
+                    onChange={(e) => handleChange("password", e.target.value)}
+                    onFocus={() => setIsPasswordFocused(true)}
+                    onBlur={() => setIsPasswordFocused(false)}
+                    required
+                    minLength={8}
+                    className="focus:ring-2 focus:ring-amber-400 pr-10"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 focus:outline-none"
+                    aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}
+                  >
+                    {showPassword ? (
+                      <EyeOff className="h-5 w-5" />
+                    ) : (
+                      <Eye className="h-5 w-5" />
+                    )}
+                  </button>
+                </div>
+                {isPasswordFocused && (
+                  <p className="text-xs text-gray-500 mt-1">
+                    A senha deve conter no mínimo 8 caracteres
+                  </p>
+                )}
               </div>
               {error && (
                 <p className="text-red-500 text-sm mt-1 text-center">{error}</p>
