@@ -45,7 +45,7 @@ O **Mapa Colaborativo de Acessibilidade** é uma plataforma completa que permite
 - **React Router**: Navegação fluida entre páginas
 - **Axios**: Comunicação com APIs
 - **Google Maps API**: Mapas interativos no frontend
-- **Recharts**: Biblioteca de gráficos para visualização de dados estatísticos
+- **Recharts**: Biblioteca de gráficos para visualização de dados
 
 ## 📁 Estrutura do Projeto
 
