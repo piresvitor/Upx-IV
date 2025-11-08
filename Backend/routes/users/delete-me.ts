@@ -5,6 +5,7 @@ import { eq } from 'drizzle-orm'
 import z from 'zod'
 import { authenticateToken } from '../../src/middleware/auth.ts'
 import { FastifyRequest } from 'fastify'
+import { verify } from 'argon2'
 
 export const deleteMeRoute: FastifyPluginAsyncZod = async (server) => {
   server.delete('/users/me', {
@@ -16,11 +17,20 @@ export const deleteMeRoute: FastifyPluginAsyncZod = async (server) => {
       headers: z.object({
         authorization: z.string().regex(/^Bearer .+/, 'Authorization header must be Bearer token')
       }),
+      body: z.object({
+        password: z.string().min(1, 'Senha é obrigatória para excluir a conta')
+      }),
       response: {
         200: z.object({
           message: z.string()
         }),
+        400: z.object({
+          message: z.string()
+        }),
         401: z.object({
+          message: z.string()
+        }),
+        403: z.object({
           message: z.string()
         }),
         404: z.object({
@@ -31,6 +41,7 @@ export const deleteMeRoute: FastifyPluginAsyncZod = async (server) => {
   }, async (request: FastifyRequest, reply) => {
     try {
       const userId = request.user.id
+      const { password } = request.body as { password: string }
 
       // Verificar se o usuário existe
       const [existingUser] = await db
@@ -41,6 +52,12 @@ export const deleteMeRoute: FastifyPluginAsyncZod = async (server) => {
 
       if (!existingUser) {
         return reply.status(404).send({ message: 'Usuário não encontrado' })
+      }
+
+      // Verificar se a senha está correta
+      const isPasswordValid = await verify(existingUser.passwordHash, password)
+      if (!isPasswordValid) {
+        return reply.status(403).send({ message: 'Senha incorreta' })
       }
 
       // Excluir usuário

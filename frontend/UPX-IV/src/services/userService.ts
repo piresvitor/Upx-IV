@@ -33,8 +33,10 @@ export const userService = {
     return res.data;
   },
 
-  deleteMe: async () => {
-    const res = await api.delete("/users/me");
+  deleteMe: async (password: string) => {
+    const res = await api.delete("/users/me", {
+      data: { password },
+    });
     return res.data;
   },
 

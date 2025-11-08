@@ -14,7 +14,6 @@ export default function NewComment({ placeId, onSuccess }: NewCommentProps) {
   const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(""); // para descrição
-  const [typesError, setTypesError] = useState(""); // para checkboxes
 
   const handleSubmit = async () => {
     // valida descrição
@@ -23,14 +22,7 @@ export default function NewComment({ placeId, onSuccess }: NewCommentProps) {
       return;
     }
 
-    // valida pelo menos 1 tipo selecionado
-    if (selectedTypes.length === 0) {
-      setTypesError("Selecione pelo menos uma opção.");
-      return;
-    }
-
     setError("");
-    setTypesError("");
     setLoading(true);
 
     try {
@@ -78,22 +70,14 @@ export default function NewComment({ placeId, onSuccess }: NewCommentProps) {
 
       <div className="mt-5">
         <p className="text-sm text-gray-600 mb-3">
-          Selecione as opções de acessibilidade que este local possui:
+          Selecione as opções de acessibilidade que este local possui (opcional):
         </p>
         <CommentCheckBox
           selectedTypes={selectedTypes}
           onChange={(types) => {
             setSelectedTypes(types);
-            if (typesError && types.length > 0) setTypesError("");
-          }}
-          onTouched={() => {
-            if (typesError) setTypesError("");
           }}
         />
-
-        {typesError && (
-          <p className="text-sm text-red-500 mt-2">{typesError}</p>
-        )}
       </div>
 
       <div className="flex justify-end mt-2">

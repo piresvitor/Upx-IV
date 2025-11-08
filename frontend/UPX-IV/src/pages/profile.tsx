@@ -10,7 +10,7 @@ import {
   DialogTitle,
   DialogFooter,
 } from "@/components/ui/dialog";
-import { User, Edit2, FileText, Heart, Trash2 } from "lucide-react";
+import { User, Edit2, FileText, Heart, Trash2, Eye, EyeOff } from "lucide-react";
 import { userService, type User as UserType, type UserStats } from "@/services/userService";
 import { useAuthContext } from "@/context/useAuthContext";
 import { useNavigate } from "react-router-dom";
@@ -30,6 +30,12 @@ export default function Profile() {
   const [editEmail, setEditEmail] = useState("");
   const [editPassword, setEditPassword] = useState("");
   const [saving, setSaving] = useState(false);
+  
+  // Estados para exclusão
+  const [deletePassword, setDeletePassword] = useState("");
+  const [deleteError, setDeleteError] = useState<string | null>(null);
+  const [deleting, setDeleting] = useState(false);
+  const [showDeletePassword, setShowDeletePassword] = useState(false);
 
   useEffect(() => {
     fetchUserData();
@@ -80,13 +86,24 @@ export default function Profile() {
   };
 
   const handleDeleteAccount = async () => {
+    if (!deletePassword) {
+      setDeleteError("Por favor, insira sua senha para confirmar a exclusão");
+      return;
+    }
+
+    setDeleting(true);
+    setDeleteError(null);
+
     try {
-      await userService.deleteMe();
+      await userService.deleteMe(deletePassword);
       logout();
       navigate("/");
-    } catch (error) {
+    } catch (error: any) {
       console.error("Erro ao excluir conta:", error);
-      alert("Erro ao excluir conta. Tente novamente.");
+      const errorMessage = error.response?.data?.message || "Erro ao excluir conta. Tente novamente.";
+      setDeleteError(errorMessage);
+    } finally {
+      setDeleting(false);
     }
   };
 
@@ -315,27 +332,77 @@ export default function Profile() {
       </Dialog>
 
       {/* Modal de Exclusão */}
-      <Dialog open={isDeleteModalOpen} onOpenChange={setIsDeleteModalOpen}>
+      <Dialog open={isDeleteModalOpen} onOpenChange={(open) => {
+        setIsDeleteModalOpen(open);
+        if (!open) {
+          setDeletePassword("");
+          setDeleteError(null);
+          setShowDeletePassword(false);
+        }
+      }}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Excluir Conta</DialogTitle>
           </DialogHeader>
-          <p className="text-gray-600 py-4">
-            Tem certeza que deseja excluir sua conta? Esta ação não pode ser desfeita.
-            Todos os seus relatórios e dados serão permanentemente removidos.
-          </p>
+          <div className="space-y-4 py-4">
+            <p className="text-gray-600">
+              Tem certeza que deseja excluir sua conta? Esta ação não pode ser desfeita.
+              Todos os seus relatórios e dados serão permanentemente removidos.
+            </p>
+            <div>
+              <Label htmlFor="delete-password" className="text-gray-700">
+                Digite sua senha para confirmar:
+              </Label>
+              <div className="relative mt-1">
+                <Input
+                  id="delete-password"
+                  type={showDeletePassword ? "text" : "password"}
+                  placeholder="Sua senha"
+                  value={deletePassword}
+                  onChange={(e) => {
+                    setDeletePassword(e.target.value);
+                    setDeleteError(null);
+                  }}
+                  className="pr-10"
+                  required
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowDeletePassword(!showDeletePassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 focus:outline-none"
+                  aria-label={showDeletePassword ? "Ocultar senha" : "Mostrar senha"}
+                >
+                  {showDeletePassword ? (
+                    <EyeOff className="h-5 w-5" />
+                  ) : (
+                    <Eye className="h-5 w-5" />
+                  )}
+                </button>
+              </div>
+              {deleteError && (
+                <p className="text-red-500 text-sm mt-1">{deleteError}</p>
+              )}
+            </div>
+          </div>
           <DialogFooter>
             <Button
               variant="outline"
-              onClick={() => setIsDeleteModalOpen(false)}
+              onClick={() => {
+                setIsDeleteModalOpen(false);
+                setDeletePassword("");
+                setDeleteError(null);
+                setShowDeletePassword(false);
+              }}
+              disabled={deleting}
             >
               Cancelar
             </Button>
             <Button
               onClick={handleDeleteAccount}
+              disabled={deleting || !deletePassword}
               style={{ backgroundColor: "#ef4444", color: "white" }}
             >
-              Excluir Conta
+              {deleting ? "Excluindo..." : "Excluir Conta"}
             </Button>
           </DialogFooter>
         </DialogContent>

@@ -29,6 +29,8 @@ export default function RegisterAccount() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [isPasswordFocused, setIsPasswordFocused] = useState(false);
   const [successModal, setSuccessModal] = useState(false);
   const [createdAccount, setCreatedAccount] = useState<{ name: string; email: string } | null>(null);
@@ -66,6 +68,13 @@ export default function RegisterAccount() {
     setLoading(true);
     setError(null);
 
+    // Validar se as senhas são iguais
+    if (form.password !== confirmPassword) {
+      setError("As senhas não coincidem. Por favor, verifique e tente novamente.");
+      setLoading(false);
+      return;
+    }
+
     try {
       // Salvar os dados do formulário antes de limpar
       const accountData = {
@@ -85,6 +94,7 @@ export default function RegisterAccount() {
         email: "",
         password: "",
       });
+      setConfirmPassword("");
     } catch (err) {
       const error = err as { response?: { data?: { message?: string } } };
       const errorMessage = error.response?.data?.message || "Erro ao criar usuário";
@@ -213,6 +223,48 @@ export default function RegisterAccount() {
                 {isPasswordFocused && (
                   <p className="text-xs text-gray-500 mt-1">
                     A senha deve conter no mínimo 8 caracteres
+                  </p>
+                )}
+              </div>
+              <div className="space-y-1">
+                <Label
+                  htmlFor="confirmPassword"
+                  className="text-gray-700 text-sm font-medium"
+                >
+                  Confirmar Senha
+                </Label>
+                <div className="relative">
+                  <Input
+                    id="confirmPassword"
+                    type={showConfirmPassword ? "text" : "password"}
+                    placeholder="••••••••"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    required
+                    minLength={8}
+                    className="focus:ring-2 focus:ring-amber-400 pr-10"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 focus:outline-none"
+                    aria-label={showConfirmPassword ? "Ocultar senha" : "Mostrar senha"}
+                  >
+                    {showConfirmPassword ? (
+                      <EyeOff className="h-5 w-5" />
+                    ) : (
+                      <Eye className="h-5 w-5" />
+                    )}
+                  </button>
+                </div>
+                {confirmPassword && form.password !== confirmPassword && (
+                  <p className="text-xs text-red-500 mt-1">
+                    As senhas não coincidem
+                  </p>
+                )}
+                {confirmPassword && form.password === confirmPassword && form.password.length >= 8 && (
+                  <p className="text-xs text-green-600 mt-1">
+                    ✓ As senhas coincidem
                   </p>
                 )}
               </div>
