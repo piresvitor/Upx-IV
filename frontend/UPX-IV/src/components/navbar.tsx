@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import {
   NavigationMenu,
@@ -12,8 +12,6 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Menu, User } from "lucide-react";
-import { useState } from "react";
-import EditUserModal from "@/components/EditUserModal";
 
 interface NavBarProps {
   isAuthenticated: boolean;
@@ -24,7 +22,7 @@ const privateLinks = [{ href: "/map", label: "Mapa" }];
 
 export default function NavBar({ isAuthenticated, onLogout }: NavBarProps) {
   const navigationLinks = isAuthenticated ? privateLinks : [];
-  const [openEdit, setOpenEdit] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <header className="border-b bg-white sticky top-0 z-50 px-4 md:px-6">
@@ -62,7 +60,7 @@ export default function NavBar({ isAuthenticated, onLogout }: NavBarProps) {
             <>
               {/* Botão de Avatar */}
               <button
-                onClick={() => setOpenEdit(true)}
+                onClick={() => navigate("/profile")}
                 className="w-9 h-9 rounded-full bg-gray-200 flex items-center justify-center hover:bg-gray-300 transition"
               >
                 <User size={18} className="text-gray-700" />
@@ -106,12 +104,6 @@ export default function NavBar({ isAuthenticated, onLogout }: NavBarProps) {
                   </nav>
                 </PopoverContent>
               </Popover>
-
-              {/* Modal de edição de perfil */}
-              <EditUserModal
-                open={openEdit}
-                onClose={() => setOpenEdit(false)}
-              />
             </>
           ) : (
             <>
