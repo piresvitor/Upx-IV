@@ -67,6 +67,7 @@ Para uma visão completa da arquitetura e componentes do sistema, consulte:
   - `GET /stats/general` - Estatísticas gerais da plataforma
   - `GET /stats/reports/trends` - Tendências de relatos ao longo do tempo
   - `GET /stats/reports/by-type` - Relatos agrupados por tipo
+  - `GET /stats/reports/accessibility-features` - Estatísticas de características de acessibilidade
 
 ### 👨‍💼 Administração (Futuro)
 - **Base URL**: `/admin`

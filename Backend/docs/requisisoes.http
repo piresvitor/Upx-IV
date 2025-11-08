@@ -44,6 +44,11 @@ POST http://localhost:3333/auth/logout
 Authorization: Bearer SEU_TOKEN
 
 ###
-# 7. Excluir conta 
+# 7. Excluir conta (requer senha)
 DELETE http://localhost:3333/users/me
 Authorization: Bearer SEU_TOKEN
+Content-Type: application/json
+
+{
+  "password": "senha123456"
+}

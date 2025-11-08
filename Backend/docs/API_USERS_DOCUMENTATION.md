@@ -86,24 +86,53 @@ Authorization: Bearer SEU_TOKEN_JWT_AQUI
 
 **DELETE** `/users/me`
 
-Exclui permanentemente a conta do usuário autenticado.
+Exclui permanentemente a conta do usuário autenticado. **Requer confirmação de senha** para segurança.
 
 #### Headers:
 ```
 Authorization: Bearer SEU_TOKEN_JWT_AQUI
+Content-Type: application/json
+```
+
+#### Body:
+```json
+{
+  "password": "senha_do_usuario"
+}
 ```
 
 #### Resposta de Sucesso (200):
 ```json
 {
-  "message": "Usuário excluído com sucesso"
+  "message": "Conta excluída com sucesso"
+}
+```
+
+#### Resposta de Erro (400):
+```json
+{
+  "message": "Senha é obrigatória para excluir a conta"
 }
 ```
 
 #### Resposta de Erro (401):
 ```json
 {
-  "error": "Token inválido ou expirado"
+  "message": "Token inválido ou expirado"
+}
+```
+
+#### Resposta de Erro (403):
+```json
+{
+  "message": "Senha incorreta"
+}
+```
+
+#### Resposta de Erro (404):
+```json
+{
+  "message": "Usuário não encontrado"
 }
 ```
 
@@ -131,7 +160,12 @@ Authorization: Bearer SEU_TOKEN_JWT_AQUI
 
 ### DELETE /users/me
 - Remove permanentemente a conta do usuário
-- Pode ter efeitos em cascata (relatos, votos, etc.)
+- **Requer confirmação de senha** no body da requisição para segurança
+- Exclui automaticamente todos os registros relacionados:
+  - Todos os votes dos reports do usuário
+  - Todos os votes que o usuário deu
+  - Todos os reports do usuário
+  - Por fim, o próprio usuário
 - Requer autenticação válida
 - **Ação irreversível**
 
@@ -203,8 +237,10 @@ GET /users?page=1&limit=5&search=João&role=user&sortBy=name&sortOrder=asc
 
 ## Códigos de Erro
 
-- `400`: Dados inválidos na requisição
+- `400`: Dados inválidos na requisição (ex: senha não fornecida)
 - `401`: Não autenticado ou token inválido
+- `403`: Senha incorreta (apenas para exclusão de conta)
+- `404`: Usuário não encontrado
 - `409`: Email já está em uso (apenas para atualização)
 - `500`: Erro interno do servidor
 
@@ -234,6 +270,18 @@ const updateResponse = await fetch('/users/me', {
   },
   body: JSON.stringify({
     name: 'Novo Nome'
+  })
+});
+
+// Excluir conta do usuário (requer senha)
+const deleteResponse = await fetch('/users/me', {
+  method: 'DELETE',
+  headers: {
+    'Authorization': 'Bearer ' + token,
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    password: 'senha_do_usuario'
   })
 });
 ```

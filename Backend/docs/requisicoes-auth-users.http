@@ -66,10 +66,14 @@ Authorization: Bearer SEU_TOKEN_JWT_AQUI
 
 ###
 
-### Excluir conta do usuário (substitua pelo token real)
+### Excluir conta do usuário (substitua pelo token real e senha)
 DELETE http://localhost:3333/users/me
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI5YmY0N2I2Ni1kOTkzLTQ0NTAtYTBlNC0wNzQxM2U1ZjZkMTIiLCJyb2xlIjoidXNlciIsImlhdCI6MTc1ODI2ODQ4M30.N2N0BmRhHtLKMkRaL2DgUr0blf6v5-hU15R1zBh1h08
+
+{
+  "password": "senha123"
+}
 
 ###
 

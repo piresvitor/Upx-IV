@@ -27,6 +27,9 @@ GET {{baseUrl}}/stats/reports/by-type
 ### Relatos por Tipo - Limitado a 5 tipos
 GET {{baseUrl}}/stats/reports/by-type?limit=5
 
+### Estatísticas de Características de Acessibilidade
+GET {{baseUrl}}/stats/reports/accessibility-features
+
 ### Exemplo de Resposta - Estatísticas Gerais
 # {
 #   "totalUsers": 150,
@@ -57,5 +60,17 @@ GET {{baseUrl}}/stats/reports/by-type?limit=5
 #   ],
 #   "total": 1250,
 #   "uniqueTypes": 8,
+#   "lastUpdated": "2024-01-15T10:30:00.000Z"
+# }
+
+### Exemplo de Resposta - Características de Acessibilidade
+# {
+#   "data": [
+#     { "feature": "Rampa de Acesso", "count": 450, "percentage": 36.0 },
+#     { "feature": "Banheiro Acessível", "count": 320, "percentage": 25.6 },
+#     { "feature": "Estacionamento Acessível", "count": 280, "percentage": 22.4 },
+#     { "feature": "Acessibilidade Visual", "count": 200, "percentage": 16.0 }
+#   ],
+#   "total": 1250,
 #   "lastUpdated": "2024-01-15T10:30:00.000Z"
 # }
