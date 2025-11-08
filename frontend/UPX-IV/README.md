@@ -168,31 +168,6 @@ A aplicação estará disponível em `http://localhost:5173`
   - Gráficos de pizza e barras para relatórios por tipo
   - Tabelas detalhadas com percentuais e quantidades
 
-## ⚡ Otimizações de Performance
-
-### Lazy Loading e Code Splitting
-
-- Todas as páginas usam `React.lazy()` para carregamento sob demanda
-- Bundle inicial reduzido em **50-70%**
-- Tempo de carregamento inicial melhorado em **40-60%**
-
-### Chunking Strategy
-
-O build está configurado para separar dependências em chunks otimizados:
-
-- `react-vendor`: React, React DOM, React Router
-- `ui-vendor`: Componentes Radix UI
-- `charts-vendor`: Recharts
-- `maps-vendor`: Google Maps API
-- `utils-vendor`: Axios, clsx, tailwind-merge, etc.
-
-### Build Otimizado
-
-- **Minificação**: Código minificado com Terser
-- **Tree Shaking**: Código não utilizado removido automaticamente
-- **Asset Optimization**: Assets pequenos (< 4kb) inlined para reduzir requisições HTTP
-- **CSS Code Splitting**: CSS separado por página
-- **Sourcemaps**: Desabilitados em produção para reduzir tamanho
 
 ## 🛠️ Scripts Disponíveis
 
@@ -210,73 +185,6 @@ npm run preview
 npm run lint
 ```
 
-## 🐳 Docker
-
-### Build da Imagem Docker
-
-```bash
-# Build da imagem
-docker build -t upx-iv-frontend .
-
-# Executar container
-docker run -p 80:80 upx-iv-frontend
-```
-
-### Dockerfile
-
-O projeto inclui um Dockerfile multi-stage otimizado:
-
-- **Stage 1**: Build da aplicação com Node.js
-- **Stage 2**: Servir aplicação com Nginx Alpine
-
-## 📊 Métricas de Performance
-
-### Antes das Otimizações
-
-- Bundle inicial: ~500-800kb
-- Carregamento inicial: Lento
-- Sem code splitting
-
-### Depois das Otimizações
-
-- Bundle inicial: ~200-300kb (**redução de 50-70%**)
-- Carregamento inicial: Rápido (**melhoria de 40-60%**)
-- Code splitting implementado
-- Lazy loading de todas as páginas
-- Chunks otimizados para cache
-
-## 🔧 Configuração do Vite
-
-O projeto utiliza otimizações avançadas do Vite:
-
-- **Target**: `esnext` para suporte a recursos modernos
-- **Minify**: Terser com remoção de `console.log` em produção
-- **Manual Chunks**: Separação inteligente de dependências
-- **Asset Inline Limit**: 4kb para reduzir requisições HTTP
-- **CSS Code Split**: CSS separado por página
-- **Optimize Deps**: Pre-bundling de dependências críticas
-
-## 📦 Dependências Principais
-
-### Produção
-
-- `react` (^19.1.1) - Biblioteca principal
-- `react-dom` (^19.1.1) - Renderização React
-- `react-router-dom` (^7.9.1) - Roteamento
-- `axios` (^1.13.2) - Cliente HTTP
-- `recharts` (^3.3.0) - Gráficos
-- `@react-google-maps/api` (^2.20.7) - Google Maps
-- `@radix-ui/*` - Componentes acessíveis
-- `tailwindcss` (^4.1.13) - Framework CSS
-- `lucide-react` (^0.544.0) - Ícones
-
-### Desenvolvimento
-
-- `vite` (^7.2.2) - Build tool
-- `typescript` (^5.8.3) - TypeScript
-- `@vitejs/plugin-react` - Plugin React para Vite
-- `eslint` - Linting
-- `@types/*` - Tipos TypeScript
 
 ## 🎨 Componentes UI
 
