@@ -17,6 +17,16 @@ O **Mapa Colaborativo de Acessibilidade** é uma plataforma completa que permite
 - 📊 **Estatísticas de Acessibilidade**: Análise automática de padrões de acessibilidade por local
 - 👍 **Sistema de Votação**: Comunidade pode validar e classificar relatos
 - 📈 **Estatísticas Gerais**: Análise de dados para entender padrões de acessibilidade
+- 📊 **Dashboard de Estatísticas**: Página completa com gráficos interativos (linha, pizza, barras) mostrando:
+  - Estatísticas gerais do sistema (usuários, relatórios, locais, votos)
+  - Tendências de relatórios ao longo do tempo (dia, semana, mês)
+  - Distribuição de relatórios por tipo
+  - Características de acessibilidade (rampa, banheiro, estacionamento, visual)
+- 👤 **Página de Perfil**: Perfil completo do usuário com:
+  - Visualização e edição de informações pessoais
+  - Estatísticas pessoais (relatórios criados, votos recebidos)
+  - Lista de relatórios do usuário com opção de exclusão
+  - Exclusão de conta
 - 🔐 **Autenticação Segura**: Sistema de login com JWT e hash de senhas
 - 👥 **Gestão de Usuários**: Perfis personalizáveis e controle de acesso
 
@@ -35,6 +45,7 @@ O **Mapa Colaborativo de Acessibilidade** é uma plataforma completa que permite
 - **React Router**: Navegação fluida entre páginas
 - **Axios**: Comunicação com APIs
 - **Google Maps API**: Mapas interativos no frontend
+- **Recharts**: Biblioteca de gráficos para visualização de dados estatísticos
 
 ## 📁 Estrutura do Projeto
 
@@ -42,12 +53,35 @@ O **Mapa Colaborativo de Acessibilidade** é uma plataforma completa que permite
 UPX 4/
 ├── Backend/                    # API REST (Node.js + Fastify)
 │   ├── src/                   # Código fonte do backend
+│   │   ├── database/          # Configuração do banco de dados
+│   │   ├── middleware/        # Middlewares (autenticação, etc.)
+│   │   ├── services/          # Serviços auxiliares
+│   │   └── types/             # Tipos TypeScript
 │   ├── routes/                # Rotas da API organizadas por módulos
+│   │   ├── auth/              # Autenticação (login, register, logout)
+│   │   ├── users/             # Gestão de usuários
+│   │   ├── places/            # Gestão de locais
+│   │   ├── reports/           # Gestão de relatos
+│   │   └── stats/             # Estatísticas do sistema
 │   ├── docs/                  # Documentação completa da API
 │   ├── drizzle/               # Migrações do banco de dados
 │   └── test-cors/             # Testes de CORS
 ├── frontend/                  # Interface web (React + TypeScript)
 │   └── UPX-IV/               # Aplicação React
+│       ├── src/
+│       │   ├── pages/         # Páginas da aplicação
+│       │   │   ├── home.tsx   # Página inicial
+│       │   │   ├── map.tsx    # Página do mapa
+│       │   │   ├── mapDetails.tsx  # Detalhes do local
+│       │   │   ├── profile.tsx     # Perfil do usuário
+│       │   │   ├── stats.tsx       # Dashboard de estatísticas
+│       │   │   ├── login.tsx       # Login
+│       │   │   └── createUser.tsx  # Registro
+│       │   ├── components/    # Componentes reutilizáveis
+│       │   ├── services/      # Serviços de API
+│       │   ├── routes/         # Configuração de rotas
+│       │   └── layouts/        # Layouts da aplicação
+│       └── package.json
 └── README.md                 # Este arquivo
 ```
 
@@ -100,6 +134,11 @@ cd frontend/UPX-IV
 # Instale as dependências
 npm install
 
+# Configure as variáveis de ambiente
+# Crie um arquivo .env na pasta frontend/UPX-IV com:
+# VITE_API_URL=http://localhost:3333
+# VITE_GOOGLE_MAPS_API_KEY=sua_chave_google_maps_aqui
+
 # Inicie o servidor de desenvolvimento
 npm run dev
 ```
@@ -120,8 +159,16 @@ NODE_ENV=development
 PORT=3333
 ```
 
-### Frontend
-Configure a URL da API no frontend para apontar para o backend.
+### Frontend (.env)
+```env
+# URL da API Backend
+VITE_API_URL=http://localhost:3333
+
+# Chave da API do Google Maps
+VITE_GOOGLE_MAPS_API_KEY=sua_chave_google_maps_aqui
+```
+
+**Nota**: No Vite, todas as variáveis de ambiente devem começar com `VITE_` para serem expostas ao código do frontend. Essas variáveis podem ser acessadas via `import.meta.env.VITE_NOME_DA_VARIAVEL`.
 
 ## 📚 Documentação
 
@@ -189,18 +236,43 @@ npm test
 - `DELETE /reports/:reportId/votes` - Remover voto
 
 ### Estatísticas (`/stats`)
-- `GET /stats/general` - Estatísticas gerais
-- `GET /stats/reports/trends` - Tendências de relatos
-- `GET /stats/reports/by-type` - Relatos por tipo
+- `GET /stats/general` - Estatísticas gerais (usuários, relatórios, locais, votos)
+- `GET /stats/reports/trends` - Tendências de relatos ao longo do tempo
+- `GET /stats/reports/by-type` - Relatos agrupados por tipo
+- `GET /stats/reports/accessibility-features` - Estatísticas de características de acessibilidade
 
 ## 🎯 Campos de Acessibilidade
 
 O sistema inclui campos específicos para avaliar acessibilidade:
 
-- **Rampa de Acesso**: Verificação de rampas para cadeirantes
-- **Banheiro Acessível**: Banheiros adaptados para PCD
-- **Estacionamento Acessível**: Vagas especiais para PCD
-- **Acessibilidade Visual**: Recursos para deficientes visuais
+- **Rampa de Acesso** (`rampaAcesso`): Verificação de rampas para cadeirantes
+- **Banheiro Acessível** (`banheiroAcessivel`): Banheiros adaptados para PCD
+- **Estacionamento Acessível** (`estacionamentoAcessivel`): Vagas especiais para PCD
+- **Acessibilidade Visual** (`acessibilidadeVisual`): Recursos para deficientes visuais
+
+Esses campos são utilizados nos relatos e também são exibidos em gráficos estatísticos na página de estatísticas do sistema.
+
+## 📱 Páginas do Frontend
+
+### Páginas Públicas
+- **Home** (`/`): Página inicial com informações sobre o projeto
+- **Login** (`/login`): Página de autenticação
+- **Registro** (`/account/register`): Página de cadastro de novos usuários
+
+### Páginas Protegidas (Requerem autenticação)
+- **Mapa** (`/map`): Mapa interativo com locais e relatórios de acessibilidade
+- **Detalhes do Local** (`/details/:placeId`): Detalhes completos de um local específico
+- **Perfil** (`/profile`): Página de perfil do usuário com:
+  - Visualização e edição de informações pessoais
+  - Estatísticas pessoais (relatórios criados, votos recebidos)
+  - Lista de relatórios do usuário com opção de exclusão
+  - Exclusão de conta
+- **Estatísticas** (`/stats`): Dashboard completo de estatísticas do sistema com:
+  - Cards com estatísticas gerais (usuários, relatórios, locais, votos)
+  - Gráfico de linha com tendências de relatórios (dia, semana, mês)
+  - Gráficos de pizza e barras para características de acessibilidade
+  - Gráficos de pizza e barras para relatórios por tipo
+  - Tabelas detalhadas com percentuais e quantidades
 
 ## 🛠️ Scripts Disponíveis
 
@@ -233,11 +305,13 @@ O projeto inclui configuração Docker para o PostgreSQL com persistência de da
 
 ## 📈 Métricas do Projeto
 
-- **20+ endpoints** organizados por módulos
+- **25+ endpoints** organizados por módulos
 - **Cobertura de testes** completa
 - **Documentação interativa** com Swagger/Scalar
 - **Validação robusta** com schemas Zod
 - **Integração completa** com Google Maps
+- **Dashboard de estatísticas** com gráficos interativos
+- **Sistema de perfil** completo para usuários
 
 ## 🎯 Casos de Uso
 
@@ -246,12 +320,17 @@ O projeto inclui configuração Docker para o PostgreSQL com persistência de da
 - **Famílias**: Planejar passeios considerando acessibilidade
 - **Profissionais**: Arquitetos, urbanistas, gestores públicos
 - **ONGs**: Organizações que trabalham com inclusão
+- **Usuários registrados**: 
+  - Gerenciar perfil e informações pessoais
+  - Visualizar estatísticas pessoais (relatórios criados, votos recebidos)
+  - Acompanhar contribuições no sistema
 
 ### Para Organizações
 - **Empresas**: Avaliar acessibilidade de estabelecimentos
-- **Governo**: Monitorar políticas públicas de acessibilidade
-- **Universidades**: Pesquisas sobre acessibilidade urbana
-- **Mídia**: Cobertura de temas de inclusão
+- **Governo**: Monitorar políticas públicas de acessibilidade através do dashboard de estatísticas
+- **Universidades**: Pesquisas sobre acessibilidade urbana com dados estatísticos
+- **Mídia**: Cobertura de temas de inclusão com dados visuais
+- **Analistas**: Visualizar tendências e padrões através de gráficos interativos
 
 ## 📄 Licença
 
