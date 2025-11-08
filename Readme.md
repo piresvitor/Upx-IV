@@ -81,6 +81,8 @@ UPX 4/
 │       │   ├── services/      # Serviços de API
 │       │   ├── routes/         # Configuração de rotas
 │       │   └── layouts/        # Layouts da aplicação
+│       ├── Dockerfile         # Dockerfile para deploy
+│       ├── .dockerignore      # Arquivos ignorados no Docker
 │       └── package.json
 └── README.md                 # Este arquivo
 ```
@@ -298,6 +300,18 @@ npm run dev              # Inicia servidor de desenvolvimento
 npm run build            # Build para produção
 npm run preview          # Preview do build
 npm test                 # Executa testes
+```
+
+### Docker (Frontend)
+```bash
+# Build da imagem Docker
+docker build -t upx-iv-frontend .
+
+# Executar container
+docker run -p 80:80 upx-iv-frontend
+
+# Build e execução com docker-compose (se configurado)
+docker-compose up --build
 ```
 
 ## 🌐 Desenvolvimento
