@@ -17,7 +17,8 @@ const Stats = () => {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const response = await fetch("http://localhost:3333/stats/general");
+        const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:3333";
+        const response = await fetch(`${apiUrl}/stats/general`);
         if (!response.ok) {
           throw new Error("Erro ao buscar estatísticas");
         }
