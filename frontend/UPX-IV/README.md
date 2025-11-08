@@ -225,10 +225,6 @@ O projeto utiliza componentes acessíveis do Radix UI:
 
 Este projeto está licenciado sob a Licença MIT.
 
-## 🎯 Contribuindo
-
-Contribuições são bem-vindas! Por favor, leia o guia de contribuição antes de enviar pull requests.
-
 ---
 
 **Desenvolvido para promover acessibilidade e inclusão**
