@@ -6,6 +6,7 @@ import MapDetails from "@/pages/mapDetails";
 import RegisterAccount from "@/pages/createUser";
 import Login from "@/pages/login";
 import Profile from "@/pages/profile";
+import Stats from "@/pages/stats";
 import PrivateRoute from "./privateRoutes";
 
 const router = createBrowserRouter([
@@ -22,6 +23,7 @@ const router = createBrowserRouter([
           { path: "map", element: <Map /> },
           { path: "details/:placeId", element: <MapDetails /> },
           { path: "profile", element: <Profile /> },
+          { path: "stats", element: <Stats /> },
         ],
       },
     ],

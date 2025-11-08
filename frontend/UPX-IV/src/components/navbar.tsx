@@ -18,7 +18,10 @@ interface NavBarProps {
   onLogout: () => void;
 }
 
-const privateLinks = [{ href: "/map", label: "Mapa" }];
+const privateLinks = [
+  { href: "/map", label: "Mapa" },
+  { href: "/stats", label: "Estatísticas" },
+];
 
 export default function NavBar({ isAuthenticated, onLogout }: NavBarProps) {
   const navigationLinks = isAuthenticated ? privateLinks : [];
