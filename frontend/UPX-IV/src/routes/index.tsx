@@ -2,11 +2,14 @@ import { createBrowserRouter } from "react-router-dom";
 import { lazy, Suspense } from "react";
 import Layout from "@/layouts/navbar";
 import PrivateRoute from "./privateRoutes";
+import MapDetails from "@/pages/mapDetails";
+import { Button } from "@/components/ui/button";
 
 // Lazy loading das páginas para code splitting
 const Home = lazy(() => import("@/pages/home"));
 const Map = lazy(() => import("@/pages/map"));
-const MapDetails = lazy(() => import("@/pages/mapDetails"));
+// MapDetails removido do lazy loading temporariamente para resolver erro de contexto
+// const MapDetails = lazy(() => import("@/pages/mapDetails"));
 const RegisterAccount = lazy(() => import("@/pages/createUser"));
 const Login = lazy(() => import("@/pages/login"));
 const Profile = lazy(() => import("@/pages/profile"));
@@ -47,10 +50,19 @@ const router = createBrowserRouter([
           },
           {
             path: "details/:placeId",
-            element: (
-              <Suspense fallback={<PageLoader />}>
-                <MapDetails />
-              </Suspense>
+            element: <MapDetails />,
+            errorElement: (
+              <div className="flex flex-col items-center justify-center min-h-[400px] p-4">
+                <h2 className="text-2xl font-bold text-red-600 mb-4">
+                  Erro ao carregar página
+                </h2>
+                <p className="text-gray-600 mb-4">
+                  Não foi possível carregar os detalhes do local.
+                </p>
+                <Button onClick={() => window.location.href = "/map"}>
+                  Voltar ao mapa
+                </Button>
+              </div>
             ),
           },
           {
