@@ -34,8 +34,13 @@ export const userService = {
   },
 
   deleteMe: async (password: string) => {
+    // Axios pode não enviar body em DELETE por padrão
+    // Usar config explícita para garantir que o body seja enviado
     const res = await api.delete("/users/me", {
       data: { password },
+      headers: {
+        'Content-Type': 'application/json',
+      },
     });
     return res.data;
   },
