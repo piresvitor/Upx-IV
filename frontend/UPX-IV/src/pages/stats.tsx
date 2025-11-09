@@ -279,7 +279,7 @@ export default function Stats() {
                   ))}
                 </Pie>
                 <Tooltip 
-                  formatter={(value: any, name: any, props: any) => [
+                  formatter={(value: any, _name: any, props: any) => [
                     `${value} (${props.payload.percentage.toFixed(1)}%)`,
                     props.payload.feature
                   ]}
@@ -288,7 +288,7 @@ export default function Stats() {
                 <Legend 
                   verticalAlign="bottom" 
                   height={36}
-                  formatter={(value, entry: any) => `${entry.payload.feature} (${entry.payload.percentage.toFixed(1)}%)`}
+                  formatter={(_value, entry: any) => `${entry.payload.feature} (${entry.payload.percentage.toFixed(1)}%)`}
                   wrapperStyle={{ paddingTop: '20px' }}
                 />
               </PieChart>
@@ -322,7 +322,7 @@ export default function Stats() {
                 />
                 <YAxis />
                 <Tooltip 
-                  formatter={(value: any, name: any, props: any) => [
+                  formatter={(value: any, _name: any, props: any) => [
                     `${value} (${props.payload.percentage.toFixed(1)}%)`,
                     props.payload.feature
                   ]}
@@ -367,7 +367,7 @@ export default function Stats() {
                   ))}
                 </Pie>
                 <Tooltip 
-                  formatter={(value: any, name: any, props: any) => [
+                  formatter={(value: any, _name: any, props: any) => [
                     `${value} (${props.payload.percentage.toFixed(1)}%)`,
                     props.payload.type
                   ]}
@@ -376,7 +376,7 @@ export default function Stats() {
                 <Legend 
                   verticalAlign="bottom" 
                   height={36}
-                  formatter={(value, entry: any) => `${entry.payload.type} (${entry.payload.percentage.toFixed(1)}%)`}
+                  formatter={(_value, entry: any) => `${entry.payload.type} (${entry.payload.percentage.toFixed(1)}%)`}
                   wrapperStyle={{ paddingTop: '20px' }}
                 />
               </PieChart>
@@ -410,7 +410,7 @@ export default function Stats() {
                 />
                 <YAxis />
                 <Tooltip 
-                  formatter={(value: any, name: any, props: any) => [
+                  formatter={(value: any, _name: any, props: any) => [
                     `${value} (${props.payload.percentage.toFixed(1)}%)`,
                     props.payload.type
                   ]}
