@@ -5,7 +5,7 @@ services:
     region: sao-paulo
     plan: free
     rootDir: Backend
-    buildCommand: npm install
+    buildCommand: npm ci
     startCommand: npm start
     healthCheckPath: /ping
     envVars:
