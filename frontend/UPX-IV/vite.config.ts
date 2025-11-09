@@ -13,13 +13,7 @@ export default defineConfig({
   build: {
     // Otimizações de build
     target: "esnext",
-    minify: "terser",
-    terserOptions: {
-      compress: {
-        drop_console: true, // Remove console.log em produção
-        drop_debugger: true,
-      },
-    },
+    minify: "esbuild", // Usar esbuild que é mais rápido e compatível
     // Code splitting otimizado
     rollupOptions: {
       output: {

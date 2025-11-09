@@ -252,18 +252,18 @@ export default function Stats() {
             <ResponsiveContainer width="100%" height={400}>
               <PieChart>
                 <Pie
-                  data={accessibilityFeatures.data}
+                  data={accessibilityFeatures.data as any}
                   cx="50%"
                   cy="50%"
                   labelLine={false}
-                  label={({ feature, percentage }) =>
+                  label={({ feature, percentage }: { feature: string; percentage: number }) =>
                     `${feature}: ${percentage.toFixed(1)}%`
                   }
                   outerRadius={120}
                   fill="#8884d8"
                   dataKey="count"
                 >
-                  {accessibilityFeatures.data.map((entry, index) => (
+                  {accessibilityFeatures.data.map((_, index) => (
                     <Cell
                       key={`cell-${index}`}
                       fill={COLORS[index % COLORS.length]}
@@ -320,18 +320,18 @@ export default function Stats() {
             <ResponsiveContainer width="100%" height={400}>
               <PieChart>
                 <Pie
-                  data={reportsByType.data}
+                  data={reportsByType.data as any}
                   cx="50%"
                   cy="50%"
                   labelLine={false}
-                  label={({ type, percentage }) =>
+                  label={({ type, percentage }: { type: string; percentage: number }) =>
                     `${type}: ${percentage.toFixed(1)}%`
                   }
                   outerRadius={120}
                   fill="#8884d8"
                   dataKey="count"
                 >
-                  {reportsByType.data.map((entry, index) => (
+                  {reportsByType.data.map((_, index) => (
                     <Cell
                       key={`cell-${index}`}
                       fill={COLORS[index % COLORS.length]}
@@ -401,7 +401,7 @@ export default function Stats() {
                   </tr>
                 </thead>
                 <tbody>
-                  {accessibilityFeatures.data.map((item, index) => (
+                  {accessibilityFeatures.data.map((item) => (
                     <tr key={item.feature} className="border-b hover:bg-gray-50">
                       <td className="py-3 px-4">{item.feature}</td>
                       <td className="py-3 px-4 text-right font-medium">
@@ -440,7 +440,7 @@ export default function Stats() {
                   </tr>
                 </thead>
                 <tbody>
-                  {reportsByType.data.map((item, index) => (
+                  {reportsByType.data.map((item) => (
                     <tr key={item.type} className="border-b hover:bg-gray-50">
                       <td className="py-3 px-4 capitalize">{item.type}</td>
                       <td className="py-3 px-4 text-right font-medium">
