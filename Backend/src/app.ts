@@ -18,15 +18,15 @@ import { statsRoutes } from '../routes/stats'
 
 
 const server = fastify({
-    logger: {
-    transport: {
-      target: 'pino-pretty',
-      options: {
-        translateTime: 'HH:MM:ss Z',
-        ignore: 'pid,hostname',
-      },
-    },
-    }
+    logger: process.env.NODE_ENV === 'development' ? {
+        transport: {
+            target: 'pino-pretty',
+            options: {
+                translateTime: 'HH:MM:ss Z',
+                ignore: 'pid,hostname',
+            },
+        },
+    } : true
 })
 
 // Configurar CORS manualmente
