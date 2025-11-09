@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -12,13 +12,10 @@ import { reportService, type Report } from "@/services/reportService";
 
 export default function MapDetails() {
   const { placeId } = useParams<{ placeId: string }>();
+  const navigate = useNavigate();
   
-  // Usa window.location como fallback se useNavigate não estiver disponível
-  // Isso evita o erro de contexto do Router
   const handleBackToMap = () => {
-    if (typeof window !== 'undefined') {
-      window.location.href = '/map';
-    }
+    navigate('/map');
   };
 
   const [place, setPlace] = useState<Place | null>(null);
