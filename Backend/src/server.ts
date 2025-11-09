@@ -3,9 +3,11 @@ import {server} from './app.ts'
 
 dotenv.config()
 
-console.log('NODE_ENV:', process.env.NODE_ENV)
-console.log('DATABASE_URL:', process.env.DATABASE_URL)
+const PORT = process.env.PORT || 3333
 
-server.listen({port: 3333, host: '0.0.0.0'}).then(() =>{
-    console.log('HTTP server running!')
+console.log('NODE_ENV:', process.env.NODE_ENV)
+console.log('DATABASE_URL:', process.env.DATABASE_URL ? 'Configurado' : 'Não configurado')
+
+server.listen({port: Number(PORT), host: '0.0.0.0'}).then(() =>{
+    console.log(`HTTP server running on port ${PORT}!`)
 })
