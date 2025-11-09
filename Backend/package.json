@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only --env-file .env src/server.ts",
-    "build": "tsc",
+    "build": "npm run db:migrate",
     "start": "tsx src/server.ts",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
@@ -46,14 +46,14 @@
     "pino-pretty": "^13.1.1",
     "tsx": "^4.19.2",
     "typescript": "^5.9.2",
-    "zod": "^4.1.8"
+    "zod": "^4.1.8",
+    "drizzle-kit": "^0.31.4"
   },
   "devDependencies": {
     "@types/node": "^24.3.3",
     "@vitest/coverage-v8": "^3.2.4",
     "@vitest/ui": "^3.2.4",
     "dotenv-cli": "^10.0.0",
-    "drizzle-kit": "^0.31.4",
     "supertest": "^7.1.4",
     "ts-node-dev": "^2.0.0",
     "vitest": "^3.2.4"
