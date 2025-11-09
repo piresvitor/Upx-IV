@@ -6,10 +6,6 @@ dotenv.config()
 
 const PORT = process.env.PORT || 3333
 
-console.log('NODE_ENV:', process.env.NODE_ENV)
-console.log('DATABASE_URL:', process.env.DATABASE_URL ? 'Configurado' : 'Não configurado')
-console.log('PORT:', PORT)
-
 // Executar migrações antes de iniciar o servidor
 runMigrations().then(() => {
   // Iniciar servidor após as migrações

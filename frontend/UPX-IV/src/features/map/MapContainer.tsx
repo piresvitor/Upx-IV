@@ -19,13 +19,13 @@ interface InfoBoxData {
   placeId: string; // UUID do backend
 }
 
-const containerStyle = { width: "100%", height: "500px", borderRadius: "8px" };
-const center = { lat: -23.5425, lng: -47.4561 };
+const containerStyle = { width: "100%", height: "100%", borderRadius: "8px" };
+const center = { lat: -23.529, lng: -47.4686 }; // Av. Domingos Júlio, Campolim, Sorocaba - SP
 const campolimBounds = {
-  north: -23.535,
-  south: -23.55,
-  east: -47.445,
-  west: -47.465,
+  north: -23.520,
+  south: -23.540,
+  east: -47.460,
+  west: -47.485,
 };
 
 export default function MapContainer() {
@@ -77,18 +77,19 @@ export default function MapContainer() {
   if (!isLoaded) return <p>Carregando...</p>;
 
   return (
-    <GoogleMap
-      mapContainerStyle={containerStyle}
-      center={center}
-      zoom={16}
-      onLoad={onLoad}
-      onUnmount={onUnmount}
-      onClick={handleMapClick}
-      options={{
-        restriction: { latLngBounds: campolimBounds, strictBounds: true },
-        disableDefaultUI: false,
-      }}
-    >
+    <div className="h-[500px] lg:h-[700px] w-full lg:w-[90%] lg:mx-auto rounded-lg overflow-hidden">
+      <GoogleMap
+        mapContainerStyle={containerStyle}
+        center={center}
+        zoom={16}
+        onLoad={onLoad}
+        onUnmount={onUnmount}
+        onClick={handleMapClick}
+        options={{
+          restriction: { latLngBounds: campolimBounds, strictBounds: true },
+          disableDefaultUI: false,
+        }}
+      >
       {infoBoxData && (
         <div className="absolute bottom-0 left-0 w-full flex justify-start px-4 pb-4">
           <div className="bg-white p-5 rounded-2xl shadow-lg w-[90%] max-w-lg flex flex-row items-start">
@@ -114,6 +115,7 @@ export default function MapContainer() {
           </div>
         </div>
       )}
-    </GoogleMap>
+      </GoogleMap>
+    </div>
   );
 }

@@ -38,14 +38,14 @@ export default function NewComment({ placeId, onSuccess }: NewCommentProps) {
         acessibilidadeVisual: selectedTypes.includes("acessibilidadeVisual"),
       };
 
-      const response = await reportService.create(placeId, newReport);
+      await reportService.create(placeId, newReport);
 
-      console.log("Relato criado:", response.report);
       setDescription("");
       setSelectedTypes([]);
       onSuccess?.();
-    } catch (err: any) {
-      console.error("Erro ao criar relato:", err.response?.data || err);
+    } catch (err) {
+      const error = err as { response?: { data?: unknown } } | Error;
+      console.error("Erro ao criar relato:", (error as { response?: { data?: unknown } }).response?.data || error);
     } finally {
       setLoading(false);
     }

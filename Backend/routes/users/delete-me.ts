@@ -46,13 +46,6 @@ export const deleteMeRoute: FastifyPluginAsyncZod = async (server) => {
       
       const userId = request.user.id
       
-      // Log para debug
-      console.log('DELETE /users/me - User ID:', userId)
-      console.log('DELETE /users/me - Body recebido:', request.body)
-      console.log('DELETE /users/me - Body type:', typeof request.body)
-      console.log('DELETE /users/me - Headers:', request.headers['content-type'])
-      console.log('DELETE /users/me - Raw body:', request.rawBody)
-      
       // Obter a senha do body
       let password: string | undefined
       

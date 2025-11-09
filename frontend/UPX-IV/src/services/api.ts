@@ -20,8 +20,6 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => response,
   (error: AxiosError) => {
-    console.log({ error }, error.response?.status);
-
     if (error.response?.status === 401) {
       localStorage.removeItem("token");
       window.location.href = window.location.origin;

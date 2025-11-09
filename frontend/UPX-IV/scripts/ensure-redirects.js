@@ -14,9 +14,8 @@ if (!existsSync(distDir)) {
 // Copiar arquivo _redirects para dist
 if (existsSync(redirectsFile)) {
   copyFileSync(redirectsFile, distRedirectsFile);
-  console.log('✅ Arquivo _redirects copiado para dist/');
 } else {
-  console.error('❌ Arquivo _redirects não encontrado em public/');
+  console.error('Arquivo _redirects não encontrado em public/');
   process.exit(1);
 }
 
