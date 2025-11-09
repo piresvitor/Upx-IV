@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only --env-file .env src/server.ts",
-    "build": "npm run db:migrate",
+    "build": "tsx scripts/migrate.ts",
     "start": "tsx src/server.ts",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
