@@ -5,7 +5,7 @@ services:
     region: sao-paulo
     plan: free
     rootDir: Backend
-    buildCommand: npm ci
+    buildCommand: npm run build
     startCommand: npm start
     healthCheckPath: /ping
     envVars:
@@ -20,6 +20,17 @@ services:
       - key: JWT_SECRET
         generateValue: true
       - key: GOOGLE_MAPS_API_KEY
+        sync: false
+
+static_sites:
+  - name: mapa-acessibilidade-frontend
+    buildCommand: npm install && npm run build
+    publishPath: dist
+    rootDir: frontend/UPX-IV
+    envVars:
+      - key: VITE_API_URL
+        value: https://mapa-acessibilidade-api.onrender.com
+      - key: VITE_GOOGLE_MAPS_API_KEY
         sync: false
 
 databases:
