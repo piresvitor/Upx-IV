@@ -214,24 +214,34 @@ export default function Stats() {
           </div>
         </div>
         {trends && trends.data.length > 0 ? (
-          <ResponsiveContainer width="100%" height={400}>
-            <LineChart data={trends.data}>
+          <ResponsiveContainer width="100%" height={450}>
+            <LineChart 
+              data={trends.data}
+              margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
+            >
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis
                 dataKey="date"
                 tickFormatter={(value) => formatDate(value, trendPeriod)}
+                angle={-45}
+                textAnchor="end"
+                height={80}
+                interval="preserveStartEnd"
               />
               <YAxis />
               <Tooltip
                 labelFormatter={(value) => formatDate(value, trendPeriod)}
+                contentStyle={{ backgroundColor: 'white', border: '1px solid #ccc', borderRadius: '4px' }}
               />
-              <Legend />
+              <Legend wrapperStyle={{ paddingTop: '20px' }} />
               <Line
                 type="monotone"
                 dataKey="count"
                 stroke="#0088FE"
                 strokeWidth={2}
                 name="Relatórios"
+                dot={{ r: 4 }}
+                activeDot={{ r: 6 }}
               />
             </LineChart>
           </ResponsiveContainer>
@@ -249,17 +259,15 @@ export default function Stats() {
             Características de Acessibilidade
           </h2>
           {accessibilityFeatures && accessibilityFeatures.data.length > 0 ? (
-            <ResponsiveContainer width="100%" height={400}>
+            <ResponsiveContainer width="100%" height={450}>
               <PieChart>
                 <Pie
                   data={accessibilityFeatures.data as any}
                   cx="50%"
-                  cy="50%"
+                  cy="45%"
                   labelLine={false}
-                  label={(props: any) =>
-                    `${props.feature}: ${props.percentage.toFixed(1)}%`
-                  }
-                  outerRadius={120}
+                  label={false}
+                  outerRadius={100}
                   fill="#8884d8"
                   dataKey="count"
                 >
@@ -270,7 +278,19 @@ export default function Stats() {
                     />
                   ))}
                 </Pie>
-                <Tooltip />
+                <Tooltip 
+                  formatter={(value: any, name: any, props: any) => [
+                    `${value} (${props.payload.percentage.toFixed(1)}%)`,
+                    props.payload.feature
+                  ]}
+                  contentStyle={{ backgroundColor: 'white', border: '1px solid #ccc', borderRadius: '4px' }}
+                />
+                <Legend 
+                  verticalAlign="bottom" 
+                  height={36}
+                  formatter={(value, entry: any) => `${entry.payload.feature} (${entry.payload.percentage.toFixed(1)}%)`}
+                  wrapperStyle={{ paddingTop: '20px' }}
+                />
               </PieChart>
             </ResponsiveContainer>
           ) : (
@@ -286,19 +306,29 @@ export default function Stats() {
             Distribuição de Características de Acessibilidade
           </h2>
           {accessibilityFeatures && accessibilityFeatures.data.length > 0 ? (
-            <ResponsiveContainer width="100%" height={400}>
-              <BarChart data={accessibilityFeatures.data}>
+            <ResponsiveContainer width="100%" height={500}>
+              <BarChart 
+                data={accessibilityFeatures.data}
+                margin={{ top: 20, right: 30, left: 20, bottom: 100 }}
+              >
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis
                   dataKey="feature"
                   angle={-45}
                   textAnchor="end"
-                  height={100}
+                  height={120}
+                  interval={0}
+                  tick={{ fontSize: 12 }}
                 />
                 <YAxis />
-                <Tooltip />
-                <Legend />
-                <Bar dataKey="count" fill="#00C49F" name="Quantidade" />
+                <Tooltip 
+                  formatter={(value: any, name: any, props: any) => [
+                    `${value} (${props.payload.percentage.toFixed(1)}%)`,
+                    props.payload.feature
+                  ]}
+                  contentStyle={{ backgroundColor: 'white', border: '1px solid #ccc', borderRadius: '4px' }}
+                />
+                <Bar dataKey="count" fill="#00C49F" name="" radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           ) : (
@@ -317,17 +347,15 @@ export default function Stats() {
             Relatórios por Tipo
           </h2>
           {reportsByType && reportsByType.data.length > 0 ? (
-            <ResponsiveContainer width="100%" height={400}>
+            <ResponsiveContainer width="100%" height={450}>
               <PieChart>
                 <Pie
                   data={reportsByType.data as any}
                   cx="50%"
-                  cy="50%"
+                  cy="45%"
                   labelLine={false}
-                  label={(props: any) =>
-                    `${props.type}: ${props.percentage.toFixed(1)}%`
-                  }
-                  outerRadius={120}
+                  label={false}
+                  outerRadius={100}
                   fill="#8884d8"
                   dataKey="count"
                 >
@@ -338,7 +366,19 @@ export default function Stats() {
                     />
                   ))}
                 </Pie>
-                <Tooltip />
+                <Tooltip 
+                  formatter={(value: any, name: any, props: any) => [
+                    `${value} (${props.payload.percentage.toFixed(1)}%)`,
+                    props.payload.type
+                  ]}
+                  contentStyle={{ backgroundColor: 'white', border: '1px solid #ccc', borderRadius: '4px' }}
+                />
+                <Legend 
+                  verticalAlign="bottom" 
+                  height={36}
+                  formatter={(value, entry: any) => `${entry.payload.type} (${entry.payload.percentage.toFixed(1)}%)`}
+                  wrapperStyle={{ paddingTop: '20px' }}
+                />
               </PieChart>
             </ResponsiveContainer>
           ) : (
@@ -354,19 +394,29 @@ export default function Stats() {
             Distribuição de Relatórios por Tipo
           </h2>
           {reportsByType && reportsByType.data.length > 0 ? (
-            <ResponsiveContainer width="100%" height={400}>
-              <BarChart data={reportsByType.data}>
+            <ResponsiveContainer width="100%" height={500}>
+              <BarChart 
+                data={reportsByType.data}
+                margin={{ top: 20, right: 30, left: 20, bottom: 100 }}
+              >
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis
                   dataKey="type"
                   angle={-45}
                   textAnchor="end"
-                  height={100}
+                  height={120}
+                  interval={0}
+                  tick={{ fontSize: 12 }}
                 />
                 <YAxis />
-                <Tooltip />
-                <Legend />
-                <Bar dataKey="count" fill="#0088FE" name="Quantidade" />
+                <Tooltip 
+                  formatter={(value: any, name: any, props: any) => [
+                    `${value} (${props.payload.percentage.toFixed(1)}%)`,
+                    props.payload.type
+                  ]}
+                  contentStyle={{ backgroundColor: 'white', border: '1px solid #ccc', borderRadius: '4px' }}
+                />
+                <Bar dataKey="count" fill="#0088FE" name="" radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           ) : (
