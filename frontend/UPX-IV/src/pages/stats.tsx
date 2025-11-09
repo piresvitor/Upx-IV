@@ -256,8 +256,8 @@ export default function Stats() {
                   cx="50%"
                   cy="50%"
                   labelLine={false}
-                  label={({ feature, percentage }: { feature: string; percentage: number }) =>
-                    `${feature}: ${percentage.toFixed(1)}%`
+                  label={(props: any) =>
+                    `${props.feature}: ${props.percentage.toFixed(1)}%`
                   }
                   outerRadius={120}
                   fill="#8884d8"
@@ -324,8 +324,8 @@ export default function Stats() {
                   cx="50%"
                   cy="50%"
                   labelLine={false}
-                  label={({ type, percentage }: { type: string; percentage: number }) =>
-                    `${type}: ${percentage.toFixed(1)}%`
+                  label={(props: any) =>
+                    `${props.type}: ${props.percentage.toFixed(1)}%`
                   }
                   outerRadius={120}
                   fill="#8884d8"
