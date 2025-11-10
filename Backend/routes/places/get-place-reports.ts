@@ -1,8 +1,9 @@
 import { FastifyPluginAsyncZod } from 'fastify-type-provider-zod'
 import { db } from '../../src/database/cliente.ts'
-import { places, reports, users } from '../../src/database/schema.ts'
-import { eq, sql } from 'drizzle-orm'
+import { places, reports, users, votes } from '../../src/database/schema.ts'
+import { eq, sql, count, and } from 'drizzle-orm'
 import z from 'zod'
+import jwt from 'jsonwebtoken'
 
 export const getPlaceReportsRoute: FastifyPluginAsyncZod = async (server) => {
   server.get('/places/:placeId/reports', {
@@ -47,6 +48,8 @@ export const getPlaceReportsRoute: FastifyPluginAsyncZod = async (server) => {
             banheiroAcessivel: z.boolean(),
             estacionamentoAcessivel: z.boolean(),
             acessibilidadeVisual: z.boolean(),
+            votesCount: z.number(),
+            userVoted: z.boolean().optional(),
           })),
           pagination: z.object({
             page: z.number(),
@@ -113,6 +116,74 @@ export const getPlaceReportsRoute: FastifyPluginAsyncZod = async (server) => {
         .limit(limit)
         .offset(offset)
 
+      // Verificar se o usuário está autenticado
+      let userId: string | undefined = undefined
+      try {
+        const authHeader = request.headers.authorization
+        if (authHeader) {
+          const token = authHeader.replace('Bearer ', '')
+          if (process.env.JWT_SECRET) {
+            try {
+              const decoded = jwt.verify(token, process.env.JWT_SECRET) as any
+              userId = decoded.sub || decoded.id
+            } catch (error) {
+              userId = undefined
+            }
+          }
+        }
+      } catch (error) {
+        userId = undefined
+      }
+
+      // Buscar contagem de votos e verificar se o usuário votou em cada relatório
+      const reportsWithVotes = await Promise.all(
+        placeReports.map(async (report) => {
+          // Buscar contagem de votos
+          const votesResult = await db
+            .select({ count: count() })
+            .from(votes)
+            .where(eq(votes.reportId, report.id))
+          
+          const votesCount = votesResult[0]?.count || 0
+
+          // Verificar se o usuário votou (se estiver autenticado)
+          let userVoted = false
+          if (userId) {
+            const userVoteResult = await db
+              .select()
+              .from(votes)
+              .where(and(
+                eq(votes.userId, userId),
+                eq(votes.reportId, report.id)
+              ))
+              .limit(1)
+            
+            userVoted = userVoteResult.length > 0
+          }
+
+          const reportData: any = {
+            id: report.id,
+            title: report.title,
+            description: report.description,
+            type: report.type,
+            createdAt: report.createdAt,
+            user: report.user,
+            rampaAcesso: report.rampaAcesso,
+            banheiroAcessivel: report.banheiroAcessivel,
+            estacionamentoAcessivel: report.estacionamentoAcessivel,
+            acessibilidadeVisual: report.acessibilidadeVisual,
+            votesCount: votesCount,
+          }
+
+          // Só adiciona userVoted se o usuário estiver autenticado
+          if (userId) {
+            reportData.userVoted = userVoted
+          }
+
+          return reportData
+        })
+      )
+
       return reply.status(200).send({
         place: {
           id: place.id,
@@ -127,7 +198,7 @@ export const getPlaceReportsRoute: FastifyPluginAsyncZod = async (server) => {
           createdAt: place.createdAt,
           updatedAt: place.updatedAt
         },
-        reports: placeReports,
+        reports: reportsWithVotes,
         pagination: {
           page,
           limit,

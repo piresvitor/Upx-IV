@@ -1,8 +1,9 @@
 import { FastifyPluginAsyncZod } from 'fastify-type-provider-zod'
 import { db } from '../../src/database/cliente.ts'
 import { reports, users, places, votes } from '../../src/database/schema.ts'
-import { eq, count } from 'drizzle-orm'
+import { eq, count, and } from 'drizzle-orm'
 import z from 'zod'
+import jwt from 'jsonwebtoken'
 
 export const getReportRoute: FastifyPluginAsyncZod = async (server) => {
   server.get('/reports/:reportId', {
@@ -27,6 +28,7 @@ export const getReportRoute: FastifyPluginAsyncZod = async (server) => {
           estacionamentoAcessivel: z.boolean(),
           acessibilidadeVisual: z.boolean(),
           votesCount: z.number(),
+          userVoted: z.boolean().optional(),
         }),
         404: z.object({ message: z.string() }),
         500: z.object({ message: z.string() })
@@ -72,7 +74,46 @@ export const getReportRoute: FastifyPluginAsyncZod = async (server) => {
 
       const votesCount = votesResult[0]?.count || 0
 
-      return reply.status(200).send({
+      // Verificar se o usuário está autenticado e se votou no relato
+      let userVoted = false
+      let userId: string | undefined = undefined
+      
+      try {
+        // Verificar token manualmente sem enviar resposta de erro
+        const authHeader = request.headers.authorization
+        if (authHeader) {
+          const token = authHeader.replace('Bearer ', '')
+          
+          if (process.env.JWT_SECRET) {
+            try {
+              const decoded = jwt.verify(token, process.env.JWT_SECRET) as any
+              userId = decoded.sub || decoded.id
+            } catch (error) {
+              // Token inválido, mas não falha a requisição
+              userId = undefined
+            }
+          }
+        }
+      } catch (error) {
+        // Se houver erro, apenas ignora (usuário não autenticado)
+        userId = undefined
+      }
+
+      // Se o usuário estiver autenticado, verificar se votou
+      if (userId) {
+        const userVoteResult = await db
+          .select()
+          .from(votes)
+          .where(and(
+            eq(votes.userId, userId),
+            eq(votes.reportId, reportId)
+          ))
+          .limit(1)
+        
+        userVoted = userVoteResult.length > 0
+      }
+
+      const response: any = {
         id: row.id,
         title: row.title,
         description: row.description,
@@ -85,7 +126,14 @@ export const getReportRoute: FastifyPluginAsyncZod = async (server) => {
         estacionamentoAcessivel: row.estacionamentoAcessivel,
         acessibilidadeVisual: row.acessibilidadeVisual,
         votesCount: votesCount,
-      })
+      }
+
+      // Só adiciona userVoted se o usuário estiver autenticado
+      if (userId) {
+        response.userVoted = userVoted
+      }
+
+      return reply.status(200).send(response)
     } catch (error) {
       console.error('Erro ao buscar relato:', error)
       return reply.status(500).send({ message: 'Erro interno do servidor' })

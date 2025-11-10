@@ -19,6 +19,7 @@ export interface Report {
   estacionamentoAcessivel: boolean;
   acessibilidadeVisual: boolean;
   votesCount?: number;
+  userVoted?: boolean;
 }
 
 export interface Place {

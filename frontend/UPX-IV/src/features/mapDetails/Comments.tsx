@@ -107,7 +107,11 @@ export default function CommentList({
                   <p className="text-gray-700 text-sm mt-3">
                     {comment.description}
                   </p>
-                  <CommentVote reportId={comment.id} />
+                  <CommentVote 
+                    reportId={comment.id} 
+                    initialVotesCount={comment.votesCount || 0}
+                    initialUserVoted={comment.userVoted || false}
+                  />
                 </div>
               </div>
 
