@@ -71,7 +71,7 @@ export default function Login() {
         <h1 className="text-4xl font-extrabold mb-4 text-center">
           Olá de novo!
         </h1>
-        <p className="lg:text-lg text-amber-100 text-center max-w-xs text-sm">
+        <p className="lg:text-lg text-amber-50 text-center max-w-xs text-base">
           Acesse sua conta e continue sua jornada conosco.
         </p>
         <Button
@@ -104,7 +104,7 @@ export default function Login() {
               <div className="space-y-1">
                 <Label
                   htmlFor="email"
-                  className="text-gray-700 text-sm font-medium"
+                  className="text-gray-800 text-base font-medium"
                 >
                   Email
                 </Label>
@@ -121,7 +121,7 @@ export default function Login() {
               <div className="space-y-1">
                 <Label
                   htmlFor="password"
-                  className="text-gray-700 text-sm font-medium"
+                  className="text-gray-800 text-base font-medium"
                 >
                   Senha
                 </Label>
@@ -150,7 +150,7 @@ export default function Login() {
                 </div>
               </div>
               {error && (
-                <p className="text-red-500 text-sm mt-1 text-center">{error}</p>
+                <p className="text-red-600 text-base mt-1 text-center">{error}</p>
               )}
               <Button
                 type="submit"

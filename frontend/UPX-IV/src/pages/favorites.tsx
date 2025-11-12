@@ -66,10 +66,10 @@ export default function Favorites() {
         <Card className="p-4 sm:p-6">
           <div className="text-center py-8 sm:py-12">
             <Star size={48} className="mx-auto text-gray-300 mb-4" />
-            <p className="text-sm sm:text-base text-gray-600 mb-2">
+            <p className="text-base text-gray-700 mb-2">
               Você ainda não tem locais favoritos.
             </p>
-            <p className="text-xs sm:text-sm text-gray-500">
+            <p className="text-base text-gray-600">
               Explore os locais e adicione aos favoritos para acesso rápido!
             </p>
           </div>
@@ -109,7 +109,7 @@ export default function Favorites() {
           {pagination.totalPages > 1 && (
             <Card className="p-3 sm:p-4">
               <div className="flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-0">
-                <div className="text-xs sm:text-sm text-gray-600 text-center sm:text-left">
+                <div className="text-base text-gray-700 text-center sm:text-left">
                   <span className="hidden sm:inline">Página {pagination.page} de {pagination.totalPages} ({pagination.total} favoritos)</span>
                   <span className="sm:hidden">{pagination.page}/{pagination.totalPages} ({pagination.total})</span>
                 </div>
@@ -119,7 +119,7 @@ export default function Favorites() {
                     size="sm"
                     onClick={() => setCurrentPage((prev) => Math.max(1, prev - 1))}
                     disabled={currentPage === 1}
-                    className="flex-1 sm:flex-initial text-xs sm:text-sm"
+                    className="flex-1 sm:flex-initial text-base"
                   >
                     <ChevronLeft size={14} className="sm:w-4 sm:h-4 mr-0.5 sm:mr-1" />
                     <span className="hidden sm:inline">Anterior</span>
@@ -130,7 +130,7 @@ export default function Favorites() {
                     size="sm"
                     onClick={() => setCurrentPage((prev) => Math.min(pagination.totalPages, prev + 1))}
                     disabled={currentPage === pagination.totalPages}
-                    className="flex-1 sm:flex-initial text-xs sm:text-sm"
+                    className="flex-1 sm:flex-initial text-base"
                   >
                     <span className="hidden sm:inline">Próxima</span>
                     <span className="sm:hidden">Próx</span>

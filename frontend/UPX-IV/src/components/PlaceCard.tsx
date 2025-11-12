@@ -34,12 +34,12 @@ export default function PlaceCard({
               {name}
             </h3>
             {address && (
-              <div className="flex items-start gap-1.5 sm:gap-2 text-sm sm:text-base text-gray-600 mb-2 sm:mb-3">
-                <MapPin size={18} className="text-gray-400 mt-0.5 flex-shrink-0 sm:w-6 sm:h-6" />
+              <div className="flex items-start gap-1.5 sm:gap-2 text-base text-gray-700 mb-2 sm:mb-3">
+                <MapPin size={18} className="text-gray-600 mt-0.5 flex-shrink-0 sm:w-6 sm:h-6" />
                 <span className="line-clamp-2">{address}</span>
               </div>
             )}
-            <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-sm sm:text-base text-gray-500">
+            <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-base text-gray-600">
               {rating && (
                 <span>⭐ {rating.toFixed(1)}</span>
               )}

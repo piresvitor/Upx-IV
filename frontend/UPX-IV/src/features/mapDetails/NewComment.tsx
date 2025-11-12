@@ -66,10 +66,10 @@ export default function NewComment({ placeId, onSuccess }: NewCommentProps) {
         placeholder="Escreva aqui sobre sua experiência..."
       />
 
-      {error && <p className="text-sm text-red-500 mt-1">{error}</p>}
+      {error && <p className="text-base text-red-600 mt-1">{error}</p>}
 
       <div className="mt-5">
-        <p className="text-sm text-gray-600 mb-3">
+        <p className="text-base text-gray-700 mb-3">
           Selecione as opções de acessibilidade que este local possui (opcional):
         </p>
         <CommentCheckBox

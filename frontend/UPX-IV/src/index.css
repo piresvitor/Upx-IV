@@ -52,11 +52,11 @@
   --primary: #45bfb3;
   --primary-foreground: oklch(0.985 0 0);
   --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
+  --secondary-foreground: oklch(0.145 0 0);
   --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
+  --muted-foreground: oklch(0.35 0 0);
   --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
+  --accent-foreground: oklch(0.145 0 0);
   --destructive: oklch(0.577 0.245 27.325);
   --success: #2d8bba;
   --border: oklch(0.922 0 0);
@@ -72,7 +72,7 @@
   --sidebar-primary: oklch(0.205 0 0);
   --sidebar-primary-foreground: oklch(0.985 0 0);
   --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-accent-foreground: oklch(0.145 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
 }
@@ -117,5 +117,18 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  p, span, div, a, li, td, th, label, input, textarea, select, button {
+    line-height: 1.5;
+  }
+  /* Garantir tamanho mínimo de fonte para texto do corpo */
+  p, span:not([class*="text-"]), div:not([class*="text-"]), a:not([class*="text-"]) {
+    font-size: 16px;
+  }
+  /* Melhorar contraste para texto secundário */
+  .text-muted-foreground, [class*="text-gray-"] {
+    color: oklch(0.35 0 0);
   }
 }

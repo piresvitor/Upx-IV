@@ -93,18 +93,18 @@ export default function CommentList({
             <div className="flex justify-between items-start mb-2">
               <div className="flex items-start gap-2">
                 <div className="lg:w-10 lg:h-10 w-7 h-7 bg-gray-300 rounded-full flex items-center justify-center">
-                  <span className="text-gray-700 font-bold text-sm lg:text-base">
+                  <span className="text-gray-800 font-bold text-base">
                     {comment.user.name.charAt(0).toUpperCase()}
                   </span>
                 </div>
                 <div className="space-y-[2px] leading-[0.9]">
-                  <h3 className="font-semibold text-gray-700 text-sm lg:text-base">
+                  <h3 className="font-semibold text-gray-800 text-base">
                     {comment.user.name}
                   </h3>
-                  <span className="text-[12px] text-gray-500">
+                  <span className="text-base text-gray-600">
                     {new Date(comment.createdAt).toLocaleDateString("pt-BR")}
                   </span>
-                  <p className="text-gray-700 text-sm mt-3">
+                  <p className="text-gray-800 text-base mt-3 leading-[1.5]">
                     {comment.description}
                   </p>
                   <CommentVote 

@@ -53,7 +53,7 @@ export default function AccessibilityInfo({ placeId }: AccessibilityInfoProps) {
                     height={18}
                     color={rampaAcesso.hasMajority ? "#2d8bba" : "#404040"}
                   />
-                  <p className="lg:text-base text-sm font-medium text-neutral-700 mr-3">
+                  <p className="text-base font-medium text-gray-800 mr-3">
                     Rampa de acesso
                   </p>
                   <Badge
@@ -64,12 +64,12 @@ export default function AccessibilityInfo({ placeId }: AccessibilityInfoProps) {
                     }
                     className="rounded-xl px-1 py-0.15"
                   >
-                    <p className="text-[12px]">
+                    <p className="text-base">
                       {rampaAcesso.hasMajority ? "Disponível" : "Indisponível"}
                     </p>
                   </Badge>
                 </div>
-                <p className="text-sm text-gray-500">
+                <p className="text-base text-gray-700 leading-[1.5]">
                   Rampa disponível para facilitar o acesso de cadeirantes e
                   pessoas com mobilidade reduzida.
                 </p>
@@ -83,7 +83,7 @@ export default function AccessibilityInfo({ placeId }: AccessibilityInfoProps) {
                       banheiroAcessivel.hasMajority ? "#2d8bba" : "#404040"
                     }
                   />
-                  <p className="lg:text-base text-sm font-medium text-neutral-700 mr-3">
+                  <p className="text-base font-medium text-gray-800 mr-3">
                     Banheiro acessível
                   </p>
                   <Badge
@@ -94,14 +94,14 @@ export default function AccessibilityInfo({ placeId }: AccessibilityInfoProps) {
                     }
                     className="rounded-xl"
                   >
-                    <p className="text-xs">
+                    <p className="text-base">
                       {banheiroAcessivel.hasMajority
                         ? "Disponível"
                         : "Indisponível"}
                     </p>
                   </Badge>
                 </div>
-                <p className="text-sm text-gray-500">
+                <p className="text-base text-gray-700 leading-[1.5]">
                   Banheiro adaptado com barras de apoio e espaço adequado para
                   cadeira de rodas.
                 </p>
@@ -121,7 +121,7 @@ export default function AccessibilityInfo({ placeId }: AccessibilityInfoProps) {
                         : "#404040"
                     }
                   />
-                  <p className="lg:text-base text-sm font-medium text-neutral-700 mr-3">
+                  <p className="text-base font-medium text-gray-800 mr-3">
                     Estacionamento
                   </p>
                   <Badge
@@ -132,14 +132,14 @@ export default function AccessibilityInfo({ placeId }: AccessibilityInfoProps) {
                     }
                     className="rounded-xl"
                   >
-                    <p className="text-xs">
+                    <p className="text-base">
                       {estacionamentoAcessivel.hasMajority
                         ? "Disponível"
                         : "Indisponível"}
                     </p>
                   </Badge>
                 </div>
-                <p className="text-sm text-gray-500">
+                <p className="text-base text-gray-700 leading-[1.5]">
                   Vagas reservadas próximas à entrada para pessoas com
                   deficiência ou mobilidade reduzida.
                 </p>
@@ -153,7 +153,7 @@ export default function AccessibilityInfo({ placeId }: AccessibilityInfoProps) {
                       acessibilidadeVisual.hasMajority ? "#2d8bba" : "#404040"
                     }
                   />
-                  <p className="lg:text-base text-sm font-medium text-neutral-700 mr-3">
+                  <p className="text-base font-medium text-gray-800 mr-3">
                     Visual
                   </p>
                   <Badge
@@ -164,14 +164,14 @@ export default function AccessibilityInfo({ placeId }: AccessibilityInfoProps) {
                     }
                     className="rounded-xl"
                   >
-                    <p className="text-xs">
+                    <p className="text-base">
                       {acessibilidadeVisual.hasMajority
                         ? "Disponível"
                         : "Indisponível"}
                     </p>
                   </Badge>
                 </div>
-                <p className="text-sm text-gray-500">
+                <p className="text-base text-gray-700 leading-[1.5]">
                   Sinalização e recursos visuais para melhor orientação de
                   pessoas com deficiência visual.
                 </p>

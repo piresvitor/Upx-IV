@@ -148,8 +148,8 @@ export default function Profile() {
                 <User size={48} className="text-gray-600" />
               </div>
               <h2 className="text-xl font-semibold text-gray-800">{user.name}</h2>
-              <p className="text-sm text-gray-600">{user.email}</p>
-              <p className="text-xs text-gray-500 mt-1 capitalize">{user.role}</p>
+              <p className="text-base text-gray-700">{user.email}</p>
+              <p className="text-base text-gray-600 mt-1 capitalize">{user.role}</p>
             </div>
 
             <div className="space-y-3">
@@ -185,7 +185,7 @@ export default function Profile() {
                   <FileText size={26} className="text-blue-600" />
                 </div>
                 <div className="min-w-0">
-                  <p className="text-sm text-gray-600 mb-1">Relatórios Criados</p>
+                  <p className="text-base text-gray-700 mb-1">Relatórios Criados</p>
                   <p className="text-2xl font-bold text-gray-800">
                     {stats?.totalReports || 0}
                   </p>
@@ -197,7 +197,7 @@ export default function Profile() {
                   <Heart size={26} className="text-red-600" />
                 </div>
                 <div className="min-w-0">
-                  <p className="text-sm text-gray-600 mb-1">Total de Votos Recebidos</p>
+                  <p className="text-base text-gray-700 mb-1">Total de Votos Recebidos</p>
                   <p className="text-2xl font-bold text-gray-800">
                     {stats?.totalVotes || 0}
                   </p>
@@ -209,7 +209,7 @@ export default function Profile() {
                   <Star size={26} className="text-yellow-600 fill-yellow-600" />
                 </div>
                 <div className="min-w-0">
-                  <p className="text-sm text-gray-600 mb-1">Locais Favoritos</p>
+                  <p className="text-base text-gray-700 mb-1">Locais Favoritos</p>
                   <p className="text-2xl font-bold text-gray-800">
                     {stats?.totalFavorites || 0}
                   </p>
@@ -256,10 +256,10 @@ export default function Profile() {
                           <h4 className="font-semibold text-gray-800 mb-1">
                             {report.title || "Sem título"}
                           </h4>
-                          <p className="text-sm text-gray-600 mb-2 line-clamp-2">
+                          <p className="text-base text-gray-700 mb-2 line-clamp-2">
                             {report.description || "Sem descrição"}
                           </p>
-                          <div className="flex flex-wrap items-center gap-4 text-xs text-gray-500">
+                          <div className="flex flex-wrap items-center gap-4 text-base text-gray-600">
                             <span className="capitalize">{report.type || "N/A"}</span>
                             {report.place && report.place.name && (
                               <span>📍 {report.place.name}</span>
@@ -392,7 +392,7 @@ export default function Profile() {
                 </button>
               </div>
               {deleteError && (
-                <p className="text-red-500 text-sm mt-1">{deleteError}</p>
+                <p className="text-red-600 text-base mt-1">{deleteError}</p>
               )}
             </div>
           </div>

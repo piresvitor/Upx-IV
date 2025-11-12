@@ -77,7 +77,7 @@ export default function PlaceDetails({ place }: PlaceDetailsProps) {
               <div className="max-w-[20px]">
                 <MapPin height={20} width={20} color="#2d8bba" />
               </div>
-              <p className="text-gray-700 mb-2 lg:text-base text-sm">
+              <p className="text-gray-800 mb-2 text-base">
                 {place.address ?? "Não informado"}
               </p>
             </div>
@@ -88,10 +88,10 @@ export default function PlaceDetails({ place }: PlaceDetailsProps) {
               <div className="max-w-[20px]">
                 <MessageCircle height={20} width={20} color="#2d8bba" />
               </div>
-              <p className="text-gray-700 mb-2 lg:text-base text-sm">
+              <p className="text-gray-800 mb-2 text-base">
                 Total de comentários:
               </p>
-              <p className="text-gray-700 mb-2 lg:text-base text-sm">
+              <p className="text-gray-800 mb-2 text-base">
                 {place.reportsCount ?? "Não informado"}
               </p>
             </div>
