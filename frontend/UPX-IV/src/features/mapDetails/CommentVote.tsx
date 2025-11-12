@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { reportService } from "@/services/reportService";
 import { Button } from "@/components/ui/button";
-import { ThumbsUp } from "lucide-react";
+import { Heart } from "lucide-react";
 
 interface CommentVoteProps {
   reportId: string;
@@ -69,10 +69,10 @@ export default function CommentVote({
         size="sm"
         onClick={handleVote}
         className={`h-6 px-1.5 py-0.5 text-[11px] leading-none flex items-center gap-1 rounded-sm ${
-          hasVoted ? "text-yellow-500" : "text-gray-500"
+          hasVoted ? "text-red-600" : "text-gray-500"
         }`}
       >
-        <ThumbsUp className="w-3.5 h-3.5" />
+        <Heart className={`w-3.5 h-3.5 ${hasVoted ? "fill-red-600" : ""}`} />
         {votesCount}
       </Button>
     </div>

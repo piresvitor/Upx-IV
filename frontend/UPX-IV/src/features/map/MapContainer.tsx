@@ -73,8 +73,8 @@ export default function MapContainer() {
     }
   };
 
-  if (loadError) return <p>Erro ao carregar o mapa</p>;
-  if (!isLoaded) return <p>Carregando...</p>;
+  if (loadError) return <p className="text-base text-gray-800">Erro ao carregar o mapa</p>;
+  if (!isLoaded) return <p className="text-base text-gray-800">Carregando...</p>;
 
   return (
     <div className="h-[500px] lg:h-[700px] w-full lg:w-[90%] lg:mx-auto rounded-lg overflow-hidden">
@@ -94,13 +94,13 @@ export default function MapContainer() {
         <div className="absolute bottom-0 left-0 w-full flex justify-start px-4 pb-4">
           <div className="bg-white p-5 rounded-2xl shadow-lg w-[90%] max-w-lg flex flex-row items-start">
             <div className="flex-1">
-              <h2 className="text-lg font-semibold">{infoBoxData.name}</h2>
-              <p className="text-sm text-muted-foreground">
+              <h2 className="text-xl md:text-2xl font-semibold text-gray-800 mb-2">{infoBoxData.name}</h2>
+              <p className="text-base text-gray-700 leading-[1.5] mb-3">
                 {infoBoxData.address}
               </p>
               <Button
                 variant="default"
-                className="mt-3 cursor-pointer"
+                className="mt-3 cursor-pointer text-base"
                 onClick={() => navigate(`/details/${infoBoxData.placeId}`)}
               >
                 Ver Detalhes
@@ -109,8 +109,9 @@ export default function MapContainer() {
             <button
               onClick={() => setInfoBoxData(null)}
               className="ml-3 mt-1 cursor-pointer text-gray-500 hover:text-gray-700"
+              aria-label="Fechar"
             >
-              <X size={20} />
+              <X size={24} className="md:w-6 md:h-6" />
             </button>
           </div>
         </div>

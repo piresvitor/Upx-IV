@@ -122,7 +122,7 @@ export default function AccessibilityInfo({ placeId }: AccessibilityInfoProps) {
                     }
                   />
                   <p className="text-base font-medium text-gray-800 mr-3">
-                    Estacionamento
+                    Vagas PCD
                   </p>
                   <Badge
                     variant={

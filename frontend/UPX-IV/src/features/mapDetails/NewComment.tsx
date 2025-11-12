@@ -57,16 +57,27 @@ export default function NewComment({ placeId, onSuccess }: NewCommentProps) {
         Compartilhe sua experiência
       </h1>
 
-      <Textarea
-        value={description}
-        onChange={(e) => {
-          setDescription(e.target.value);
-          if (error) setError("");
-        }}
-        placeholder="Escreva aqui sobre sua experiência..."
-      />
-
-      {error && <p className="text-base text-red-600 mt-1">{error}</p>}
+      <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-end">
+        <div className="flex-1">
+          <Textarea
+            value={description}
+            onChange={(e) => {
+              setDescription(e.target.value);
+              if (error) setError("");
+            }}
+            placeholder="Escreva aqui sobre sua experiência..."
+            className="min-h-28 text-lg"
+          />
+          {error && <p className="text-base text-red-600 mt-1">{error}</p>}
+        </div>
+        <Button
+          onClick={handleSubmit}
+          disabled={loading}
+          className="cursor-pointer h-12 sm:h-14 px-6 sm:px-8 text-base sm:text-lg font-semibold whitespace-nowrap"
+        >
+          {loading ? "Enviando..." : "Enviar"}
+        </Button>
+      </div>
 
       <div className="mt-5">
         <p className="text-base text-gray-700 mb-3">
@@ -78,16 +89,6 @@ export default function NewComment({ placeId, onSuccess }: NewCommentProps) {
             setSelectedTypes(types);
           }}
         />
-      </div>
-
-      <div className="flex justify-end mt-2">
-        <Button
-          onClick={handleSubmit}
-          disabled={loading}
-          className="cursor-pointer"
-        >
-          {loading ? "Enviando..." : "Enviar"}
-        </Button>
       </div>
     </div>
   );

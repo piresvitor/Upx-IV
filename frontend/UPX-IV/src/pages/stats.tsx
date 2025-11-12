@@ -100,6 +100,16 @@ export default function Stats() {
     }
   };
 
+  const formatFeatureName = (feature: string): string => {
+    // Captura todas as variações possíveis de "estacionamento"
+    // O backend retorna "Estacionamento Acessível"
+    const normalized = feature.toLowerCase().trim();
+    if (normalized.includes("estacionamento")) {
+      return "Vagas PCD";
+    }
+    return feature;
+  };
+
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
@@ -281,14 +291,14 @@ export default function Stats() {
                 <Tooltip 
                   formatter={(value: any, _name: any, props: any) => [
                     `${value} (${props.payload.percentage.toFixed(1)}%)`,
-                    props.payload.feature
+                    formatFeatureName(props.payload.feature)
                   ]}
                   contentStyle={{ backgroundColor: 'white', border: '1px solid #ccc', borderRadius: '4px' }}
                 />
                 <Legend 
                   verticalAlign="bottom" 
                   height={36}
-                  formatter={(_value, entry: any) => `${entry.payload.feature} (${entry.payload.percentage.toFixed(1)}%)`}
+                  formatter={(_value, entry: any) => `${formatFeatureName(entry.payload.feature)} (${entry.payload.percentage.toFixed(1)}%)`}
                   wrapperStyle={{ paddingTop: '20px' }}
                 />
               </PieChart>
@@ -319,12 +329,13 @@ export default function Stats() {
                   height={120}
                   interval={0}
                   tick={{ fontSize: 12 }}
+                  tickFormatter={formatFeatureName}
                 />
                 <YAxis />
                 <Tooltip 
                   formatter={(value: any, _name: any, props: any) => [
                     `${value} (${props.payload.percentage.toFixed(1)}%)`,
-                    props.payload.feature
+                    formatFeatureName(props.payload.feature)
                   ]}
                   contentStyle={{ backgroundColor: 'white', border: '1px solid #ccc', borderRadius: '4px' }}
                 />
@@ -453,7 +464,7 @@ export default function Stats() {
                 <tbody>
                   {accessibilityFeatures.data.map((item) => (
                     <tr key={item.feature} className="border-b hover:bg-gray-50">
-                      <td className="py-3 px-4">{item.feature}</td>
+                      <td className="py-3 px-4">{formatFeatureName(item.feature)}</td>
                       <td className="py-3 px-4 text-right font-medium">
                         {item.count}
                       </td>

@@ -20,7 +20,7 @@ export default function CommentCheckBox({
     { id: `${id}-b`, label: "Banheiro acessível", value: "banheiroAcessivel" },
     {
       id: `${id}-c`,
-      label: "Estacionamento",
+      label: "Vagas PCD",
       value: "estacionamentoAcessivel",
     },
     {
