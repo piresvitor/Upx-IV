@@ -32,18 +32,44 @@ const server = fastify({
 
 // Configurar CORS manualmente
 server.addHook('onRequest', async (request, reply) => {
+    // Lista de origens permitidas
+    const allowedOrigins = [
+        'http://localhost:5173',
+        'http://localhost:3000',
+        'http://localhost:5174',
+        'https://mapa-acessibilidade-frontend.onrender.com',
+        'https://www.mapa-acessibilidade-frontend.onrender.com'
+    ]
+    
     // Obter a origem da requisição
-    const origin = request.headers.origin || request.headers.host
+    const origin = request.headers.origin
+    const isDevelopment = process.env.NODE_ENV === 'development'
+    const isPreflight = request.method === 'OPTIONS'
     
-    // Headers CORS para todas as requisições
-    reply.header('Access-Control-Allow-Origin', origin || '*')
-    reply.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
-    reply.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, Access-Control-Request-Method, Access-Control-Request-Headers')
-    reply.header('Access-Control-Allow-Credentials', 'true')
-    reply.header('Access-Control-Expose-Headers', 'Content-Length, X-Foo, X-Bar')
+    // Verificar se a origem é permitida
+    const isAllowedOrigin = origin && (allowedOrigins.includes(origin) || isDevelopment)
     
-    // Lidar com requisições OPTIONS (preflight)
-    if (request.method === 'OPTIONS') {
+    // Para requisições OPTIONS (preflight), sempre adicionar headers CORS
+    // Para outras requisições, apenas se a origem for permitida
+    if (isPreflight || isAllowedOrigin) {
+        // Definir origem permitida
+        if (isAllowedOrigin && origin) {
+            reply.header('Access-Control-Allow-Origin', origin)
+            reply.header('Vary', 'Origin')
+        } else if (isDevelopment && !origin) {
+            reply.header('Access-Control-Allow-Origin', '*')
+        }
+        
+        // Headers CORS sempre adicionados para preflight ou requisições permitidas
+        reply.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PATCH')
+        reply.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, Access-Control-Request-Method, Access-Control-Request-Headers')
+        reply.header('Access-Control-Allow-Credentials', 'true')
+        reply.header('Access-Control-Max-Age', '86400') // 24 horas
+        reply.header('Access-Control-Expose-Headers', 'Content-Length, X-Foo, X-Bar')
+    }
+    
+    // Lidar com requisições OPTIONS (preflight) - sempre responder
+    if (isPreflight) {
         reply.code(204)
         return reply.send()
     }
