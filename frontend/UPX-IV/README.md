@@ -21,9 +21,10 @@ O **Mapa Colaborativo de Acessibilidade** é uma plataforma que permite aos usu�
   - Tendências de relatórios ao longo do tempo (dia, semana, mês)
   - Distribuição de relatórios por tipo
   - Características de acessibilidade (rampa, banheiro, estacionamento, visual)
+- ⭐ **Sistema de Favoritos**: Usuários podem salvar locais favoritos para acesso rápido
 - 👤 **Página de Perfil**: Perfil completo do usuário com:
   - Visualização e edição de informações pessoais
-  - Estatísticas pessoais (relatórios criados, votos recebidos)
+  - Estatísticas pessoais (relatórios criados, votos recebidos, locais favoritos)
   - Lista de relatórios do usuário com opção de exclusão
   - Exclusão de conta
 - 🔐 **Autenticação Segura**: Sistema de login com JWT e hash de senhas
@@ -64,6 +65,8 @@ UPX-IV/
 │   │   ├── home.tsx        # Página inicial
 │   │   ├── map.tsx         # Página do mapa
 │   │   ├── mapDetails.tsx  # Detalhes do local
+│   │   ├── places.tsx      # Lista de locais com comentários
+│   │   ├── favorites.tsx   # Locais favoritos do usuário
 │   │   ├── profile.tsx     # Perfil do usuário
 │   │   ├── stats.tsx       # Dashboard de estatísticas
 │   │   ├── login.tsx       # Login
@@ -82,6 +85,7 @@ UPX-IV/
 │   │   ├── placeService.ts # Gestão de locais
 │   │   ├── reportService.ts # Gestão de relatos
 │   │   ├── statsService.ts # Estatísticas do sistema
+│   │   ├── favoriteService.ts # Gestão de favoritos
 │   │   └── googleMaps.ts   # Integração Google Maps
 │   ├── routes/             # Configuração de rotas
 │   │   ├── index.tsx       # Rotas principais
@@ -155,10 +159,12 @@ A aplicação estará disponível em `http://localhost:5173`
 ### Páginas Protegidas (Requerem autenticação)
 
 - **Mapa** (`/map`): Mapa interativo com locais e relatórios de acessibilidade
-- **Detalhes do Local** (`/details/:placeId`): Detalhes completos de um local específico
+- **Detalhes do Local** (`/details/:placeId`): Detalhes completos de um local específico com opção de favoritar
+- **Locais** (`/places`): Lista de locais com comentários, filtros por tipo, ordenação e busca
+- **Meus Favoritos** (`/favorites`): Página com todos os locais favoritos do usuário para acesso rápido
 - **Perfil** (`/profile`): Página de perfil do usuário com:
   - Visualização e edição de informações pessoais
-  - Estatísticas pessoais (relatórios criados, votos recebidos)
+  - Estatísticas pessoais (relatórios criados, votos recebidos, locais favoritos)
   - Lista de relatórios do usuário com opção de exclusão
   - Exclusão de conta
 - **Estatísticas** (`/stats`): Dashboard completo de estatísticas do sistema com:

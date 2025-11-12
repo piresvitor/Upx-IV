@@ -22,9 +22,10 @@ O **Mapa Colaborativo de Acessibilidade** é uma plataforma completa que permite
   - Tendências de relatórios ao longo do tempo (dia, semana, mês)
   - Distribuição de relatórios por tipo
   - Características de acessibilidade (rampa, banheiro, estacionamento, visual)
+- ⭐ **Sistema de Favoritos**: Usuários podem salvar locais favoritos para acesso rápido
 - 👤 **Página de Perfil**: Perfil completo do usuário com:
   - Visualização e edição de informações pessoais
-  - Estatísticas pessoais (relatórios criados, votos recebidos)
+  - Estatísticas pessoais (relatórios criados, votos recebidos, locais favoritos)
   - Lista de relatórios do usuário com opção de exclusão
   - Exclusão de conta
 - 🔐 **Autenticação Segura**: Sistema de login com JWT e hash de senhas
@@ -230,6 +231,7 @@ npm test
 - `GET /places/:placeId` - Obter detalhes de um local
 - `PUT /places/:placeId` - Atualizar um local
 - `GET /places` - Buscar todos os locais
+- `GET /places/with-reports` - Buscar locais com comentários (filtros, ordenação, busca)
 - `GET /places/:placeId/accessibility-stats` - Estatísticas de acessibilidade
 
 ### Relatos (`/reports`)
@@ -241,6 +243,11 @@ npm test
 - `DELETE /reports/:reportId` - Remover relato
 - `POST /reports/:reportId/votes` - Votar em relato
 - `DELETE /reports/:reportId/votes` - Remover voto
+
+### Favoritos (`/favorites`)
+- `POST /places/:placeId/favorites` - Adicionar ou remover local dos favoritos (toggle)
+- `GET /places/:placeId/favorites/check` - Verificar se local está favoritado
+- `GET /users/me/favorites` - Listar todos os locais favoritos do usuário (com paginação)
 
 ### Estatísticas (`/stats`)
 - `GET /stats/general` - Estatísticas gerais (usuários, relatórios, locais, votos)
@@ -268,10 +275,12 @@ Esses campos são utilizados nos relatos e também são exibidos em gráficos es
 
 ### Páginas Protegidas (Requerem autenticação)
 - **Mapa** (`/map`): Mapa interativo com locais e relatórios de acessibilidade
-- **Detalhes do Local** (`/details/:placeId`): Detalhes completos de um local específico
+- **Detalhes do Local** (`/details/:placeId`): Detalhes completos de um local específico com opção de favoritar
+- **Locais** (`/places`): Lista de locais com comentários, filtros e ordenação
+- **Meus Favoritos** (`/favorites`): Página com todos os locais favoritos do usuário
 - **Perfil** (`/profile`): Página de perfil do usuário com:
   - Visualização e edição de informações pessoais
-  - Estatísticas pessoais (relatórios criados, votos recebidos)
+  - Estatísticas pessoais (relatórios criados, votos recebidos, locais favoritos)
   - Lista de relatórios do usuário com opção de exclusão
   - Exclusão de conta
 - **Estatísticas** (`/stats`): Dashboard completo de estatísticas do sistema com:

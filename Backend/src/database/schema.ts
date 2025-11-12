@@ -14,6 +14,7 @@ export const users = pgTable('users', {
 export const usersRelations = relations(users, ({ many }) => ({
   reports: many(reports),
   votes: many(votes),
+  favorites: many(favorites),
 }))
 
 // Tabela de Locais (Places)
@@ -49,6 +50,7 @@ export const reports = pgTable('reports', {
 // Relações para a tabela de Locais
 export const placesRelations = relations(places, ({ many }) => ({
   reports: many(reports),
+  favorites: many(favorites),
 }))
 
 export const reportsRelations = relations(reports, ({ one, many }) => ({
@@ -81,5 +83,26 @@ export const votesRelations = relations(votes, ({ one }) => ({
   report: one(reports, {
     fields: [votes.reportId],
     references: [reports.id],
+  }),
+}))
+
+// Tabela de Favoritos (Favorites)
+export const favorites = pgTable('favorites', {
+  id: serial('id').primaryKey(),
+  userId: uuid('user_id').notNull().references(() => users.id),
+  placeId: uuid('place_id').notNull().references(() => places.id),
+  createdAt: timestamp('created_at').notNull().defaultNow(),
+}, table => ({
+  uniqueFavorite: uniqueIndex('unique_favorite_index').on(table.userId, table.placeId),
+}))
+
+export const favoritesRelations = relations(favorites, ({ one }) => ({
+  user: one(users, {
+    fields: [favorites.userId],
+    references: [users.id],
+  }),
+  place: one(places, {
+    fields: [favorites.placeId],
+    references: [places.id],
   }),
 }))

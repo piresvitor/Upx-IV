@@ -5,8 +5,9 @@ services:
     region: sao-paulo
     plan: free
     rootDir: Backend
-    buildCommand: npm run build
+    buildCommand: npm install && npm run db:migrate
     startCommand: npm start
+    autoDeploy: true
     healthCheckPath: /ping
     envVars:
       - key: NODE_ENV

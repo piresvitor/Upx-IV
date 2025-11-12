@@ -38,6 +38,7 @@ Para uma visão completa da arquitetura e componentes do sistema, consulte:
       - `GET /places/:placeId` - Obter detalhes de um local
       - `PUT /places/:placeId` - Atualizar um local
       - `GET /places` - Buscar todos os locais
+      - `GET /places/with-reports` - Buscar locais com comentários (filtros, ordenação, busca)
       - `GET /places/:placeId/accessibility-stats` - Estatísticas de acessibilidade do local
 
 ### 📝 Relatos
@@ -68,6 +69,16 @@ Para uma visão completa da arquitetura e componentes do sistema, consulte:
   - `GET /stats/reports/trends` - Tendências de relatos ao longo do tempo
   - `GET /stats/reports/by-type` - Relatos agrupados por tipo
   - `GET /stats/reports/accessibility-features` - Estatísticas de características de acessibilidade
+
+### ⭐ Favoritos
+- **Base URLs**:
+  - `/places/:placeId/favorites` (gerenciar favoritos por local)
+  - `/users/me/favorites` (listar favoritos do usuário)
+- **Documentação**: [API_FAVORITES_DOCUMENTATION.md](./API_FAVORITES_DOCUMENTATION.md)
+- **Endpoints**:
+  - `POST /places/:placeId/favorites` - Adicionar ou remover local dos favoritos (toggle)
+  - `GET /places/:placeId/favorites/check` - Verificar se local está favoritado
+  - `GET /users/me/favorites` - Listar todos os locais favoritos do usuário (com paginação)
 
 ### 👨‍💼 Administração (Futuro)
 - **Base URL**: `/admin`
@@ -164,6 +175,7 @@ PORT=3333
 - [requisicoes-votes.http](./requisicoes-votes.http) - Testes para votação em relatos
 - [requisicoes-stats.http](./requisicoes-stats.http) - Testes para estatísticas
 - [requisicoes-accessibility-stats.http](./requisicoes-accessibility-stats.http) - Testes para estatísticas de acessibilidade
+- [requisicoes-favorites.http](./requisicoes-favorites.http) - Testes para favoritos
 
 ## Documentação de Arquitetura
 

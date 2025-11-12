@@ -16,6 +16,7 @@ O **Mapa Colaborativo de Acessibilidade** é uma plataforma que permite aos usu�
 - **🎯 Campos de Acessibilidade**: Relatos específicos para rampa de acesso, banheiro acessível, estacionamento acessível e acessibilidade visual
 - **📊 Estatísticas de Acessibilidade**: Análise automática de padrões de acessibilidade por local
 - **👍 Sistema de Votação**: Comunidade pode validar e classificar relatos
+- **⭐ Sistema de Favoritos**: Usuários podem salvar locais favoritos para acesso rápido
 - **📈 Dashboard de Estatísticas**: API completa para estatísticas do sistema:
   - Estatísticas gerais (usuários, relatórios, locais, votos)
   - Tendências de relatórios ao longo do tempo (dia, semana, mês)
@@ -97,6 +98,7 @@ Esta pasta contém toda a documentação da API do sistema de mapeamento colabor
 - **[API_PLACES_DOCUMENTATION.md](./API_PLACES_DOCUMENTATION.md)** - Documentação da API de locais
 - **[API_REPORTS_DOCUMENTATION.md](./API_REPORTS_DOCUMENTATION.md)** - Documentação da API de relatos
 - **[API_STATS_DOCUMENTATION.md](./API_STATS_DOCUMENTATION.md)** - Documentação da API de estatísticas
+- **[API_FAVORITES_DOCUMENTATION.md](./API_FAVORITES_DOCUMENTATION.md)** - Documentação da API de favoritos
 - **[COMPONENT_DIAGRAM.md](./COMPONENT_DIAGRAM.md)** - Diagrama de componentes e arquitetura do sistema
 - **[USE_CASE_DIAGRAM.md](./USE_CASE_DIAGRAM.md)** - Diagrama de caso de uso e interações do sistema
 - **[CORS_SETUP.md](./CORS_SETUP.md)** - Configuração e teste do CORS para desenvolvimento frontend
@@ -108,6 +110,7 @@ Esta pasta contém toda a documentação da API do sistema de mapeamento colabor
 - **[requisicoes-votes.http](./requisicoes-votes.http)** - Requisições de teste para votação em relatos
 - **[requisicoes-stats.http](./requisicoes-stats.http)** - Requisições de teste para estatísticas
 - **[requisicoes-accessibility-stats.http](./requisicoes-accessibility-stats.http)** - Requisições de teste para estatísticas de acessibilidade
+- **[requisicoes-favorites.http](./requisicoes-favorites.http)** - Requisições de teste para favoritos
 
 ## 🚀 Como Usar
 
@@ -174,6 +177,7 @@ Esta pasta contém toda a documentação da API do sistema de mapeamento colabor
 - `GET /places/:placeId` - Obter detalhes de um local
 - `PUT /places/:placeId` - Atualizar um local
 - `GET /places` - Buscar todos os locais
+- `GET /places/with-reports` - Buscar locais com comentários (filtros, ordenação, busca)
 - `GET /places/:placeId/accessibility-stats` - Estatísticas de acessibilidade do local
 
 ### Relatos (`/reports`)
@@ -185,6 +189,11 @@ Esta pasta contém toda a documentação da API do sistema de mapeamento colabor
 - `DELETE /reports/:reportId` - Remover um relato (somente autor)
 - `POST /reports/:reportId/votes` - Votar em um relato
 - `DELETE /reports/:reportId/votes` - Remover voto de um relato
+
+### Favoritos (`/favorites`)
+- `POST /places/:placeId/favorites` - Adicionar ou remover local dos favoritos (toggle)
+- `GET /places/:placeId/favorites/check` - Verificar se local está favoritado
+- `GET /users/me/favorites` - Listar todos os locais favoritos do usuário (com paginação)
 
 **Novos Campos de Acessibilidade nos Relatos:**
 - `rampaAcesso` (boolean) - Rampa de acesso disponível
@@ -277,7 +286,7 @@ const response = await fetch('http://localhost:3333/auth/login', {
 - **Estatísticas**: 4 endpoints de estatísticas completos
 
 ### 🗄️ Banco de Dados
-- **Tabelas**: 4 tabelas principais (users, places, reports, votes)
+- **Tabelas**: 5 tabelas principais (users, places, reports, votes, favorites)
 - **Relacionamentos**: Relacionamentos bem definidos
 - **Migrações**: Sistema de migrações com Drizzle
 - **Seed**: Dados de exemplo para desenvolvimento

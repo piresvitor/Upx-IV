@@ -14,6 +14,7 @@ import { registerRoute } from '../routes/auth/register'
 import { searchNearbyRoute, checkOrCreateRoute, getPlaceRoute, updatePlaceRoute, getAllPlacesRoute, getPlaceReportsRoute, getPlaceAccessibilityStats, getPlacesWithReportsRoute } from '../routes/places'
 import { reportsRoutes } from '../routes/reports'
 import { statsRoutes } from '../routes/stats'
+import { toggleFavoriteRoute, getFavoritesRoute, checkFavoriteRoute } from '../routes/favorites'
 // import cors from '@fastify/cors' // Removido temporariamente
 
 
@@ -90,6 +91,9 @@ server.register(getAllPlacesRoute)
 server.register(getPlaceReportsRoute)
 server.register(getPlaceAccessibilityStats)
 server.register(getPlacesWithReportsRoute)
+server.register(toggleFavoriteRoute)
+server.register(getFavoritesRoute)
+server.register(checkFavoriteRoute)
 server.register(reportsRoutes)
 server.register(statsRoutes)
 

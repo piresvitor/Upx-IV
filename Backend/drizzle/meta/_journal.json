@@ -43,6 +43,13 @@
       "when": 1761540506044,
       "tag": "0005_chunky_sabretooth",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1762974578493,
+      "tag": "0006_fine_the_professor",
+      "breakpoints": true
     }
   ]
 }

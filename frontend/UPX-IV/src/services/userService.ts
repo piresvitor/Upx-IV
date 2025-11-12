@@ -11,6 +11,7 @@ export interface User {
 export interface UserStats {
   totalReports: number;
   totalVotes: number;
+  totalFavorites: number;
   reports: Array<{
     id: string;
     title: string;
@@ -84,10 +85,23 @@ export const userService = {
 
       const reports = reportsRes.data.reports || [];
     
+      // Buscar quantidade de favoritos
+      let totalFavorites = 0;
+      try {
+        const favoritesRes = await api.get("/users/me/favorites", {
+          params: { page: 1, limit: 1 },
+        });
+        totalFavorites = favoritesRes.data.pagination?.total || 0;
+      } catch (error) {
+        console.error("Erro ao buscar favoritos:", error);
+        totalFavorites = 0;
+      }
+
       if (!reports || reports.length === 0) {
         return {
           totalReports: 0,
           totalVotes: 0,
+          totalFavorites,
           reports: [],
         };
       }
@@ -179,6 +193,7 @@ export const userService = {
       return {
         totalReports: reports.length,
         totalVotes,
+        totalFavorites,
         reports: reportsWithVotes,
       };
     } catch (error) {

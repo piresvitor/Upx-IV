@@ -3,9 +3,10 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { FileText, Heart, MapPin, Search, ChevronLeft, ChevronRight, Filter, ArrowUpDown, ChevronDown, ChevronUp } from "lucide-react";
+import { Search, ChevronLeft, ChevronRight, Filter, ArrowUpDown, ChevronDown, ChevronUp } from "lucide-react";
 import { placeService, type PlaceWithReports } from "@/services/placeService";
 import { useNavigate } from "react-router-dom";
+import PlaceCard from "@/components/PlaceCard";
 
 type SortBy = 'reportsCount' | 'votesCount' | 'createdAt';
 type SortOrder = 'asc' | 'desc';
@@ -221,62 +222,18 @@ export default function Places() {
       ) : (
         <>
           <div className="space-y-3 sm:space-y-4 mb-4 sm:mb-6">
-          {places.map((place) => (
-              <Card
+            {places.map((place) => (
+              <PlaceCard
                 key={place.id}
-                className="p-4 sm:p-6 hover:shadow-md transition-shadow cursor-pointer"
-                onClick={() => handlePlaceClick(place.id)}
-              >
-                <div className="flex flex-col gap-3 sm:gap-4">
-                  <div className="flex-1">
-                    <h3 className="text-lg sm:text-xl font-semibold text-gray-800 mb-1.5 sm:mb-2 line-clamp-2">
-                      {place.name}
-                    </h3>
-                    {place.address && (
-                      <div className="flex items-start gap-1.5 sm:gap-2 text-xs sm:text-sm text-gray-600 mb-2 sm:mb-3">
-                        <MapPin size={14} className="text-gray-400 mt-0.5 flex-shrink-0 sm:w-4 sm:h-4" />
-                        <span className="line-clamp-2">{place.address}</span>
-                      </div>
-                    )}
-                    <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-xs sm:text-sm text-gray-500">
-                      {place.rating && (
-                        <span>⭐ {place.rating.toFixed(1)}</span>
-                      )}
-                      {place.types && place.types.length > 0 && (
-                        <span className="capitalize">
-                          {place.types[0].replace(/_/g, " ")}
-                        </span>
-                      )}
-                    </div>
-                  </div>
-
-                  <div className="flex gap-2 sm:gap-4 md:gap-6 justify-between sm:justify-start">
-                    <div className="flex items-center gap-1.5 sm:gap-2 p-2 sm:p-3 bg-blue-50 rounded-lg flex-1 sm:flex-initial">
-                      <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
-                        <FileText size={16} className="text-blue-600 sm:w-5 sm:h-5" />
-                      </div>
-                      <div className="min-w-0">
-                        <p className="text-[10px] sm:text-xs text-gray-600">Comentários</p>
-                        <p className="text-base sm:text-lg font-bold text-gray-800">
-                          {place.reportsCount}
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center gap-1.5 sm:gap-2 p-2 sm:p-3 bg-red-50 rounded-lg flex-1 sm:flex-initial">
-                      <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-red-100 flex items-center justify-center flex-shrink-0">
-                        <Heart size={16} className="text-red-600 sm:w-5 sm:h-5" />
-                      </div>
-                      <div className="min-w-0">
-                        <p className="text-[10px] sm:text-xs text-gray-600">Votos</p>
-                        <p className="text-base sm:text-lg font-bold text-gray-800">
-                          {place.votesCount}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </Card>
+                id={place.id}
+                name={place.name}
+                address={place.address}
+                rating={place.rating}
+                types={place.types}
+                reportsCount={place.reportsCount}
+                votesCount={place.votesCount}
+                onClick={handlePlaceClick}
+              />
             ))}
           </div>
 

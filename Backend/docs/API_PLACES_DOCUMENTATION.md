@@ -208,7 +208,57 @@ GET /places/123e4567-e89b-12d3-a456-426614174000/accessibility-stats
 - **`positiveCount`**: Quantidade de relatos com valor `true`
 - **`totalCount`**: Total de relatos analisados
 
-### 6. Buscar Todos os Locais
+### 6. Buscar Locais com Comentários
+
+**GET** `/places/with-reports`
+
+Busca todos os locais que possuem pelo menos um comentário (relato), com contagem de comentários e votos. Ideal para a página de "Locais" que lista apenas locais com interação.
+
+#### Parâmetros de Query:
+- `page` (number, opcional): Página (padrão: 1, mínimo: 1)
+- `limit` (number, opcional): Itens por página (padrão: 15, mínimo: 1, máximo: 15)
+- `search` (string, opcional): Termo de busca (busca em nome e endereço)
+- `type` (string, opcional): Filtrar por tipo de local (ex: "restaurant", "hospital", "school")
+- `sortBy` (string, opcional): Campo para ordenação ("reportsCount", "votesCount", "createdAt", padrão: "createdAt")
+- `sortOrder` (string, opcional): Ordem da classificação ("asc", "desc", padrão: "desc")
+
+#### Exemplo de Requisição:
+```http
+GET /places/with-reports?page=1&limit=15&search=restaurante&type=restaurant&sortBy=reportsCount&sortOrder=desc
+```
+
+#### Resposta:
+```json
+{
+  "places": [
+    {
+      "id": "123e4567-e89b-12d3-a456-426614174000",
+      "placeId": "ChIJ...",
+      "name": "Restaurante Exemplo",
+      "address": "Rua Exemplo, 123",
+      "latitude": -23.5505,
+      "longitude": -46.6333,
+      "types": ["restaurant", "food"],
+      "rating": 4.8,
+      "userRatingsTotal": 200,
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z",
+      "reportsCount": 5,
+      "votesCount": 12
+    }
+  ],
+  "pagination": {
+    "page": 1,
+    "limit": 15,
+    "total": 25,
+    "totalPages": 2
+  }
+}
+```
+
+**Nota**: Esta rota retorna apenas locais que possuem pelo menos um relato (comentário). Para buscar todos os locais, use `/places`.
+
+### 7. Buscar Todos os Locais
 
 **GET** `/places`
 
@@ -263,6 +313,7 @@ GET /places?page=1&limit=5&search=restaurante&type=restaurant&sortBy=rating&sort
 4. **Se o local não existe**: O sistema cria automaticamente e você pode mostrar a página vazia
 5. **Para gerenciar relatos**: Use as rotas da API de Relatos (`/reports/`)
 6. **Para estatísticas de acessibilidade**: Use `/places/:placeId/accessibility-stats` para dashboards e análises
+7. **Para favoritar locais**: Use as rotas da API de Favoritos (`/places/:placeId/favorites`) - veja [API_FAVORITES_DOCUMENTATION.md](./API_FAVORITES_DOCUMENTATION.md)
 
 ## Códigos de Erro
 

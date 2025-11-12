@@ -1,0 +1,38 @@
+### Requisições de Teste - API de Favoritos
+### Use a extensão REST Client do VS Code para executar estas requisições
+
+@baseUrl = http://localhost:3333
+@token = SEU_TOKEN_JWT_AQUI
+
+### 1. Adicionar Local aos Favoritos (Toggle)
+POST {{baseUrl}}/places/123e4567-e89b-12d3-a456-426614174000/favorites
+Authorization: Bearer {{token}}
+
+### 2. Verificar se Local está Favoritado
+GET {{baseUrl}}/places/123e4567-e89b-12d3-a456-426614174000/favorites/check
+Authorization: Bearer {{token}}
+
+### 3. Listar Locais Favoritos do Usuário (Primeira Página)
+GET {{baseUrl}}/users/me/favorites?page=1&limit=15
+Authorization: Bearer {{token}}
+
+### 4. Listar Locais Favoritos do Usuário (Segunda Página)
+GET {{baseUrl}}/users/me/favorites?page=2&limit=15
+Authorization: Bearer {{token}}
+
+### 5. Remover Local dos Favoritos (Toggle - se já estiver favoritado)
+POST {{baseUrl}}/places/123e4567-e89b-12d3-a456-426614174000/favorites
+Authorization: Bearer {{token}}
+
+### 6. Teste de Erro - Local não encontrado
+POST {{baseUrl}}/places/00000000-0000-0000-0000-000000000000/favorites
+Authorization: Bearer {{token}}
+
+### 7. Teste de Erro - Token inválido
+GET {{baseUrl}}/users/me/favorites
+Authorization: Bearer token_invalido
+
+### 8. Teste de Erro - UUID inválido
+GET {{baseUrl}}/places/invalid-uuid/favorites/check
+Authorization: Bearer {{token}}
+

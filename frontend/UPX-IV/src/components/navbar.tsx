@@ -11,7 +11,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Menu, User } from "lucide-react";
+import { Menu, User, Star } from "lucide-react";
 
 interface NavBarProps {
   isAuthenticated: boolean;
@@ -62,10 +62,20 @@ export default function NavBar({ isAuthenticated, onLogout }: NavBarProps) {
         <div className="flex items-center gap-3">
           {isAuthenticated ? (
             <>
+              {/* Botão de Favoritos */}
+              <button
+                onClick={() => navigate("/favorites")}
+                className="w-9 h-9 rounded-full bg-gray-200 flex items-center justify-center hover:bg-gray-300 transition"
+                title="Meus Favoritos"
+              >
+                <Star size={18} className="text-gray-700" />
+              </button>
+
               {/* Botão de Avatar */}
               <button
                 onClick={() => navigate("/profile")}
                 className="w-9 h-9 rounded-full bg-gray-200 flex items-center justify-center hover:bg-gray-300 transition"
+                title="Meu Perfil"
               >
                 <User size={18} className="text-gray-700" />
               </button>

@@ -10,7 +10,7 @@ import {
   DialogTitle,
   DialogFooter,
 } from "@/components/ui/dialog";
-import { User, Edit2, FileText, Heart, Trash2, Eye, EyeOff } from "lucide-react";
+import { User, Edit2, FileText, Heart, Trash2, Eye, EyeOff, Star } from "lucide-react";
 import { userService, type User as UserType, type UserStats } from "@/services/userService";
 import { useAuthContext } from "@/context/useAuthContext";
 import { useNavigate } from "react-router-dom";
@@ -62,7 +62,7 @@ export default function Profile() {
     } catch (error) {
       console.error("Erro ao buscar estatísticas:", error);
       // Definir stats vazio em caso de erro para não quebrar a UI
-      setStats({ totalReports: 0, totalVotes: 0, reports: [] });
+      setStats({ totalReports: 0, totalVotes: 0, totalFavorites: 0, reports: [] });
     }
   };
 
@@ -179,27 +179,39 @@ export default function Profile() {
           {/* Estatísticas */}
           <Card className="p-6">
             <h3 className="text-xl font-semibold text-gray-800 mb-4">Estatísticas</h3>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="flex items-center gap-3 p-4 bg-blue-50 rounded-lg">
-                <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center">
-                  <FileText size={24} className="text-blue-600" />
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className="flex items-center gap-4 p-4 bg-blue-50 rounded-lg">
+                <div className="w-14 h-14 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
+                  <FileText size={26} className="text-blue-600" />
                 </div>
-                <div>
-                  <p className="text-sm text-gray-600">Relatórios Criados</p>
+                <div className="min-w-0">
+                  <p className="text-sm text-gray-600 mb-1">Relatórios Criados</p>
                   <p className="text-2xl font-bold text-gray-800">
                     {stats?.totalReports || 0}
                   </p>
                 </div>
               </div>
 
-              <div className="flex items-center gap-3 p-4 bg-red-50 rounded-lg">
-                <div className="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center">
-                  <Heart size={24} className="text-red-600" />
+              <div className="flex items-center gap-4 p-4 bg-red-50 rounded-lg">
+                <div className="w-14 h-14 rounded-full bg-red-100 flex items-center justify-center flex-shrink-0">
+                  <Heart size={26} className="text-red-600" />
                 </div>
-                <div>
-                  <p className="text-sm text-gray-600">Total de Votos Recebidos</p>
+                <div className="min-w-0">
+                  <p className="text-sm text-gray-600 mb-1">Total de Votos Recebidos</p>
                   <p className="text-2xl font-bold text-gray-800">
                     {stats?.totalVotes || 0}
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-4 p-4 bg-yellow-50 rounded-lg">
+                <div className="w-14 h-14 rounded-full bg-yellow-100 flex items-center justify-center flex-shrink-0">
+                  <Star size={26} className="text-yellow-600 fill-yellow-600" />
+                </div>
+                <div className="min-w-0">
+                  <p className="text-sm text-gray-600 mb-1">Locais Favoritos</p>
+                  <p className="text-2xl font-bold text-gray-800">
+                    {stats?.totalFavorites || 0}
                   </p>
                 </div>
               </div>

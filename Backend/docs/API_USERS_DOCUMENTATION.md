@@ -151,6 +151,7 @@ Content-Type: application/json
 - Retorna apenas os dados básicos do usuário
 - Não expõe informações sensíveis como hash da senha
 - Requer autenticação válida
+- **Nota**: Para obter estatísticas do usuário (incluindo total de favoritos), use `/users/me/stats` (se disponível) ou `/users/me/favorites` para listar favoritos
 
 ### PUT /users/me
 - Permite atualização parcial dos dados
