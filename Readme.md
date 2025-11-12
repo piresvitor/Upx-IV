@@ -206,12 +206,6 @@ npm run test:watch
 npm run test:cors
 ```
 
-### Frontend
-```bash
-# Executar testes do frontend
-npm test
-```
-
 ## 📊 Endpoints da API
 
 ### Autenticação (`/auth`)
@@ -308,19 +302,6 @@ npm run test:coverage    # Testes com cobertura
 npm run dev              # Inicia servidor de desenvolvimento
 npm run build            # Build para produção
 npm run preview          # Preview do build
-npm test                 # Executa testes
-```
-
-### Docker (Frontend)
-```bash
-# Build da imagem Docker
-docker build -t upx-iv-frontend .
-
-# Executar container
-docker run -p 80:80 upx-iv-frontend
-
-# Build e execução com docker-compose (se configurado)
-docker-compose up --build
 ```
 
 ## 🌐 Desenvolvimento
