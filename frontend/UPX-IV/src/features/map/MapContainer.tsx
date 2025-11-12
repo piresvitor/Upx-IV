@@ -22,10 +22,10 @@ interface InfoBoxData {
 const containerStyle = { width: "100%", height: "100%", borderRadius: "8px" };
 const center = { lat: -23.529, lng: -47.4686 }; // Av. Domingos Júlio, Campolim, Sorocaba - SP
 const campolimBounds = {
-  north: -23.520,
-  south: -23.540,
-  east: -47.460,
-  west: -47.485,
+  north: -23.460,  
+  south: -23.595,  
+  east: -47.380,   
+  west: -47.568,   
 };
 
 export default function MapContainer() {

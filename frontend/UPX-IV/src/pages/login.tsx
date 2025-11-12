@@ -68,16 +68,16 @@ export default function Login() {
   return (
     <div className="flex min-h-screen flex-col lg:flex-row bg-primary lg:bg-amber-50">
       <div className="lg:w-2/5 bg-primary flex flex-col items-center justify-center p-12 text-white ">
-        <h1 className="text-4xl font-extrabold mb-4 text-center">
+        <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold mb-4 text-center leading-[1.2]">
           Olá de novo!
         </h1>
-        <p className="lg:text-lg text-amber-50 text-center max-w-xs text-base">
+        <p className="lg:text-lg text-amber-50 text-center max-w-xs text-base leading-[1.5]">
           Acesse sua conta e continue sua jornada conosco.
         </p>
         <Button
           variant="outline"
           size="lg"
-          className=" hidden lg:flex mt-8 border-white text-amber-50 hover:bg-white/20 transition-colors cursor-pointer"
+          className="hidden lg:flex mt-6 border-2 border-white text-amber-50 hover:bg-white/20 transition-colors cursor-pointer text-base px-5 py-3 h-auto font-semibold"
           onClick={() => router("/account/register")}
         >
           Criar Conta
@@ -86,7 +86,7 @@ export default function Login() {
           type="button"
           variant="link"
           onClick={() => router("/account/register")}
-          className="lg:hidden flex text-white font-semibold underline hover:text-amber-200 transition-colors pt-7"
+          className="lg:hidden flex text-white font-semibold underline hover:text-amber-200 transition-colors pt-6 text-base"
         >
           Criar Conta
         </Button>
@@ -94,17 +94,17 @@ export default function Login() {
 
       <div className="lg:w-3/5 flex items-center justify-center p-8 lg:p-1 bg-gray-50 rounded-t-[35px] lg:rounded-none">
         <Card className="w-full max-w-md lg:p-8 rounded-2xl lg:shadow-xl border-none shadow-none lg:border-1 bg-gray-50 lg:bg-white ">
-          <CardHeader className="text-center mb-4">
-            <CardTitle className="text-2xl font-medium text-primary">
+          <CardHeader className="text-center mb-6">
+            <CardTitle className="text-2xl md:text-3xl font-semibold text-primary">
               Login
             </CardTitle>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="space-y-1">
+              <div className="space-y-2">
                 <Label
                   htmlFor="email"
-                  className="text-gray-800 text-base font-medium"
+                  className="text-gray-900 text-base font-semibold"
                 >
                   Email
                 </Label>
@@ -115,13 +115,13 @@ export default function Login() {
                   value={form.email}
                   onChange={(e) => handleChange("email", e.target.value)}
                   required
-                  className="focus:ring-2 focus:ring-amber-400"
+                  className="focus:ring-2 focus:ring-amber-400 h-11 text-base"
                 />
               </div>
-              <div className="space-y-1">
+              <div className="space-y-2">
                 <Label
                   htmlFor="password"
-                  className="text-gray-800 text-base font-medium"
+                  className="text-gray-900 text-base font-semibold"
                 >
                   Senha
                 </Label>
@@ -133,12 +133,12 @@ export default function Login() {
                     value={form.password}
                     onChange={(e) => handleChange("password", e.target.value)}
                     required
-                    className="focus:ring-2 focus:ring-amber-400 pr-10"
+                    className="focus:ring-2 focus:ring-amber-400 pr-12 h-11 text-base"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 focus:outline-none"
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-600 hover:text-gray-800 focus:outline-none focus:ring-2 focus:ring-amber-400 rounded p-1"
                     aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}
                   >
                     {showPassword ? (
@@ -150,11 +150,11 @@ export default function Login() {
                 </div>
               </div>
               {error && (
-                <p className="text-red-600 text-base mt-1 text-center">{error}</p>
+                <p className="text-red-700 text-base mt-2 text-center font-medium">{error}</p>
               )}
               <Button
                 type="submit"
-                className="cursor-pointer w-full bg-primary hover:bg-primary-dark text-white font-semibold py-2 rounded-lg transition-colors"
+                className="cursor-pointer w-full bg-primary hover:bg-primary-dark text-white font-semibold py-3 rounded-lg transition-colors text-base h-12"
                 disabled={loading}
               >
                 {loading ? "Entrando..." : "Entrar"}
