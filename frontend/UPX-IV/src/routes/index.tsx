@@ -14,6 +14,7 @@ const RegisterAccount = lazy(() => import("@/pages/createUser"));
 const Login = lazy(() => import("@/pages/login"));
 const Profile = lazy(() => import("@/pages/profile"));
 const Stats = lazy(() => import("@/pages/stats"));
+const Places = lazy(() => import("@/pages/places"));
 
 // Componente de loading para Suspense
 const PageLoader = () => (
@@ -78,6 +79,14 @@ const router = createBrowserRouter([
             element: (
               <Suspense fallback={<PageLoader />}>
                 <Stats />
+              </Suspense>
+            ),
+          },
+          {
+            path: "places",
+            element: (
+              <Suspense fallback={<PageLoader />}>
+                <Places />
               </Suspense>
             ),
           },

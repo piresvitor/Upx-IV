@@ -45,6 +45,21 @@ export interface AccessibilityResponse {
   };
 }
 
+export interface PlaceWithReports extends Place {
+  reportsCount: number;
+  votesCount: number;
+}
+
+export interface PlacesWithReportsResponse {
+  places: PlaceWithReports[];
+  pagination: {
+    page: number;
+    limit: number;
+    total: number;
+    totalPages: number;
+  };
+}
+
 export const placeService = {
   async checkOrCreate(placeId: string): Promise<Place> {
     const res = await api.post("/places/check-or-create", { placeId });
@@ -58,6 +73,18 @@ export const placeService = {
 
   async getAccessibilityStats(placeId: string): Promise<AccessibilityResponse> {
     const res = await api.get(`/places/${placeId}/accessibility-stats`);
+    return res.data;
+  },
+
+  async getPlacesWithReports(page: number = 1, limit: number = 15, search?: string): Promise<PlacesWithReportsResponse> {
+    const params = new URLSearchParams({
+      page: page.toString(),
+      limit: limit.toString(),
+    });
+    if (search) {
+      params.append('search', search);
+    }
+    const res = await api.get(`/places/with-reports?${params.toString()}`);
     return res.data;
   },
 };

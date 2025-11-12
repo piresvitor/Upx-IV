@@ -20,6 +20,7 @@ interface NavBarProps {
 
 const privateLinks = [
   { href: "/map", label: "Mapa" },
+  { href: "/places", label: "Locais" },
   { href: "/stats", label: "Estatísticas" },
 ];
 
