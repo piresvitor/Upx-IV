@@ -76,7 +76,14 @@ export const placeService = {
     return res.data;
   },
 
-  async getPlacesWithReports(page: number = 1, limit: number = 15, search?: string): Promise<PlacesWithReportsResponse> {
+  async getPlacesWithReports(
+    page: number = 1,
+    limit: number = 15,
+    search?: string,
+    type?: string,
+    sortBy: 'reportsCount' | 'votesCount' | 'createdAt' = 'createdAt',
+    sortOrder: 'asc' | 'desc' = 'desc'
+  ): Promise<PlacesWithReportsResponse> {
     const params = new URLSearchParams({
       page: page.toString(),
       limit: limit.toString(),
@@ -84,6 +91,11 @@ export const placeService = {
     if (search) {
       params.append('search', search);
     }
+    if (type) {
+      params.append('type', type);
+    }
+    params.append('sortBy', sortBy);
+    params.append('sortOrder', sortOrder);
     const res = await api.get(`/places/with-reports?${params.toString()}`);
     return res.data;
   },
