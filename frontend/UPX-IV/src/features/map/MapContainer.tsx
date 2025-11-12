@@ -1,5 +1,5 @@
 import { GoogleMap, useLoadScript } from "@react-google-maps/api";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { X } from "lucide-react";
@@ -37,6 +37,29 @@ export default function MapContainer() {
 
   const [map, setMap] = useState<google.maps.Map | null>(null);
   const [infoBoxData, setInfoBoxData] = useState<InfoBoxData | null>(null);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const infoBoxRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  // Scroll automático para o InfoBox no mobile quando ele aparecer
+  useEffect(() => {
+    if (infoBoxData && isMobile && infoBoxRef.current) {
+      setTimeout(() => {
+        infoBoxRef.current?.scrollIntoView({ 
+          behavior: "smooth", 
+          block: "end",
+          inline: "nearest"
+        });
+      }, 100);
+    }
+  }, [infoBoxData, isMobile]);
 
   const onLoad = useCallback((mapInstance: google.maps.Map) => {
     setMap(mapInstance);
@@ -77,30 +100,64 @@ export default function MapContainer() {
   if (!isLoaded) return <p className="text-base text-gray-800">Carregando...</p>;
 
   return (
-    <div className="h-[500px] lg:h-[700px] w-full lg:w-[90%] lg:mx-auto rounded-lg overflow-hidden">
-      <GoogleMap
-        mapContainerStyle={containerStyle}
-        center={center}
-        zoom={16}
-        onLoad={onLoad}
-        onUnmount={onUnmount}
-        onClick={handleMapClick}
-        options={{
-          restriction: { latLngBounds: campolimBounds, strictBounds: true },
-          disableDefaultUI: false,
-        }}
-      >
-      {infoBoxData && (
-        <div className="absolute bottom-0 left-0 w-full flex justify-start px-4 pb-4">
-          <div className="bg-white p-5 rounded-2xl shadow-lg w-[90%] max-w-lg flex flex-row items-start">
-            <div className="flex-1">
-              <h2 className="text-xl md:text-2xl font-semibold text-gray-800 mb-2">{infoBoxData.name}</h2>
-              <p className="text-base text-gray-700 leading-[1.5] mb-3">
+    <div className="relative">
+      <div className="h-[600px] sm:h-[650px] lg:h-[700px] w-full lg:w-[90%] lg:mx-auto rounded-lg overflow-hidden relative">
+        <GoogleMap
+          mapContainerStyle={containerStyle}
+          center={center}
+          zoom={isMobile ? 15 : 16}
+          onLoad={onLoad}
+          onUnmount={onUnmount}
+          onClick={handleMapClick}
+          options={{
+            restriction: { latLngBounds: campolimBounds, strictBounds: true },
+            disableDefaultUI: false,
+            gestureHandling: "greedy", // Melhor controle de gestos no mobile
+            zoomControl: true,
+            fullscreenControl: false,
+          }}
+        />
+        {!isMobile && infoBoxData && (
+          <div className="absolute bottom-0 left-0 right-0 w-full flex justify-center px-3 sm:px-4 pb-3 sm:pb-4 z-[1000] pointer-events-auto">
+            <div className="bg-white p-4 sm:p-5 rounded-xl sm:rounded-2xl shadow-2xl w-full max-w-lg flex flex-row items-start border border-gray-200">
+              <div className="flex-1 min-w-0 pr-2">
+                <h2 className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-800 mb-1.5 sm:mb-2 line-clamp-2">{infoBoxData.name}</h2>
+                <p className="text-sm sm:text-base text-gray-700 leading-[1.5] mb-2 sm:mb-3 line-clamp-2">
+                  {infoBoxData.address}
+                </p>
+                <Button
+                  variant="default"
+                  className="mt-2 sm:mt-3 cursor-pointer text-sm sm:text-base w-full sm:w-auto h-10 sm:h-11"
+                  onClick={() => navigate(`/details/${infoBoxData.placeId}`)}
+                >
+                  Ver Detalhes
+                </Button>
+              </div>
+              <button
+                onClick={() => setInfoBoxData(null)}
+                className="ml-2 flex-shrink-0 cursor-pointer text-gray-500 hover:text-gray-700 p-1 rounded-full hover:bg-gray-100 transition"
+                aria-label="Fechar"
+              >
+                <X size={20} className="sm:w-6 sm:h-6" />
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+      {isMobile && infoBoxData && (
+        <div 
+          ref={infoBoxRef}
+          className="relative mt-4 w-full flex justify-center px-3 sm:px-4 pointer-events-auto"
+        >
+          <div className="bg-white p-4 sm:p-5 rounded-xl sm:rounded-2xl shadow-2xl w-full max-w-lg flex flex-row items-start border border-gray-200">
+            <div className="flex-1 min-w-0 pr-2">
+              <h2 className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-800 mb-1.5 sm:mb-2 line-clamp-2">{infoBoxData.name}</h2>
+              <p className="text-sm sm:text-base text-gray-700 leading-[1.5] mb-2 sm:mb-3 line-clamp-2">
                 {infoBoxData.address}
               </p>
               <Button
                 variant="default"
-                className="mt-3 cursor-pointer text-base"
+                className="mt-2 sm:mt-3 cursor-pointer text-sm sm:text-base w-full sm:w-auto h-10 sm:h-11"
                 onClick={() => navigate(`/details/${infoBoxData.placeId}`)}
               >
                 Ver Detalhes
@@ -108,15 +165,14 @@ export default function MapContainer() {
             </div>
             <button
               onClick={() => setInfoBoxData(null)}
-              className="ml-3 mt-1 cursor-pointer text-gray-500 hover:text-gray-700"
+              className="ml-2 flex-shrink-0 cursor-pointer text-gray-500 hover:text-gray-700 p-1 rounded-full hover:bg-gray-100 transition"
               aria-label="Fechar"
             >
-              <X size={24} className="md:w-6 md:h-6" />
+              <X size={20} className="sm:w-6 sm:h-6" />
             </button>
           </div>
         </div>
       )}
-      </GoogleMap>
     </div>
   );
 }
