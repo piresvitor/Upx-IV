@@ -1,2 +1,2 @@
-export { useTheme } from "@/context/ThemeContext";
+export { useTheme } from "@/context/useTheme";
 
