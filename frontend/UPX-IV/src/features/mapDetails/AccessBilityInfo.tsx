@@ -27,8 +27,8 @@ export default function AccessibilityInfo({ placeId }: AccessibilityInfoProps) {
     fetchStats();
   }, [placeId]);
 
-  if (loading) return <p>Carregando acessibilidade...</p>;
-  if (!stats) return <p>Não foi possível carregar os dados.</p>;
+  if (loading) return <p className="dark:text-white">Carregando acessibilidade...</p>;
+  if (!stats) return <p className="dark:text-white">Não foi possível carregar os dados.</p>;
 
   const {
     rampaAcesso,
@@ -39,21 +39,21 @@ export default function AccessibilityInfo({ placeId }: AccessibilityInfoProps) {
 
   return (
     <div className="flex justify-center flex-col items-center gap-6 pb-10">
-      <h1 className="lg:text-2xl text-base font-semibold text-gray-800">
+      <h1 className="lg:text-2xl text-base font-semibold text-gray-800 dark:text-white">
         Informações de Acessibilidade
       </h1>
 
       <Card title="Acessibilidade" className="max-w-200 lg:p-8 p-4">
         <div className="grid lg:grid-cols-2 lg:space-y-0 space-y-5 lg:gap-15">
           <div>
-            <ul className="space-y-5 text-gray-700">
+            <ul className="space-y-5 text-gray-700 dark:text-white">
               <li className="flex flex-col gap-1">
                 <div className="flex flex-row gap-1 items-center">
                   <AccessibilityIcon
                     height={18}
                     color={rampaAcesso.hasMajority ? "#2d8bba" : "#404040"}
                   />
-                  <p className="text-base font-medium text-gray-800 mr-3">
+                  <p className="text-base font-medium text-gray-800 dark:text-white mr-3">
                     Rampa de acesso
                   </p>
                   <Badge
@@ -69,7 +69,7 @@ export default function AccessibilityInfo({ placeId }: AccessibilityInfoProps) {
                     </p>
                   </Badge>
                 </div>
-                <p className="text-base text-gray-700 leading-[1.5]">
+                <p className="text-base text-gray-700 dark:text-white leading-[1.5]">
                   Rampa disponível para facilitar o acesso de cadeirantes e
                   pessoas com mobilidade reduzida.
                 </p>
@@ -83,7 +83,7 @@ export default function AccessibilityInfo({ placeId }: AccessibilityInfoProps) {
                       banheiroAcessivel.hasMajority ? "#2d8bba" : "#404040"
                     }
                   />
-                  <p className="text-base font-medium text-gray-800 mr-3">
+                  <p className="text-base font-medium text-gray-800 dark:text-white mr-3">
                     Banheiro acessível
                   </p>
                   <Badge
@@ -101,7 +101,7 @@ export default function AccessibilityInfo({ placeId }: AccessibilityInfoProps) {
                     </p>
                   </Badge>
                 </div>
-                <p className="text-base text-gray-700 leading-[1.5]">
+                <p className="text-base text-gray-700 dark:text-white leading-[1.5]">
                   Banheiro adaptado com barras de apoio e espaço adequado para
                   cadeira de rodas.
                 </p>
@@ -110,7 +110,7 @@ export default function AccessibilityInfo({ placeId }: AccessibilityInfoProps) {
           </div>
 
           <div>
-            <ul className="space-y-5 text-gray-700">
+            <ul className="space-y-5 text-gray-700 dark:text-white">
               <li className="flex flex-col gap-1">
                 <div className="flex flex-row gap-1 items-center">
                   <ParkingSquare
@@ -121,7 +121,7 @@ export default function AccessibilityInfo({ placeId }: AccessibilityInfoProps) {
                         : "#404040"
                     }
                   />
-                  <p className="text-base font-medium text-gray-800 mr-3">
+                  <p className="text-base font-medium text-gray-800 dark:text-white mr-3">
                     Vagas PCD
                   </p>
                   <Badge
@@ -139,7 +139,7 @@ export default function AccessibilityInfo({ placeId }: AccessibilityInfoProps) {
                     </p>
                   </Badge>
                 </div>
-                <p className="text-base text-gray-700 leading-[1.5]">
+                <p className="text-base text-gray-700 dark:text-white leading-[1.5]">
                   Vagas reservadas próximas à entrada para pessoas com
                   deficiência ou mobilidade reduzida.
                 </p>
@@ -153,7 +153,7 @@ export default function AccessibilityInfo({ placeId }: AccessibilityInfoProps) {
                       acessibilidadeVisual.hasMajority ? "#2d8bba" : "#404040"
                     }
                   />
-                  <p className="text-base font-medium text-gray-800 mr-3">
+                  <p className="text-base font-medium text-gray-800 dark:text-white mr-3">
                     Visual
                   </p>
                   <Badge
@@ -171,7 +171,7 @@ export default function AccessibilityInfo({ placeId }: AccessibilityInfoProps) {
                     </p>
                   </Badge>
                 </div>
-                <p className="text-base text-gray-700 leading-[1.5]">
+                <p className="text-base text-gray-700 dark:text-white leading-[1.5]">
                   Sinalização e recursos visuais para melhor orientação de
                   pessoas com deficiência visual.
                 </p>

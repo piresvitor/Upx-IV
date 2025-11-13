@@ -78,33 +78,33 @@ export default function CommentList({
 
   return (
     <div className="mt-6">
-      <h2 className="lg:text-2xl text-base font-semibold text-gray-800 mb-4">
+      <h2 className="lg:text-2xl text-base font-semibold text-gray-800 dark:text-white mb-4">
         Comentários
       </h2>
       {!comments.length && (
-        <p className="text-gray-600">Nenhum comentário disponível.</p>
+        <p className="text-gray-600 dark:text-gray-300">Nenhum comentário disponível.</p>
       )}
       <div className="grid gap-4 grid-cols-1 md:grid-cols-2">
         {currentComments.map((comment) => (
           <div
             key={comment.id}
-            className="border rounded-lg p-4 shadow-sm bg-white space-y-2"
+            className="border border-gray-200 dark:border-gray-700 rounded-lg p-4 shadow-sm bg-white dark:bg-gray-800/50 space-y-2"
           >
             <div className="flex justify-between items-start mb-2">
               <div className="flex items-start gap-2">
-                <div className="lg:w-10 lg:h-10 w-7 h-7 bg-gray-300 rounded-full flex items-center justify-center">
-                  <span className="text-gray-800 font-bold text-base">
+                <div className="lg:w-10 lg:h-10 w-7 h-7 bg-gray-300 dark:bg-gray-600 rounded-full flex items-center justify-center">
+                  <span className="text-gray-800 dark:text-white font-bold text-base">
                     {comment.user.name.charAt(0).toUpperCase()}
                   </span>
                 </div>
                 <div className="space-y-[2px] leading-[0.9]">
-                  <h3 className="font-semibold text-gray-800 text-base">
+                  <h3 className="font-semibold text-gray-800 dark:text-white text-base">
                     {comment.user.name}
                   </h3>
-                  <span className="text-base text-gray-600">
+                  <span className="text-base text-gray-600 dark:text-gray-300">
                     {new Date(comment.createdAt).toLocaleDateString("pt-BR")}
                   </span>
-                  <p className="text-gray-800 text-base mt-3 leading-[1.5]">
+                  <p className="text-gray-800 dark:text-white text-base mt-3 leading-[1.5]">
                     {comment.description}
                   </p>
                   <CommentVote 
@@ -147,7 +147,7 @@ export default function CommentList({
           >
             <ChevronLeft />
           </Button>
-          <span className="flex items-center px-3">
+          <span className="flex items-center px-3 text-gray-800 dark:text-white">
             {page} / {totalPages}
           </span>
           <Button

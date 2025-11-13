@@ -131,4 +131,56 @@
   .text-muted-foreground, [class*="text-gray-"] {
     color: oklch(0.35 0 0);
   }
+  
+  /* Melhorar contraste no dark mode para textos e títulos */
+  .dark .text-muted-foreground,
+  .dark [class*="text-gray-"] {
+    color: oklch(0.85 0 0);
+  }
+  
+  /* Títulos mais claros no dark mode */
+  .dark h1,
+  .dark h2,
+  .dark h3,
+  .dark h4,
+  .dark h5,
+  .dark h6 {
+    color: oklch(0.95 0 0);
+  }
+  
+  /* Textos com text-gray-800 ficam mais claros no dark mode */
+  .dark [class*="text-gray-800"] {
+    color: oklch(0.95 0 0) !important;
+  }
+  
+  /* Textos com text-gray-700 ficam mais claros no dark mode (exceto em botões com fundo claro) */
+  .dark [class*="text-gray-700"] {
+    color: oklch(0.85 0 0);
+  }
+  
+  /* Exceção: ícones dentro de botões com bg-gray-200 mantêm cor escura original */
+  .dark [class*="bg-gray-200"] [class*="text-gray-700"],
+  .dark [class*="bg-gray-200"] [class*="text-gray-600"],
+  .dark [class*="bg-gray-200"] [class*="text-gray-500"] {
+    color: rgb(55 65 81) !important; /* gray-700 original */
+  }
+  
+  .dark [class*="text-gray-600"] {
+    color: oklch(0.80 0 0);
+  }
+  
+  /* Garantir transições suaves entre temas para elementos específicos */
+  body,
+  button,
+  a,
+  input,
+  textarea,
+  select,
+  [class*="bg-"],
+  [class*="text-"],
+  [class*="border-"] {
+    transition-property: background-color, border-color, color, fill, stroke;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+  }
 }

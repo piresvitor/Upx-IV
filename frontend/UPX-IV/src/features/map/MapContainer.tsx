@@ -96,8 +96,8 @@ export default function MapContainer() {
     }
   };
 
-  if (loadError) return <p className="text-base text-gray-800">Erro ao carregar o mapa</p>;
-  if (!isLoaded) return <p className="text-base text-gray-800">Carregando...</p>;
+  if (loadError) return <p className="text-base text-gray-800 dark:text-gray-100">Erro ao carregar o mapa</p>;
+  if (!isLoaded) return <p className="text-base text-gray-800 dark:text-gray-100">Carregando...</p>;
 
   return (
     <div className="relative">
@@ -119,10 +119,10 @@ export default function MapContainer() {
         />
         {!isMobile && infoBoxData && (
           <div className="absolute bottom-0 left-0 right-0 w-full flex justify-center px-3 sm:px-4 pb-3 sm:pb-4 z-[1000] pointer-events-auto">
-            <div className="bg-white p-4 sm:p-5 rounded-xl sm:rounded-2xl shadow-2xl w-full max-w-lg flex flex-row items-start border border-gray-200">
+            <div className="bg-white dark:bg-gray-800 p-4 sm:p-5 rounded-xl sm:rounded-2xl shadow-2xl w-full max-w-lg flex flex-row items-start border border-gray-200 dark:border-gray-700">
               <div className="flex-1 min-w-0 pr-2">
-                <h2 className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-800 mb-1.5 sm:mb-2 line-clamp-2">{infoBoxData.name}</h2>
-                <p className="text-sm sm:text-base text-gray-700 leading-[1.5] mb-2 sm:mb-3 line-clamp-2">
+                <h2 className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-800 dark:text-gray-100 mb-1.5 sm:mb-2 line-clamp-2">{infoBoxData.name}</h2>
+                <p className="text-sm sm:text-base text-gray-700 dark:text-gray-300 leading-[1.5] mb-2 sm:mb-3 line-clamp-2">
                   {infoBoxData.address}
                 </p>
                 <Button
@@ -135,7 +135,7 @@ export default function MapContainer() {
               </div>
               <button
                 onClick={() => setInfoBoxData(null)}
-                className="ml-2 flex-shrink-0 cursor-pointer text-gray-500 hover:text-gray-700 p-1 rounded-full hover:bg-gray-100 transition"
+                className="ml-2 flex-shrink-0 cursor-pointer text-gray-500 hover:text-gray-700 p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition"
                 aria-label="Fechar"
               >
                 <X size={20} className="sm:w-6 sm:h-6" />
@@ -149,10 +149,10 @@ export default function MapContainer() {
           ref={infoBoxRef}
           className="relative mt-4 w-full flex justify-center px-3 sm:px-4 pointer-events-auto"
         >
-          <div className="bg-white p-4 sm:p-5 rounded-xl sm:rounded-2xl shadow-2xl w-full max-w-lg flex flex-row items-start border border-gray-200">
+          <div className="bg-white dark:bg-gray-800 p-4 sm:p-5 rounded-xl sm:rounded-2xl shadow-2xl w-full max-w-lg flex flex-row items-start border border-gray-200 dark:border-gray-700">
             <div className="flex-1 min-w-0 pr-2">
-              <h2 className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-800 mb-1.5 sm:mb-2 line-clamp-2">{infoBoxData.name}</h2>
-              <p className="text-sm sm:text-base text-gray-700 leading-[1.5] mb-2 sm:mb-3 line-clamp-2">
+              <h2 className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-800 dark:text-gray-100 mb-1.5 sm:mb-2 line-clamp-2">{infoBoxData.name}</h2>
+              <p className="text-sm sm:text-base text-gray-700 dark:text-gray-300 leading-[1.5] mb-2 sm:mb-3 line-clamp-2">
                 {infoBoxData.address}
               </p>
               <Button
@@ -165,7 +165,7 @@ export default function MapContainer() {
             </div>
             <button
               onClick={() => setInfoBoxData(null)}
-              className="ml-2 flex-shrink-0 cursor-pointer text-gray-500 hover:text-gray-700 p-1 rounded-full hover:bg-gray-100 transition"
+              className="ml-2 flex-shrink-0 cursor-pointer text-gray-500 hover:text-gray-700 p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition"
               aria-label="Fechar"
             >
               <X size={20} className="sm:w-6 sm:h-6" />

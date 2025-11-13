@@ -92,20 +92,20 @@ export default function Places() {
   if (loading && places.length === 0) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
-        <p className="text-gray-600">Carregando locais...</p>
+        <p className="text-gray-600 dark:text-gray-300">Carregando locais...</p>
       </div>
     );
   }
 
   return (
     <div className="max-w-6xl mx-auto px-3 sm:px-4 py-4 sm:py-8">
-      <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-4 sm:mb-8">Locais com Comentários</h1>
+      <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 dark:text-white mb-4 sm:mb-8">Locais com Comentários</h1>
 
       {/* Campo de Busca */}
       <Card className="p-4 sm:p-6 mb-4 sm:mb-6">
         <div className="flex flex-col sm:flex-row gap-3">
           <div className="flex-1 relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500" size={18} />
             <Input
               type="text"
               placeholder="Buscar locais por nome ou endereço..."
@@ -127,25 +127,25 @@ export default function Places() {
           {/* Botão para expandir/colapsar */}
           <button
             onClick={() => setIsFiltersOpen(!isFiltersOpen)}
-            className="w-full flex items-center justify-between p-2 hover:bg-gray-50 rounded-md transition-colors"
+            className="w-full flex items-center justify-between p-2 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md transition-colors"
           >
-            <div className="flex items-center gap-2 text-base font-medium text-gray-800">
+            <div className="flex items-center gap-2 text-base font-medium text-gray-800 dark:text-white">
               <Filter size={16} className="sm:w-[18px] sm:h-[18px]" />
               <span className="text-base">Filtros e Ordenação</span>
             </div>
             {isFiltersOpen ? (
-              <ChevronUp size={18} className="text-gray-500 sm:w-5 sm:h-5" />
+              <ChevronUp size={18} className="text-gray-500 dark:text-gray-400 sm:w-5 sm:h-5" />
             ) : (
-              <ChevronDown size={18} className="text-gray-500 sm:w-5 sm:h-5" />
+              <ChevronDown size={18} className="text-gray-500 dark:text-gray-400 sm:w-5 sm:h-5" />
             )}
           </button>
 
           {/* Conteúdo colapsável */}
           {isFiltersOpen && (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4 pt-3 border-t">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4 pt-3 border-t border-gray-200 dark:border-gray-700">
               {/* Filtro por Tipo */}
               <div className="space-y-1.5 sm:space-y-2">
-                <Label htmlFor="type-filter" className="flex items-center gap-1.5 sm:gap-2 text-base font-medium text-gray-800">
+                <Label htmlFor="type-filter" className="flex items-center gap-1.5 sm:gap-2 text-base font-medium text-gray-800 dark:text-white">
                   <Filter size={14} className="sm:w-4 sm:h-4" />
                   Tipo de Local
                 </Label>
@@ -156,7 +156,7 @@ export default function Places() {
                     setSelectedType(e.target.value);
                     handleFilterChange();
                   }}
-                  className="w-full h-11 sm:h-11 rounded-md border border-gray-300 bg-white px-3 sm:px-4 py-2 text-base shadow-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+                  className="w-full h-11 sm:h-11 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white px-3 sm:px-4 py-2 text-base shadow-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
                 >
                   {PLACE_TYPES.map((type) => (
                     <option key={type.value} value={type.value}>
@@ -168,7 +168,7 @@ export default function Places() {
 
               {/* Ordenação por Campo */}
               <div className="space-y-1.5 sm:space-y-2">
-                <Label htmlFor="sort-by" className="flex items-center gap-1.5 sm:gap-2 text-base font-medium text-gray-800">
+                <Label htmlFor="sort-by" className="flex items-center gap-1.5 sm:gap-2 text-base font-medium text-gray-800 dark:text-white">
                   <ArrowUpDown size={14} className="sm:w-4 sm:h-4" />
                   Ordenar por
                 </Label>
@@ -179,7 +179,7 @@ export default function Places() {
                     setSortBy(e.target.value as SortBy);
                     handleFilterChange();
                   }}
-                  className="w-full h-11 sm:h-11 rounded-md border border-gray-300 bg-white px-3 sm:px-4 py-2 text-base shadow-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+                  className="w-full h-11 sm:h-11 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white px-3 sm:px-4 py-2 text-base shadow-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
                 >
                   <option value="createdAt">Mais Recentes</option>
                   <option value="reportsCount">Mais Comentários</option>
@@ -189,7 +189,7 @@ export default function Places() {
 
               {/* Ordem (Asc/Desc) */}
               <div className="space-y-1.5 sm:space-y-2">
-                <Label htmlFor="sort-order" className="text-base font-medium text-gray-800">
+                <Label htmlFor="sort-order" className="text-base font-medium text-gray-800 dark:text-white">
                   Ordem
                 </Label>
                 <select
@@ -199,7 +199,7 @@ export default function Places() {
                     setSortOrder(e.target.value as SortOrder);
                     handleFilterChange();
                   }}
-                  className="w-full h-11 sm:h-11 rounded-md border border-gray-300 bg-white px-3 sm:px-4 py-2 text-base shadow-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+                  className="w-full h-11 sm:h-11 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white px-3 sm:px-4 py-2 text-base shadow-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
                 >
                   <option value="desc">Decrescente</option>
                   <option value="asc">Crescente</option>
@@ -213,7 +213,7 @@ export default function Places() {
       {/* Lista de Locais */}
       {places.length === 0 ? (
         <Card className="p-4 sm:p-6">
-          <p className="text-base text-gray-700 text-center py-6 sm:py-8">
+          <p className="text-base text-gray-700 dark:text-gray-300 text-center py-6 sm:py-8">
             {searchTerm
               ? "Nenhum local encontrado com esse termo de busca."
               : "Nenhum local com comentários encontrado."}
@@ -241,7 +241,7 @@ export default function Places() {
           {pagination.totalPages > 1 && (
             <Card className="p-3 sm:p-4">
               <div className="flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-0">
-                <div className="text-base text-gray-700 text-center sm:text-left">
+                <div className="text-base text-gray-700 dark:text-gray-300 text-center sm:text-left">
                   <span className="hidden sm:inline">Página {pagination.page} de {pagination.totalPages} ({pagination.total} locais)</span>
                   <span className="sm:hidden">{pagination.page}/{pagination.totalPages} ({pagination.total})</span>
                 </div>

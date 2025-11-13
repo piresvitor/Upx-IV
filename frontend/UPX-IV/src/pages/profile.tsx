@@ -122,7 +122,7 @@ export default function Profile() {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
-        <p className="text-gray-600">Carregando perfil...</p>
+        <p className="text-gray-600 dark:text-gray-300">Carregando perfil...</p>
       </div>
     );
   }
@@ -130,26 +130,26 @@ export default function Profile() {
   if (!user) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
-        <p className="text-red-500">Erro ao carregar perfil</p>
+        <p className="text-red-500 dark:text-red-400">Erro ao carregar perfil</p>
       </div>
     );
   }
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold text-gray-800 mb-8">Meu Perfil</h1>
+      <h1 className="text-3xl font-bold text-gray-800 dark:text-white mb-8">Meu Perfil</h1>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Informações do Perfil */}
         <div className="lg:col-span-1">
           <Card className="p-6">
             <div className="flex flex-col items-center mb-6">
-              <div className="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center mb-4">
-                <User size={48} className="text-gray-600" />
+              <div className="w-24 h-24 rounded-full bg-gray-200 dark:bg-gray-600 flex items-center justify-center mb-4">
+                <User size={48} className="text-gray-600 dark:text-white" />
               </div>
-              <h2 className="text-xl font-semibold text-gray-800">{user.name}</h2>
-              <p className="text-base text-gray-700">{user.email}</p>
-              <p className="text-base text-gray-600 mt-1 capitalize">{user.role}</p>
+              <h2 className="text-xl font-semibold text-gray-800 dark:text-white">{user.name}</h2>
+              <p className="text-base text-gray-700 dark:text-gray-300">{user.email}</p>
+              <p className="text-base text-gray-600 dark:text-gray-400 mt-1 capitalize">{user.role}</p>
             </div>
 
             <div className="space-y-3">
@@ -178,39 +178,39 @@ export default function Profile() {
         <div className="lg:col-span-2 space-y-6">
           {/* Estatísticas */}
           <Card className="p-6">
-            <h3 className="text-xl font-semibold text-gray-800 mb-4">Estatísticas</h3>
+            <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-4">Estatísticas</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              <div className="flex items-center gap-4 p-4 bg-blue-50 rounded-lg">
-                <div className="w-14 h-14 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
-                  <FileText size={26} className="text-blue-600" />
+              <div className="flex items-center gap-4 p-4 bg-blue-50 dark:bg-blue-900/30 rounded-lg">
+                <div className="w-14 h-14 rounded-full bg-blue-100 dark:bg-blue-900/50 flex items-center justify-center flex-shrink-0">
+                  <FileText size={26} className="text-blue-600 dark:text-blue-400" />
                 </div>
                 <div className="min-w-0">
-                  <p className="text-base text-gray-700 mb-1">Relatórios Criados</p>
-                  <p className="text-2xl font-bold text-gray-800">
+                  <p className="text-base text-gray-700 dark:text-gray-300 mb-1">Relatórios Criados</p>
+                  <p className="text-2xl font-bold text-gray-800 dark:text-white">
                     {stats?.totalReports || 0}
                   </p>
                 </div>
               </div>
 
-              <div className="flex items-center gap-4 p-4 bg-red-50 rounded-lg">
-                <div className="w-14 h-14 rounded-full bg-red-100 flex items-center justify-center flex-shrink-0">
-                  <Heart size={26} className="text-red-600" />
+              <div className="flex items-center gap-4 p-4 bg-red-50 dark:bg-red-900/30 rounded-lg">
+                <div className="w-14 h-14 rounded-full bg-red-100 dark:bg-red-900/50 flex items-center justify-center flex-shrink-0">
+                  <Heart size={26} className="text-red-600 dark:text-red-400" />
                 </div>
                 <div className="min-w-0">
-                  <p className="text-base text-gray-700 mb-1">Total de Votos Recebidos</p>
-                  <p className="text-2xl font-bold text-gray-800">
+                  <p className="text-base text-gray-700 dark:text-gray-300 mb-1">Total de Votos Recebidos</p>
+                  <p className="text-2xl font-bold text-gray-800 dark:text-white">
                     {stats?.totalVotes || 0}
                   </p>
                 </div>
               </div>
 
-              <div className="flex items-center gap-4 p-4 bg-yellow-50 rounded-lg">
-                <div className="w-14 h-14 rounded-full bg-yellow-100 flex items-center justify-center flex-shrink-0">
-                  <Star size={26} className="text-yellow-600 fill-yellow-600" />
+              <div className="flex items-center gap-4 p-4 bg-yellow-50 dark:bg-yellow-900/30 rounded-lg">
+                <div className="w-14 h-14 rounded-full bg-yellow-100 dark:bg-yellow-900/50 flex items-center justify-center flex-shrink-0">
+                  <Star size={26} className="text-yellow-600 dark:text-yellow-400 fill-yellow-600 dark:fill-yellow-400" />
                 </div>
                 <div className="min-w-0">
-                  <p className="text-base text-gray-700 mb-1">Locais Favoritos</p>
-                  <p className="text-2xl font-bold text-gray-800">
+                  <p className="text-base text-gray-700 dark:text-gray-300 mb-1">Locais Favoritos</p>
+                  <p className="text-2xl font-bold text-gray-800 dark:text-white">
                     {stats?.totalFavorites || 0}
                   </p>
                 </div>
@@ -220,11 +220,11 @@ export default function Profile() {
 
           {/* Meus Relatórios */}
           <Card className="p-6">
-            <h3 className="text-xl font-semibold text-gray-800 mb-4">
+            <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-4">
               Meus Relatórios
             </h3>
             {!stats?.reports || stats.reports.length === 0 ? (
-              <p className="text-gray-600 text-center py-8">
+              <p className="text-gray-600 dark:text-gray-300 text-center py-8">
                 Você ainda não criou nenhum relatório.
               </p>
             ) : (
@@ -249,17 +249,17 @@ export default function Profile() {
                   return (
                     <div
                       key={report.id}
-                      className="border rounded-lg p-4 hover:shadow-md transition-shadow"
+                      className="border border-gray-200 dark:border-gray-700 rounded-lg p-4 hover:shadow-md transition-shadow"
                     >
                       <div className="flex justify-between items-start">
                         <div className="flex-1">
-                          <h4 className="font-semibold text-gray-800 mb-1">
+                          <h4 className="font-semibold text-gray-800 dark:text-white mb-1">
                             {report.title || "Sem título"}
                           </h4>
-                          <p className="text-base text-gray-700 mb-2 line-clamp-2">
+                          <p className="text-base text-gray-700 dark:text-gray-300 mb-2 line-clamp-2">
                             {report.description || "Sem descrição"}
                           </p>
-                          <div className="flex flex-wrap items-center gap-4 text-base text-gray-600">
+                          <div className="flex flex-wrap items-center gap-4 text-base text-gray-600 dark:text-gray-300">
                             <span className="capitalize">{report.type || "N/A"}</span>
                             {report.place && report.place.name && (
                               <span>📍 {report.place.name}</span>
@@ -274,7 +274,7 @@ export default function Profile() {
                           variant="ghost"
                           size="sm"
                           onClick={() => handleDeleteReport(report.id)}
-                          className="text-red-500 hover:text-red-700"
+                          className="text-red-500 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300"
                         >
                           <Trash2 size={16} />
                         </Button>
@@ -357,12 +357,12 @@ export default function Profile() {
             <DialogTitle>Excluir Conta</DialogTitle>
           </DialogHeader>
           <div className="space-y-4 py-4">
-            <p className="text-gray-600">
+            <p className="text-gray-600 dark:text-gray-300">
               Tem certeza que deseja excluir sua conta? Esta ação não pode ser desfeita.
               Todos os seus relatórios e dados serão permanentemente removidos.
             </p>
             <div>
-              <Label htmlFor="delete-password" className="text-gray-700">
+              <Label htmlFor="delete-password" className="text-gray-700 dark:text-gray-300">
                 Digite sua senha para confirmar:
               </Label>
               <div className="relative mt-1">
@@ -381,7 +381,7 @@ export default function Profile() {
                 <button
                   type="button"
                   onClick={() => setShowDeletePassword(!showDeletePassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 focus:outline-none"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 focus:outline-none"
                   aria-label={showDeletePassword ? "Ocultar senha" : "Mostrar senha"}
                 >
                   {showDeletePassword ? (
@@ -392,7 +392,7 @@ export default function Profile() {
                 </button>
               </div>
               {deleteError && (
-                <p className="text-red-600 text-base mt-1">{deleteError}</p>
+                <p className="text-red-600 dark:text-red-400 text-base mt-1">{deleteError}</p>
               )}
             </div>
           </div>

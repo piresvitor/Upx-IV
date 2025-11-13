@@ -28,7 +28,7 @@ export default function Layout() {
   }, [isAuthenticated, authState]);
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-background">
       <NavBar isAuthenticated={authState} onLogout={logout} />
       <main className="flex-grow p-6">
         <Outlet />

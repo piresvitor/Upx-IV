@@ -115,19 +115,19 @@ export default function RegisterAccount() {
   };
 
   return (
-    <div className="flex min-h-screen flex-col lg:flex-row bg-primary lg:bg-amber-50">
-      <div className="lg:w-2/5 bg-primary flex flex-col items-center justify-center p-12 text-white ">
-        <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold mb-4 text-center leading-[1.2]">
+    <div className="flex min-h-screen flex-col lg:flex-row bg-primary lg:bg-amber-50 dark:lg:bg-gray-900">
+      <div className="lg:w-2/5 bg-primary dark:bg-gray-800 flex flex-col items-center justify-center p-12 text-white dark:text-gray-100">
+        <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold mb-4 text-center leading-[1.2] text-white dark:text-white">
           Bem-vindo(a)!
         </h1>
-        <p className="lg:text-lg text-amber-50 text-center max-w-xs text-base leading-[1.5]">
+        <p className="lg:text-lg text-amber-50 dark:text-gray-200 text-center max-w-xs text-base leading-[1.5]">
           Estamos felizes em ter você por aqui. Acesse sua conta e continue sua
           jornada conosco.
         </p>
         <Button
           variant="outline"
           size="lg"
-          className="hidden lg:flex mt-6 border-2 border-white text-amber-50 hover:bg-white/20 transition-colors cursor-pointer text-base px-5 py-3 h-auto font-semibold"
+          className="hidden lg:flex mt-6 border-2 border-white dark:border-gray-200 text-amber-50 dark:text-gray-200 hover:bg-white/20 dark:hover:bg-gray-700 transition-colors cursor-pointer text-base px-5 py-3 h-auto font-semibold"
           onClick={() => router("/login")}
         >
           Fazer Login
@@ -136,19 +136,19 @@ export default function RegisterAccount() {
           type="button"
           variant="link"
           onClick={() => router("/login")}
-          className="lg:hidden flex text-white font-semibold underline hover:text-amber-200 transition-colors pt-6 text-base"
+          className="lg:hidden flex text-white dark:text-gray-200 font-semibold underline hover:text-amber-200 dark:hover:text-gray-300 transition-colors pt-6 text-base"
         >
           Fazer Login
         </Button>
       </div>
 
-      <div className="lg:w-3/5 flex items-center justify-center p-8 lg:p-1 bg-gray-50 rounded-t-[35px] lg:rounded-none">
-        <Card className="w-full max-w-md lg:p-8 rounded-2xl lg:shadow-xl border-none shadow-none lg:border-1 bg-gray-50 lg:bg-white ">
+      <div className="lg:w-3/5 flex items-center justify-center p-8 lg:p-1 bg-gray-50 dark:bg-gray-900 rounded-t-[35px] lg:rounded-none">
+        <Card className="w-full max-w-md lg:p-8 rounded-2xl lg:shadow-xl border-none shadow-none lg:border-1 bg-gray-50 dark:bg-gray-800 lg:bg-white dark:lg:bg-gray-800 ">
           <CardHeader className="text-center mb-6">
-            <CardTitle className="text-2xl md:text-3xl font-semibold text-gray-900">
+            <CardTitle className="text-2xl md:text-3xl font-semibold text-gray-900 dark:text-gray-100">
               Não tem uma conta?
             </CardTitle>
-            <p className="mt-2 text-primary text-xl font-semibold">
+            <p className="mt-2 text-primary dark:text-primary text-xl font-semibold">
               Cadastre-se{" "}
             </p>
           </CardHeader>
@@ -157,7 +157,7 @@ export default function RegisterAccount() {
               <div className="space-y-2">
                 <Label
                   htmlFor="name"
-                  className="text-gray-900 text-base font-semibold"
+                  className="text-gray-900 dark:text-gray-100 text-base font-semibold"
                 >
                   Nome
                 </Label>
@@ -173,7 +173,7 @@ export default function RegisterAccount() {
               <div className="space-y-2">
                 <Label
                   htmlFor="email"
-                  className="text-gray-900 text-base font-semibold"
+                  className="text-gray-900 dark:text-gray-100 text-base font-semibold"
                 >
                   Email
                 </Label>
@@ -190,7 +190,7 @@ export default function RegisterAccount() {
               <div className="space-y-2">
                 <Label
                   htmlFor="password"
-                  className="text-gray-900 text-base font-semibold"
+                  className="text-gray-900 dark:text-gray-100 text-base font-semibold"
                 >
                   Senha
                 </Label>
@@ -210,7 +210,7 @@ export default function RegisterAccount() {
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-600 hover:text-gray-800 focus:outline-none focus:ring-2 focus:ring-amber-400 rounded p-1"
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 focus:outline-none focus:ring-2 focus:ring-amber-400 rounded p-1"
                     aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}
                   >
                     {showPassword ? (
@@ -221,7 +221,7 @@ export default function RegisterAccount() {
                   </button>
                 </div>
                 {isPasswordFocused && (
-                  <p className="text-sm text-gray-700 mt-1 leading-[1.5]">
+                  <p className="text-sm text-gray-700 dark:text-gray-300 mt-1 leading-[1.5]">
                     A senha deve conter no mínimo 8 caracteres
                   </p>
                 )}
@@ -229,7 +229,7 @@ export default function RegisterAccount() {
               <div className="space-y-2">
                 <Label
                   htmlFor="confirmPassword"
-                  className="text-gray-900 text-base font-semibold"
+                  className="text-gray-900 dark:text-gray-100 text-base font-semibold"
                 >
                   Confirmar Senha
                 </Label>
@@ -247,7 +247,7 @@ export default function RegisterAccount() {
                   <button
                     type="button"
                     onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-600 hover:text-gray-800 focus:outline-none focus:ring-2 focus:ring-amber-400 rounded p-1"
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 focus:outline-none focus:ring-2 focus:ring-amber-400 rounded p-1"
                     aria-label={showConfirmPassword ? "Ocultar senha" : "Mostrar senha"}
                   >
                     {showConfirmPassword ? (
@@ -258,22 +258,22 @@ export default function RegisterAccount() {
                   </button>
                 </div>
                 {confirmPassword && form.password !== confirmPassword && (
-                  <p className="text-sm text-red-700 mt-1 font-medium">
+                  <p className="text-sm text-red-700 dark:text-red-400 mt-1 font-medium">
                     As senhas não coincidem
                   </p>
                 )}
                 {confirmPassword && form.password === confirmPassword && form.password.length >= 8 && (
-                  <p className="text-sm text-green-700 mt-1 font-medium">
+                  <p className="text-sm text-green-700 dark:text-green-400 mt-1 font-medium">
                     ✓ As senhas coincidem
                   </p>
                 )}
               </div>
               {error && (
-                <p className="text-red-700 text-base mt-2 text-center font-medium">{error}</p>
+                <p className="text-red-700 dark:text-red-400 text-base mt-2 text-center font-medium">{error}</p>
               )}
               <Button
                 type="submit"
-                className="cursor-pointer w-full bg-primary hover:bg-primary-dark text-white font-semibold py-3 rounded-lg transition-colors text-base h-12"
+                className="cursor-pointer w-full bg-primary hover:bg-primary-dark text-white dark:text-primary-foreground font-semibold py-3 rounded-lg transition-colors text-base h-12"
                 disabled={loading}
               >
                 {loading ? "Cadastrando..." : "Cadastrar"}
@@ -300,16 +300,16 @@ export default function RegisterAccount() {
             </DialogDescription>
           </DialogHeader>
           <div className="py-2">
-            <div className="bg-gray-50 rounded-lg p-4 space-y-2 text-base">
+            <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4 space-y-2 text-base">
               <div className="flex items-center justify-between">
-                <span className="text-gray-700 font-medium">Nome:</span>
-                <span className="font-semibold text-gray-900">
+                <span className="text-gray-700 dark:text-gray-300 font-medium">Nome:</span>
+                <span className="font-semibold text-gray-900 dark:text-gray-100">
                   {createdAccount?.name}
                 </span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-gray-700 font-medium">Email:</span>
-                <span className="font-semibold text-gray-900 truncate ml-2">
+                <span className="text-gray-700 dark:text-gray-300 font-medium">Email:</span>
+                <span className="font-semibold text-gray-900 dark:text-gray-100 truncate ml-2">
                   {createdAccount?.email}
                 </span>
               </div>
@@ -318,7 +318,7 @@ export default function RegisterAccount() {
           <DialogFooter className="sm:justify-center pt-2">
             <Button
               onClick={handleGoToLogin}
-              className="w-full bg-primary hover:bg-primary-dark text-white text-lg h-12 font-semibold"
+              className="w-full bg-primary hover:bg-primary-dark text-white dark:text-primary-foreground text-lg h-12 font-semibold"
             >
               Ir para Login
             </Button>

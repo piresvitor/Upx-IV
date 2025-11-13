@@ -53,7 +53,7 @@ export default function NewComment({ placeId, onSuccess }: NewCommentProps) {
 
   return (
     <div className="mt-10">
-      <h1 className="lg:text-2xl text-base font-semibold text-gray-800 mb-4">
+      <h1 className="lg:text-2xl text-base font-semibold text-gray-800 dark:text-white mb-4">
         Compartilhe sua experiência
       </h1>
 
@@ -68,7 +68,7 @@ export default function NewComment({ placeId, onSuccess }: NewCommentProps) {
             placeholder="Escreva aqui sobre sua experiência..."
             className="min-h-28 text-lg"
           />
-          {error && <p className="text-base text-red-600 mt-1">{error}</p>}
+          {error && <p className="text-base text-red-600 dark:text-red-400 mt-1">{error}</p>}
         </div>
         <Button
           onClick={handleSubmit}
@@ -80,7 +80,7 @@ export default function NewComment({ placeId, onSuccess }: NewCommentProps) {
       </div>
 
       <div className="mt-5">
-        <p className="text-base text-gray-700 mb-3">
+        <p className="text-base text-gray-700 dark:text-white mb-3">
           Selecione as opções de acessibilidade que este local possui (opcional):
         </p>
         <CommentCheckBox

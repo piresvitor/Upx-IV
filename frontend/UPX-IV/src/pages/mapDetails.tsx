@@ -103,10 +103,10 @@ export default function MapDetails() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [placeId, isAuthenticated]);
 
-  if (loading) return <p>Carregando informações...</p>;
+  if (loading) return <p className="dark:text-white">Carregando informações...</p>;
   if (!place)
     return (
-      <p className="text-red-500 text-center mt-10">
+      <p className="text-red-500 dark:text-red-400 text-center mt-10">
         Não foi possível carregar os detalhes do local.
       </p>
     );
@@ -117,7 +117,7 @@ export default function MapDetails() {
         <Button
           onClick={handleBackToMap}
           variant="ghost"
-          className="flex items-center text-gray-600 hover:text-gray-900 cursor-pointer"
+          className="flex items-center text-gray-600 dark:text-white hover:text-gray-900 dark:hover:text-gray-300 cursor-pointer"
         >
           <ArrowLeft className="h-4 w-4" /> Voltar ao mapa
         </Button>
@@ -127,7 +127,7 @@ export default function MapDetails() {
             onClick={handleToggleFavorite}
             variant="ghost"
             disabled={checkingFavorite}
-            className="flex items-center gap-2 text-gray-600 hover:text-gray-900 cursor-pointer"
+            className="flex items-center gap-2 text-gray-600 dark:text-white hover:text-gray-900 dark:hover:text-gray-300 cursor-pointer"
             title={isFavorite ? "Remover dos favoritos" : "Adicionar aos favoritos"}
           >
             <Star 
@@ -135,7 +135,7 @@ export default function MapDetails() {
               className={`transition-colors ${
                 isFavorite 
                   ? "text-yellow-500 fill-yellow-500" 
-                  : "text-gray-400 hover:text-yellow-500"
+                  : "text-gray-400 dark:text-gray-300 hover:text-yellow-500"
               }`} 
             />
             <span className="hidden sm:inline">
