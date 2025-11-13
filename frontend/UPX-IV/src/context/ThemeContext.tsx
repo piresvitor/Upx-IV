@@ -17,7 +17,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   const [theme, setThemeState] = useState<Theme>(() => {
     // Verifica se há tema salvo no localStorage
     const saved = localStorage.getItem(THEME_STORAGE_KEY) as Theme | null;
-    return saved || "system";
+    return saved || "light";
   });
 
   const [resolvedTheme, setResolvedTheme] = useState<"light" | "dark">(() => {

@@ -55,13 +55,17 @@ export const reportsTrendsRoute: FastifyPluginAsyncZod = async (server) => {
       }
 
       // Consulta para obter tendências agrupadas por período usando SQL raw
+      // Retornar dados em UTC (sem conversão de timezone)
+      // A conversão deve ser feita no frontend
       const trendsResult = await db.execute(sql.raw(`
         SELECT 
-          to_char(created_at, '${dateFormat}') as date,
+          to_char(created_at AT TIME ZONE 'UTC', '${dateFormat}') as date,
           COUNT(*)::int as count
         FROM reports 
-        GROUP BY to_char(created_at, '${dateFormat}')
-        ORDER BY to_char(created_at, '${dateFormat}') DESC
+        WHERE created_at IS NOT NULL
+          AND created_at <= NOW() -- Garantir que não há datas no futuro
+        GROUP BY to_char(created_at AT TIME ZONE 'UTC', '${dateFormat}')
+        ORDER BY to_char(created_at AT TIME ZONE 'UTC', '${dateFormat}') DESC
         LIMIT ${limit}
       `))
 
