@@ -39,6 +39,7 @@ O **Mapa Colaborativo de Acessibilidade** é uma plataforma completa que permite
 - **JWT**: Autenticação segura com tokens
 - **Google Maps API**: Integração para localização e mapas
 - **Vitest**: Framework de testes com cobertura completa
+- **Testes E2E**: Cobertura completa de testes end-to-end para todas as rotas da API
 
 ### Frontend (Interface Web)
 - **React.js + TypeScript**: Interface dinâmica e reativa
@@ -191,20 +192,39 @@ VITE_GOOGLE_MAPS_API_KEY=sua_chave_google_maps_aqui
 
 ## 🧪 Testes
 
-### Backend
+### Backend - Testes E2E (End-to-End)
+
+O backend possui uma suíte completa de testes E2E implementada com **Vitest** e **Supertest**, garantindo que todas as rotas da API funcionem corretamente em cenários reais. Os testes cobrem validação de schemas, autenticação, autorização, tratamento de erros e casos de uso completos.
+
+#### Cobertura de Testes
+**Total: 31 rotas testadas** com cobertura completa de casos de sucesso, erros, validações e autorizações.
+
+#### Executar Testes
+
 ```bash
 # Executar todos os testes
 npm test
 
-# Testes com cobertura
+# Testes com cobertura de código
 npm run test:coverage
 
-# Testes em modo watch
+# Testes em modo watch (desenvolvimento)
 npm run test:watch
 
 # Testar CORS
 npm run test:cors
 ```
+
+#### Estrutura dos Testes
+
+Cada rota possui testes que verificam:
+- ✅ **Casos de sucesso**: Requisições válidas retornam status 200/201 com dados corretos
+- ✅ **Validação de schemas**: Dados inválidos retornam status 400 com mensagens apropriadas
+- ✅ **Autenticação**: Rotas protegidas requerem token JWT válido
+- ✅ **Autorização**: Usuários só podem modificar seus próprios recursos
+- ✅ **Tratamento de erros**: Erros são tratados adequadamente (404, 500, etc.)
+- ✅ **Paginação**: Endpoints com paginação funcionam corretamente
+- ✅ **Filtros e busca**: Parâmetros de query são validados e aplicados
 
 ## 📊 Endpoints da API
 
@@ -300,8 +320,6 @@ npm run test:coverage    # Testes com cobertura
 ### Frontend
 ```bash
 npm run dev              # Inicia servidor de desenvolvimento
-npm run build            # Build para produção
-npm run preview          # Preview do build
 ```
 
 ## 🌐 Desenvolvimento
@@ -329,7 +347,7 @@ docker-compose restart
 
 ## 📈 Métricas do Projeto
 
-- **25+ endpoints** organizados por módulos
+- **31 endpoints** organizados por módulos, todos com cobertura completa de testes E2E
 - **Cobertura de testes** completa
 - **Documentação interativa** com Swagger/Scalar
 - **Validação robusta** com schemas Zod
