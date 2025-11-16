@@ -19,13 +19,11 @@ import {
 import { ReportTypeBadge } from "@/components/ReportTypeBadge";
 
 interface CommentListProps {
-  placeId: string;
   comments: Report[];
   onCommentsUpdate: () => void;
 }
 
 export default function CommentList({
-  placeId,
   comments,
   onCommentsUpdate,
 }: CommentListProps) {

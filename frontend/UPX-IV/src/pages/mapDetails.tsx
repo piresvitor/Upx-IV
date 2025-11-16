@@ -161,7 +161,6 @@ export default function MapDetails() {
       <AccessibilityInfo placeId={placeId!} />
 
       <CommentList
-        placeId={placeId!}
         comments={allComments}
         onCommentsUpdate={fetchComments}
       />
