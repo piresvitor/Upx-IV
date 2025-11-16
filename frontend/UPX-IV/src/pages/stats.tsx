@@ -1,5 +1,5 @@
 import "@/config/recharts"; // Configuração do Recharts (deve ser importado primeiro)
-import { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { Card } from "@/components/ui/card";
 import {
   statsService,
@@ -23,7 +23,7 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
-import { Users, FileText, MapPin, Heart, TrendingUp } from "lucide-react";
+import { Users, FileText, MapPin, Heart, TrendingUp, Accessibility, Building2, ParkingSquare, Eye } from "lucide-react";
 import { useTheme } from "@/hooks/useTheme";
 
 const COLORS = [
@@ -209,6 +209,51 @@ export default function Stats() {
       return "Vagas PCD";
     }
     return feature;
+  };
+
+  // Obter ícone e cor para características de acessibilidade
+  const getAccessibilityFeatureConfig = (feature: string) => {
+    const normalized = feature.toLowerCase().trim();
+    const configs: Record<string, { icon: React.ComponentType<{ size?: number }>; color: string; label: string }> = {
+      "rampa": { icon: Accessibility, color: "blue", label: "Rampa de Acesso" },
+      "banheiro": { icon: Building2, color: "green", label: "Banheiro Acessível" },
+      "estacionamento": { icon: ParkingSquare, color: "purple", label: "Vagas PCD" },
+      "visual": { icon: Eye, color: "orange", label: "Acessibilidade Visual" },
+    };
+
+    for (const [key, config] of Object.entries(configs)) {
+      if (normalized.includes(key)) {
+        return config;
+      }
+    }
+    
+    return { icon: Accessibility, color: "gray", label: feature };
+  };
+
+  // Formatar e traduzir tipos de relatórios
+  const formatReportType = (type: string): string => {
+    const typeMap: Record<string, string> = {
+      positive: "Positivo",
+      negative: "Negativo",
+      neutral: "Neutro",
+      accessibility: "Acessibilidade",
+      report: "Geral",
+    };
+    
+    return typeMap[type.toLowerCase()] || type;
+  };
+
+  // Obter cor por tipo de relatório
+  const getTypeColor = (type: string, index: number): string => {
+    const colorMap: Record<string, string> = {
+      positive: "#10B981", // verde
+      negative: "#EF4444", // vermelho
+      neutral: "#6B7280", // cinza
+      accessibility: "#3B82F6", // azul
+      report: "#8B5CF6", // roxo
+    };
+    
+    return colorMap[type.toLowerCase()] || COLORS[index % COLORS.length];
   };
 
   // Componente de Tooltip customizado para dark mode
@@ -537,188 +582,142 @@ export default function Stats() {
           )}
         </Card>
 
-        {/* Gráfico de Barras - Características de Acessibilidade */}
-        <Card className="p-4 sm:p-6 overflow-hidden">
+        {/* Métricas Calculadas */}
+        <Card className="p-4 sm:p-6">
           <h2 className="text-lg sm:text-xl font-semibold text-gray-800 dark:text-white mb-4 sm:mb-6">
-            Distribuição de Características de Acessibilidade
+            Métricas do Sistema
           </h2>
-          {accessibilityFeatures && accessibilityFeatures.data.length > 0 ? (
-            <div className="w-full" style={{ minHeight: isMobile ? '320px' : '450px', height: isMobile ? '320px' : '450px', position: 'relative' }}>
-              <ResponsiveContainer width="100%" height={isMobile ? 320 : 450}>
-                <BarChart 
-                  data={accessibilityFeatures.data}
-                  margin={{ top: 10, right: 10, left: -10, bottom: 80 }}
-                >
-                  <CartesianGrid strokeDasharray="3 3" stroke={chartColors.grid} />
-                  <XAxis
-                    dataKey="feature"
-                    angle={-45}
-                    textAnchor="end"
-                    height={80}
-                    interval={0}
-                    tick={{ fontSize: 10, fill: chartColors.text }}
-                    tickFormatter={formatFeatureName}
-                  />
-                  <YAxis tick={{ fontSize: 10, fill: chartColors.text }} />
-                  <Tooltip 
-                    content={<CustomTooltip
-                      formatter={(value: any, _name: any, props: any) => {
-                        const payload = props?.payload || {};
-                        const percentage = payload.percentage !== undefined 
-                          ? payload.percentage.toFixed(1) 
-                          : '0.0';
-                        const feature = payload.feature || _name || 'N/A';
-                        return [
-                          `${value} (${percentage}%)`,
-                          formatFeatureName(feature)
-                        ];
-                      }}
-                    />}
-                  />
-                  <Bar 
-                    dataKey="count" 
-                    fill="#00C49F" 
-                    name="" 
-                    radius={[4, 4, 0, 0]}
-                    animationDuration={500}
-                  />
-                </BarChart>
-              </ResponsiveContainer>
-            </div>
-          ) : (
-            <p className="text-gray-600 dark:text-gray-400 text-center py-8">
-              Não há dados de acessibilidade disponíveis.
-            </p>
-          )}
+          <div className="space-y-4">
+            {generalStats && (
+              <>
+                <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Média de Votos por Relatório</p>
+                    <p className="text-2xl font-bold text-gray-900 dark:text-white mt-1">
+                      {generalStats.totalReports > 0 
+                        ? (generalStats.totalVotes / generalStats.totalReports).toFixed(1)
+                        : '0.0'
+                      }
+                    </p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                      Engajamento da comunidade
+                    </p>
+                  </div>
+                  <Heart size={32} className="text-red-600 dark:text-red-400" />
+                </div>
+                
+                <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Relatórios por Usuário</p>
+                    <p className="text-2xl font-bold text-gray-900 dark:text-white mt-1">
+                      {generalStats.totalUsers > 0 
+                        ? (generalStats.totalReports / generalStats.totalUsers).toFixed(1)
+                        : '0.0'
+                      }
+                    </p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                      Média de relatórios criados
+                    </p>
+                  </div>
+                  <Users size={32} className="text-green-600 dark:text-green-400" />
+                </div>
+                
+                {trends && trends.data && trends.data.length > 0 && (
+                  <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                    <div>
+                      <p className="text-sm text-gray-600 dark:text-gray-400">Relatórios Recentes</p>
+                      <p className="text-2xl font-bold text-gray-900 dark:text-white mt-1">
+                        {trends.data.slice(-7).reduce((sum, item) => sum + item.count, 0)}
+                      </p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                        Últimos 7 períodos
+                      </p>
+                    </div>
+                    <TrendingUp size={32} className="text-blue-600 dark:text-blue-400" />
+                  </div>
+                )}
+              </>
+            )}
+            
+            {reportsByType && reportsByType.data.length > 0 && (
+              <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                <div>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">Tipos Únicos de Relatórios</p>
+                  <p className="text-2xl font-bold text-gray-900 dark:text-white mt-1">
+                    {reportsByType.uniqueTypes}
+                  </p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                    Categorias disponíveis
+                  </p>
+                </div>
+                <FileText size={32} className="text-purple-600 dark:text-purple-400" />
+              </div>
+            )}
+          </div>
         </Card>
       </div>
 
-      {/* Gráficos de Relatórios por Tipo */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-8 mt-6 sm:mt-8">
-        {/* Gráfico de Pizza - Relatórios por Tipo */}
-        <Card className="p-4 sm:p-6 overflow-hidden">
-          <h2 className="text-lg sm:text-xl font-semibold text-gray-800 dark:text-white mb-4 sm:mb-6">
-            Relatórios por Tipo
-          </h2>
-          {reportsByType && reportsByType.data.length > 0 ? (
-            <div className="w-full" style={{ minHeight: isMobile ? '380px' : '360px', height: isMobile ? '380px' : '360px', position: 'relative' }}>
-              <ResponsiveContainer width="100%" height={isMobile ? 380 : 360}>
-                <PieChart>
-                  <Pie
-                    data={reportsByType.data as any}
-                    cx="50%"
-                    cy="45%"
-                    labelLine={false}
-                    label={false}
-                    outerRadius={isMobile ? 70 : 100}
-                    fill="#8884d8"
-                    dataKey="count"
-                  >
-                    {reportsByType.data.map((_, index) => (
-                      <Cell
-                        key={`cell-${index}`}
-                        fill={COLORS[index % COLORS.length]}
-                      />
-                    ))}
-                  </Pie>
-                  <Tooltip 
-                    content={<CustomTooltip
-                      formatter={(value: any, _name: any, props: any) => {
-                        const payload = props?.payload || {};
-                        const percentage = payload.percentage !== undefined 
-                          ? payload.percentage.toFixed(1) 
-                          : '0.0';
-                        const type = payload.type || _name || 'N/A';
-                        return [
-                          `${value} (${percentage}%)`,
-                          type
-                        ];
-                      }}
-                    />}
-                  />
-                  <Legend 
-                    verticalAlign="bottom" 
-                    height={isMobile ? 100 : 70}
-                    iconSize={isMobile ? 14 : 16}
-                    formatter={(_value, entry: any) => 
-                      `${entry.payload.type} (${entry.payload.percentage.toFixed(1)}%)`
-                    }
-                    wrapperStyle={{ 
-                      paddingTop: '20px',
-                      paddingBottom: '10px',
-                      fontSize: isMobile ? '13px' : '14px',
-                      lineHeight: '1.6',
-                      fontWeight: '500',
-                      color: chartColors.text
+      {/* Gráfico de Relatórios por Tipo */}
+      <Card className="p-4 sm:p-6 overflow-hidden mt-6 sm:mt-8">
+        <h2 className="text-lg sm:text-xl font-semibold text-gray-800 dark:text-white mb-4 sm:mb-6">
+          Distribuição de Relatórios por Tipo
+        </h2>
+        {reportsByType && reportsByType.data.length > 0 ? (
+          <div className="w-full" style={{ minHeight: isMobile ? '320px' : '450px', height: isMobile ? '320px' : '450px', position: 'relative' }}>
+            <ResponsiveContainer width="100%" height={isMobile ? 320 : 450}>
+              <BarChart 
+                data={reportsByType.data}
+                margin={{ top: 10, right: 10, left: -10, bottom: 80 }}
+              >
+                <CartesianGrid strokeDasharray="3 3" stroke={chartColors.grid} />
+                <XAxis
+                  dataKey="type"
+                  angle={-45}
+                  textAnchor="end"
+                  height={80}
+                  interval={0}
+                  tick={{ fontSize: 10, fill: chartColors.text }}
+                  tickFormatter={formatReportType}
+                />
+                <YAxis tick={{ fontSize: 10, fill: chartColors.text }} />
+                <Tooltip 
+                  content={<CustomTooltip
+                    formatter={(value: any, _name: any, props: any) => {
+                      const payload = props?.payload || {};
+                      const percentage = payload.percentage !== undefined 
+                        ? payload.percentage.toFixed(1) 
+                        : '0.0';
+                      const type = payload.type || _name || 'N/A';
+                      return [
+                        `${value} (${percentage}%)`,
+                        formatReportType(type)
+                      ];
                     }}
-                    layout={isMobile ? "vertical" : "horizontal"}
-                    align="center"
-                    iconType="circle"
-                  />
-                </PieChart>
-              </ResponsiveContainer>
-            </div>
-          ) : (
-            <p className="text-gray-600 dark:text-gray-400 text-center py-8">
-              Não há dados de tipos disponíveis.
-            </p>
-          )}
-        </Card>
-
-        {/* Gráfico de Barras - Relatórios por Tipo */}
-        <Card className="p-4 sm:p-6 overflow-hidden">
-          <h2 className="text-lg sm:text-xl font-semibold text-gray-800 dark:text-white mb-4 sm:mb-6">
-            Distribuição de Relatórios por Tipo
-          </h2>
-          {reportsByType && reportsByType.data.length > 0 ? (
-            <div className="w-full" style={{ minHeight: isMobile ? '320px' : '450px', height: isMobile ? '320px' : '450px', position: 'relative' }}>
-              <ResponsiveContainer width="100%" height={isMobile ? 320 : 450}>
-                <BarChart 
-                  data={reportsByType.data}
-                  margin={{ top: 10, right: 10, left: -10, bottom: 80 }}
+                  />}
+                />
+                <Bar 
+                  dataKey="count" 
+                  name=""
+                  radius={[4, 4, 0, 0]}
+                  animationDuration={500}
+                  fill="#0088FE"
                 >
-                  <CartesianGrid strokeDasharray="3 3" stroke={chartColors.grid} />
-                  <XAxis
-                    dataKey="type"
-                    angle={-45}
-                    textAnchor="end"
-                    height={80}
-                    interval={0}
-                    tick={{ fontSize: 10, fill: chartColors.text }}
-                  />
-                  <YAxis tick={{ fontSize: 10, fill: chartColors.text }} />
-                  <Tooltip 
-                    content={<CustomTooltip
-                      formatter={(value: any, _name: any, props: any) => {
-                        const payload = props?.payload || {};
-                        const percentage = payload.percentage !== undefined 
-                          ? payload.percentage.toFixed(1) 
-                          : '0.0';
-                        const type = payload.type || _name || 'N/A';
-                        return [
-                          `${value} (${percentage}%)`,
-                          type
-                        ];
-                      }}
-                    />}
-                  />
-                  <Bar 
-                    dataKey="count" 
-                    fill="#0088FE" 
-                    name="" 
-                    radius={[4, 4, 0, 0]}
-                    animationDuration={500}
-                  />
-                </BarChart>
-              </ResponsiveContainer>
-            </div>
-          ) : (
-            <p className="text-gray-600 dark:text-gray-400 text-center py-8">
-              Não há dados de tipos disponíveis.
-            </p>
-          )}
-        </Card>
-      </div>
+                  {reportsByType.data.map((item, index) => (
+                    <Cell 
+                      key={`cell-${index}`} 
+                      fill={getTypeColor(item.type, index)}
+                    />
+                  ))}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        ) : (
+          <p className="text-gray-600 dark:text-gray-400 text-center py-8">
+            Não há dados de tipos disponíveis.
+          </p>
+        )}
+      </Card>
 
       {/* Tabelas de Detalhes */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-8 mt-6 sm:mt-8">
@@ -731,56 +730,120 @@ export default function Stats() {
             
             {/* Layout Mobile - Cards */}
             <div className="block sm:hidden space-y-3">
-              {accessibilityFeatures.data.map((item) => (
-                <div
-                  key={item.feature}
-                  className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700"
-                >
-                  <div className="flex justify-between items-start mb-2">
-                    <p className="font-semibold text-gray-800 dark:text-white text-sm flex-1 pr-2">
-                      {formatFeatureName(item.feature)}
-                    </p>
-                    <div className="text-right flex-shrink-0">
-                      <p className="font-bold text-gray-900 dark:text-white text-base">
-                        {item.count}
-                      </p>
-                      <p className="text-xs text-gray-600 dark:text-gray-400 mt-0.5">
-                        {item.percentage.toFixed(2)}%
-                      </p>
+              {accessibilityFeatures.data.map((item) => {
+                const config = getAccessibilityFeatureConfig(item.feature);
+                const Icon = config.icon;
+                const colorClasses = {
+                  blue: "bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 border-blue-200 dark:border-blue-700",
+                  green: "bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 border-green-200 dark:border-green-700",
+                  purple: "bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 border-purple-200 dark:border-purple-700",
+                  orange: "bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 border-orange-200 dark:border-orange-700",
+                  gray: "bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 border-gray-200 dark:border-gray-600",
+                };
+                const colorClass = colorClasses[config.color as keyof typeof colorClasses] || colorClasses.gray;
+                
+                return (
+                  <div
+                    key={item.feature}
+                    className={`rounded-lg p-4 border-2 ${colorClass.split(' ')[2]} bg-white dark:bg-gray-800/50`}
+                  >
+                    <div className="flex items-start gap-3">
+                      <div className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 ${colorClass.split(' ')[0]} ${colorClass.split(' ')[1]}`}>
+                        <Icon size={20} />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center justify-between gap-2 mb-2">
+                          <p className="font-semibold text-gray-900 dark:text-white text-sm">
+                            {config.label}
+                          </p>
+                          <div className="text-right flex-shrink-0">
+                            <p className="font-bold text-gray-900 dark:text-white text-base">
+                              {item.count}
+                            </p>
+                            <p className="text-xs text-gray-600 dark:text-gray-400 mt-0.5">
+                              {item.percentage.toFixed(1)}%
+                            </p>
+                          </div>
+                        </div>
+                        {/* Barra de progresso */}
+                        <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                          <div
+                            className={`h-2 rounded-full transition-all ${colorClass.split(' ')[0]}`}
+                            style={{ width: `${Math.min(item.percentage, 100)}%` }}
+                          />
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
 
             {/* Layout Desktop - Tabela */}
             <div className="hidden sm:block overflow-x-auto">
               <table className="w-full">
                 <thead>
-                  <tr className="border-b dark:border-gray-700">
-                    <th className="text-left py-3 px-4 font-semibold text-gray-700 dark:text-gray-300 text-sm">
+                  <tr className="border-b-2 border-gray-200 dark:border-gray-700">
+                    <th className="text-left py-4 px-4 font-semibold text-gray-700 dark:text-gray-300 text-sm">
                       Característica
                     </th>
-                    <th className="text-right py-3 px-4 font-semibold text-gray-700 dark:text-gray-300 text-sm">
+                    <th className="text-right py-4 px-4 font-semibold text-gray-700 dark:text-gray-300 text-sm">
                       Quantidade
                     </th>
-                    <th className="text-right py-3 px-4 font-semibold text-gray-700 dark:text-gray-300 text-sm">
+                    <th className="text-right py-4 px-4 font-semibold text-gray-700 dark:text-gray-300 text-sm w-32">
                       Percentual
+                    </th>
+                    <th className="text-left py-4 px-4 font-semibold text-gray-700 dark:text-gray-300 text-sm w-40">
+                      Visualização
                     </th>
                   </tr>
                 </thead>
                 <tbody>
-                  {accessibilityFeatures.data.map((item) => (
-                    <tr key={item.feature} className="border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800">
-                      <td className="py-3 px-4 text-sm text-gray-900 dark:text-gray-100">{formatFeatureName(item.feature)}</td>
-                      <td className="py-3 px-4 text-right font-medium text-sm text-gray-900 dark:text-gray-100">
-                        {item.count}
-                      </td>
-                      <td className="py-3 px-4 text-right text-sm text-gray-900 dark:text-gray-100">
-                        {item.percentage.toFixed(2)}%
-                      </td>
-                    </tr>
-                  ))}
+                  {accessibilityFeatures.data.map((item) => {
+                    const config = getAccessibilityFeatureConfig(item.feature);
+                    const Icon = config.icon;
+                    const colorClasses = {
+                      blue: "bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400",
+                      green: "bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400",
+                      purple: "bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400",
+                      orange: "bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400",
+                      gray: "bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400",
+                    };
+                    const colorClass = colorClasses[config.color as keyof typeof colorClasses] || colorClasses.gray;
+                    
+                    return (
+                      <tr key={item.feature} className="border-b border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
+                        <td className="py-4 px-4">
+                          <div className="flex items-center gap-3">
+                            <div className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 ${colorClass}`}>
+                              <Icon size={16} />
+                            </div>
+                            <span className="text-sm font-medium text-gray-900 dark:text-gray-100">
+                              {config.label}
+                            </span>
+                          </div>
+                        </td>
+                        <td className="py-4 px-4 text-right">
+                          <span className="font-semibold text-sm text-gray-900 dark:text-gray-100">
+                            {item.count}
+                          </span>
+                        </td>
+                        <td className="py-4 px-4 text-right">
+                          <span className="text-sm text-gray-700 dark:text-gray-300">
+                            {item.percentage.toFixed(1)}%
+                          </span>
+                        </td>
+                        <td className="py-4 px-4">
+                          <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
+                            <div
+                              className={`h-2.5 rounded-full transition-all ${colorClass.split(' ')[0]}`}
+                              style={{ width: `${Math.min(item.percentage, 100)}%` }}
+                            />
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </table>
             </div>
@@ -796,56 +859,120 @@ export default function Stats() {
             
             {/* Layout Mobile - Cards */}
             <div className="block sm:hidden space-y-3">
-              {reportsByType.data.map((item) => (
-                <div
-                  key={item.type}
-                  className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700"
-                >
-                  <div className="flex justify-between items-start mb-2">
-                    <p className="font-semibold text-gray-800 dark:text-white text-sm flex-1 pr-2 capitalize">
-                      {item.type}
-                    </p>
-                    <div className="text-right flex-shrink-0">
-                      <p className="font-bold text-gray-900 dark:text-white text-base">
-                        {item.count}
-                      </p>
-                      <p className="text-xs text-gray-600 dark:text-gray-400 mt-0.5">
-                        {item.percentage.toFixed(2)}%
-                      </p>
+              {reportsByType.data.map((item) => {
+                const typeColor = getTypeColor(item.type, 0);
+                const colorMap: Record<string, string> = {
+                  "#10B981": "bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 border-green-200 dark:border-green-700",
+                  "#EF4444": "bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 border-red-200 dark:border-red-700",
+                  "#6B7280": "bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 border-gray-200 dark:border-gray-600",
+                  "#3B82F6": "bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 border-blue-200 dark:border-blue-700",
+                  "#8B5CF6": "bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 border-purple-200 dark:border-purple-700",
+                };
+                const colorClass = colorMap[typeColor] || colorMap["#6B7280"];
+                const borderClass = colorClass.split(' ')[2];
+                
+                return (
+                  <div
+                    key={item.type}
+                    className={`rounded-lg p-4 border-2 ${borderClass} bg-white dark:bg-gray-800/50`}
+                  >
+                    <div className="flex items-start gap-3">
+                      <div className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 ${colorClass.split(' ')[0]} ${colorClass.split(' ')[1]}`}>
+                        <span 
+                          className="w-4 h-4 rounded-full"
+                          style={{ backgroundColor: typeColor }}
+                        />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center justify-between gap-2 mb-2">
+                          <p className="font-semibold text-gray-900 dark:text-white text-sm">
+                            {formatReportType(item.type)}
+                          </p>
+                          <div className="text-right flex-shrink-0">
+                            <p className="font-bold text-gray-900 dark:text-white text-base">
+                              {item.count}
+                            </p>
+                            <p className="text-xs text-gray-600 dark:text-gray-400 mt-0.5">
+                              {item.percentage.toFixed(1)}%
+                            </p>
+                          </div>
+                        </div>
+                        {/* Barra de progresso */}
+                        <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                          <div
+                            className="h-2 rounded-full transition-all"
+                            style={{ 
+                              width: `${Math.min(item.percentage, 100)}%`,
+                              backgroundColor: typeColor
+                            }}
+                          />
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
 
             {/* Layout Desktop - Tabela */}
             <div className="hidden sm:block overflow-x-auto">
               <table className="w-full">
                 <thead>
-                  <tr className="border-b dark:border-gray-700">
-                    <th className="text-left py-3 px-4 font-semibold text-gray-700 dark:text-gray-300 text-sm">
+                  <tr className="border-b-2 border-gray-200 dark:border-gray-700">
+                    <th className="text-left py-4 px-4 font-semibold text-gray-700 dark:text-gray-300 text-sm">
                       Tipo
                     </th>
-                    <th className="text-right py-3 px-4 font-semibold text-gray-700 dark:text-gray-300 text-sm">
+                    <th className="text-right py-4 px-4 font-semibold text-gray-700 dark:text-gray-300 text-sm">
                       Quantidade
                     </th>
-                    <th className="text-right py-3 px-4 font-semibold text-gray-700 dark:text-gray-300 text-sm">
+                    <th className="text-right py-4 px-4 font-semibold text-gray-700 dark:text-gray-300 text-sm w-32">
                       Percentual
+                    </th>
+                    <th className="text-left py-4 px-4 font-semibold text-gray-700 dark:text-gray-300 text-sm w-40">
+                      Visualização
                     </th>
                   </tr>
                 </thead>
                 <tbody>
-                  {reportsByType.data.map((item) => (
-                    <tr key={item.type} className="border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800">
-                      <td className="py-3 px-4 capitalize text-sm text-gray-900 dark:text-gray-100">{item.type}</td>
-                      <td className="py-3 px-4 text-right font-medium text-sm text-gray-900 dark:text-gray-100">
-                        {item.count}
-                      </td>
-                      <td className="py-3 px-4 text-right text-sm text-gray-900 dark:text-gray-100">
-                        {item.percentage.toFixed(2)}%
-                      </td>
-                    </tr>
-                  ))}
+                  {reportsByType.data.map((item) => {
+                    const typeColor = getTypeColor(item.type, 0);
+                    return (
+                      <tr key={item.type} className="border-b border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
+                        <td className="py-4 px-4">
+                          <span className="inline-flex items-center gap-2">
+                            <span 
+                              className="w-3 h-3 rounded-full"
+                              style={{ backgroundColor: typeColor }}
+                            />
+                            <span className="text-sm font-medium text-gray-900 dark:text-gray-100">
+                              {formatReportType(item.type)}
+                            </span>
+                          </span>
+                        </td>
+                        <td className="py-4 px-4 text-right">
+                          <span className="font-semibold text-sm text-gray-900 dark:text-gray-100">
+                            {item.count}
+                          </span>
+                        </td>
+                        <td className="py-4 px-4 text-right">
+                          <span className="text-sm text-gray-700 dark:text-gray-300">
+                            {item.percentage.toFixed(1)}%
+                          </span>
+                        </td>
+                        <td className="py-4 px-4">
+                          <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
+                            <div
+                              className="h-2.5 rounded-full transition-all"
+                              style={{ 
+                                width: `${Math.min(item.percentage, 100)}%`,
+                                backgroundColor: typeColor
+                              }}
+                            />
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </table>
             </div>

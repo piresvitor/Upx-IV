@@ -5,10 +5,17 @@ import { reports } from '../../src/database/schema'
 import { placesService } from '../../src/services/places'
 import { authenticateTokenWithError } from '../../src/middleware/auth'
 
+// Tipos válidos de relatórios
+const VALID_REPORT_TYPES = ['positive', 'negative', 'neutral', 'accessibility', 'report'] as const
+
 const createReportSchema = z.object({
   title: z.string().min(1).max(200),
   description: z.string().min(1).max(2000),
-  type: z.string().min(1),
+  type: z.enum(VALID_REPORT_TYPES, {
+    errorMap: () => ({ 
+      message: `Tipo deve ser um dos seguintes: ${VALID_REPORT_TYPES.join(', ')}` 
+    })
+  }),
   rampaAcesso: z.boolean().optional().default(false),
   banheiroAcessivel: z.boolean().optional().default(false),
   estacionamentoAcessivel: z.boolean().optional().default(false),

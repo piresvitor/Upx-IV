@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, ChevronRight, Pencil, Trash } from "lucide-react";
+import { ChevronLeft, ChevronRight, Pencil, Trash, Filter } from "lucide-react";
 import CommentVote from "./CommentVote";
 import { useAuthContext } from "@/context/useAuthContext";
 import {
@@ -16,6 +16,7 @@ import {
   type Report,
   type ReportUpdateData,
 } from "@/services/reportService";
+import { ReportTypeBadge } from "@/components/ReportTypeBadge";
 
 interface CommentListProps {
   placeId: string;
@@ -29,8 +30,16 @@ export default function CommentList({
 }: CommentListProps) {
   const { userId } = useAuthContext();
   const [page, setPage] = useState(1);
+  const [filterType, setFilterType] = useState<string | null>(null);
   const limit = 4;
-  const totalPages = Math.ceil(comments.length / limit);
+
+  // Filtrar comentários por tipo
+  const filteredComments = useMemo(() => {
+    if (!filterType) return comments;
+    return comments.filter(c => c.type?.toLowerCase() === filterType.toLowerCase());
+  }, [comments, filterType]);
+
+  const totalPages = Math.ceil(filteredComments.length / limit);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingComment, setEditingComment] = useState<Report | null>(null);
@@ -38,7 +47,13 @@ export default function CommentList({
 
   const start = (page - 1) * limit;
   const end = start + limit;
-  const currentComments = comments.slice(start, end);
+  const currentComments = filteredComments.slice(start, end);
+
+  // Resetar página quando filtrar
+  const handleFilterChange = (type: string | null) => {
+    setFilterType(type);
+    setPage(1);
+  };
 
   const openEditModal = (comment: Report) => {
     setEditingComment(comment);
@@ -76,14 +91,67 @@ export default function CommentList({
     }
   };
 
+  // Obter tipos únicos para filtro
+  const uniqueTypes = useMemo(() => {
+    const types = new Set(comments.map(c => c.type?.toLowerCase()).filter(Boolean));
+    return Array.from(types);
+  }, [comments]);
+
   return (
     <div className="mt-6">
-      <h2 className="lg:text-2xl text-base font-semibold text-gray-800 dark:text-white mb-4">
-        Comentários
-      </h2>
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4">
+        <h2 className="lg:text-2xl text-base font-semibold text-gray-800 dark:text-white">
+          Comentários {filteredComments.length !== comments.length && `(${filteredComments.length} de ${comments.length})`}
+        </h2>
+        
+        {/* Filtros por tipo */}
+        {uniqueTypes.length > 0 && (
+          <div className="flex items-center gap-2 flex-wrap">
+            <Filter size={16} className="text-gray-600 dark:text-gray-400" />
+            <Button
+              variant={filterType === null ? "default" : "outline"}
+              size="sm"
+              onClick={() => handleFilterChange(null)}
+              className="text-xs"
+            >
+              Todos
+            </Button>
+            {uniqueTypes.map((type) => {
+              const typeLabels: Record<string, string> = {
+                positive: "Positivo",
+                negative: "Negativo",
+                neutral: "Neutro",
+                accessibility: "Acessibilidade",
+                report: "Geral",
+              };
+              const label = typeLabels[type] || type;
+              
+              return (
+                <Button
+                  key={type}
+                  variant={filterType === type ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => handleFilterChange(type)}
+                  className="text-xs"
+                >
+                  {label}
+                </Button>
+              );
+            })}
+          </div>
+        )}
+      </div>
+      
       {!comments.length && (
         <p className="text-gray-600 dark:text-gray-300">Nenhum comentário disponível.</p>
       )}
+      
+      {comments.length > 0 && filteredComments.length === 0 && (
+        <p className="text-gray-600 dark:text-gray-300">
+          Nenhum comentário encontrado para o filtro selecionado.
+        </p>
+      )}
+      
       <div className="grid gap-4 grid-cols-1 md:grid-cols-2">
         {currentComments.map((comment) => (
           <div
@@ -97,10 +165,15 @@ export default function CommentList({
                     {comment.user.name.charAt(0).toUpperCase()}
                   </span>
                 </div>
-                <div className="space-y-[2px] leading-[0.9]">
-                  <h3 className="font-semibold text-gray-800 dark:text-white text-base">
-                    {comment.user.name}
-                  </h3>
+                <div className="space-y-[2px] leading-[0.9] flex-1">
+                  <div className="flex items-center gap-2 flex-wrap mb-1">
+                    <h3 className="font-semibold text-gray-800 dark:text-white text-base">
+                      {comment.user.name}
+                    </h3>
+                    {comment.type && (
+                      <ReportTypeBadge type={comment.type} size="sm" />
+                    )}
+                  </div>
                   <span className="text-base text-gray-600 dark:text-gray-300">
                     {new Date(comment.createdAt).toLocaleDateString("pt-BR")}
                   </span>

@@ -5,10 +5,17 @@ import { eq } from 'drizzle-orm'
 import z from 'zod'
 import { authenticateToken } from '../../src/middleware/auth.ts'
 
+// Tipos válidos de relatórios
+const VALID_REPORT_TYPES = ['positive', 'negative', 'neutral', 'accessibility', 'report'] as const
+
 const bodySchema = z.object({
   title: z.string().min(3).optional(),
   description: z.string().min(3).optional(),
-  type: z.string().optional(),
+  type: z.enum(VALID_REPORT_TYPES, {
+    errorMap: () => ({ 
+      message: `Tipo deve ser um dos seguintes: ${VALID_REPORT_TYPES.join(', ')}` 
+    })
+  }).optional(),
   rampaAcesso: z.boolean().optional(),
   banheiroAcessivel: z.boolean().optional(),
   estacionamentoAcessivel: z.boolean().optional(),

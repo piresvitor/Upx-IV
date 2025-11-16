@@ -15,6 +15,7 @@ import { userService, type User as UserType, type UserStats } from "@/services/u
 import { useAuthContext } from "@/context/useAuthContext";
 import { useNavigate } from "react-router-dom";
 import { reportService } from "@/services/reportService";
+import { ReportTypeBadge } from "@/components/ReportTypeBadge";
 
 export default function Profile() {
   const { logout } = useAuthContext();
@@ -260,7 +261,11 @@ export default function Profile() {
                             {report.description || "Sem descrição"}
                           </p>
                           <div className="flex flex-wrap items-center gap-4 text-base text-gray-600 dark:text-gray-300">
-                            <span className="capitalize">{report.type || "N/A"}</span>
+                            {report.type ? (
+                              <ReportTypeBadge type={report.type} size="sm" />
+                            ) : (
+                              <span className="text-gray-500 dark:text-gray-400">N/A</span>
+                            )}
                             {report.place && report.place.name && (
                               <span>📍 {report.place.name}</span>
                             )}

@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { reportService } from "@/services/reportService";
 import CommentCheckBox from "@/components/comp-139";
+import { ReportTypeSelector } from "@/components/ReportTypeSelector";
 
 interface NewCommentProps {
   placeId: string;
@@ -11,9 +12,11 @@ interface NewCommentProps {
 
 export default function NewComment({ placeId, onSuccess }: NewCommentProps) {
   const [description, setDescription] = useState("");
+  const [reportType, setReportType] = useState<string>("positive");
   const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(""); // para descrição
+  const [typeError, setTypeError] = useState(""); // para tipo
 
   const handleSubmit = async () => {
     // valida descrição
@@ -22,14 +25,21 @@ export default function NewComment({ placeId, onSuccess }: NewCommentProps) {
       return;
     }
 
+    // valida tipo
+    if (!reportType) {
+      setTypeError("Selecione o tipo de relatório.");
+      return;
+    }
+
     setError("");
+    setTypeError("");
     setLoading(true);
 
     try {
       const newReport = {
         title: "Relato do usuário",
         description,
-        type: selectedTypes.length > 0 ? "accessibility" : "report",
+        type: reportType, // Usa o tipo selecionado pelo usuário
         rampaAcesso: selectedTypes.includes("rampaAcesso"),
         banheiroAcessivel: selectedTypes.includes("banheiroAcessivel"),
         estacionamentoAcessivel: selectedTypes.includes(
@@ -41,6 +51,7 @@ export default function NewComment({ placeId, onSuccess }: NewCommentProps) {
       await reportService.create(placeId, newReport);
 
       setDescription("");
+      setReportType("positive"); // Reset para positivo
       setSelectedTypes([]);
       onSuccess?.();
     } catch (err) {
@@ -77,6 +88,18 @@ export default function NewComment({ placeId, onSuccess }: NewCommentProps) {
         >
           {loading ? "Enviando..." : "Enviar"}
         </Button>
+      </div>
+
+      <div className="mt-5">
+        <ReportTypeSelector
+          value={reportType}
+          onChange={(type) => {
+            setReportType(type);
+            if (typeError) setTypeError("");
+          }}
+          required={true}
+        />
+        {typeError && <p className="text-base text-red-600 dark:text-red-400 mt-2">{typeError}</p>}
       </div>
 
       <div className="mt-5">
