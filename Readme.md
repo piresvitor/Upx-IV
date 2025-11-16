@@ -30,7 +30,7 @@
 
 [VITE__BADGE]: https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white
 
-<h1 align="center" style="font-weight: bold;">🗺️ Mapa Colaborativo de Acessibilidade - UPX 4 💻</h1>
+<h1 align="center" style="font-weight: bold;">🗺️ Mobiaccess: Mapa Colaborativo de Acessibilidade - UPX 4 💻</h1>
 
 ### 🔧 Backend
 
@@ -99,7 +99,7 @@
 
 ## 📋 Sobre o Projeto
 
-O **Mapa Colaborativo de Acessibilidade** é uma plataforma completa que permite aos usuários compartilhar informações sobre a acessibilidade de locais públicos, criando um mapa colaborativo que ajuda pessoas com deficiência a navegar pela cidade com mais facilidade e segurança.
+O **Mobiaccess: Mapa Colaborativo de Acessibilidade** é uma plataforma completa que permite aos usuários compartilhar informações sobre a acessibilidade de locais públicos, criando um mapa colaborativo que ajuda pessoas com deficiência a navegar pela cidade com mais facilidade e segurança.
 
 ### 🎯 Objetivos
 - **Democratizar a informação**: Permitir que qualquer pessoa contribua com informações sobre acessibilidade

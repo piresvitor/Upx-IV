@@ -35,7 +35,7 @@ export default function CommentCheckBox({
     },
     {
       id: `${id}-c`,
-      label: "Vagas PCD",
+      label: "Estacionamento Acessível",
       value: "estacionamentoAcessivel",
       icon: Car,
       color: "purple",

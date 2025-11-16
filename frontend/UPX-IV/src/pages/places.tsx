@@ -21,7 +21,7 @@ const PLACE_TYPES = [
   { value: 'pharmacy', label: 'Farmácia' },
   { value: 'bank', label: 'Banco' },
   { value: 'gas_station', label: 'Posto de Gasolina' },
-  { value: 'parking', label: 'Vagas PCD' },
+  { value: 'parking', label: 'Estacionamento' },
   { value: 'gym', label: 'Academia' },
   { value: 'library', label: 'Biblioteca' },
   { value: 'museum', label: 'Museu' },

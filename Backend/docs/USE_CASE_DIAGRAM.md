@@ -1,8 +1,8 @@
-# Diagrama de Caso de Uso - Mapa Colaborativo de Acessibilidade
+# Diagrama de Caso de Uso - Mobiaccess: Mapa Colaborativo de Acessibilidade
 
 ## Visão Geral
 
-Este documento apresenta o diagrama de caso de uso do sistema Mapa Colaborativo de Acessibilidade, mostrando as interações entre os diferentes tipos de usuários e o sistema.
+Este documento apresenta o diagrama de caso de uso do sistema Mobiaccess: Mapa Colaborativo de Acessibilidade, mostrando as interações entre os diferentes tipos de usuários e o sistema.
 
 ## Diagrama de Caso de Uso
 

@@ -56,7 +56,7 @@ export default function AccessibilityInfo({ placeId }: AccessibilityInfoProps) {
     },
     {
       id: "vagas",
-      label: "Vagas PCD",
+      label: "Estacionamento Acessível",
       description: "Vagas reservadas próximas à entrada para pessoas com deficiência ou mobilidade reduzida.",
       icon: ParkingSquare,
       hasMajority: estacionamentoAcessivel.hasMajority,

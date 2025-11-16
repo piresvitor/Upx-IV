@@ -1,4 +1,4 @@
-# 🌐 Configuração CORS - Mapa Colaborativo
+# 🌐 Configuração CORS - Mobiaccess: Mapa Colaborativo de Acessibilidade
 
 ## 📋 Visão Geral
 

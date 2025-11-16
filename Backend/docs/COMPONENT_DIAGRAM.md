@@ -1,4 +1,4 @@
-# Diagrama de Componentes - Mapa Colaborativo de Acessibilidade
+# Diagrama de Componentes - Mobiaccess: Mapa Colaborativo de Acessibilidade
 
 ## Visão Geral da Arquitetura
 

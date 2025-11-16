@@ -12,7 +12,7 @@
 
 [VITE__BADGE]: https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white
 
-<h1 align="center" style="font-weight: bold;">🗺️ Mapa Colaborativo de Acessibilidade - Frontend 💻</h1>
+<h1 align="center" style="font-weight: bold;">🗺️ Mobiaccess: Mapa Colaborativo de Acessibilidade - Frontend 💻</h1>
 
 ![react][REACT__BADGE] ![typescript][TYPESCRIPT__BADGE] ![tailwind][TAILWIND__BADGE] ![react router][REACT_ROUTER__BADGE] ![recharts][RECHARTS__BADGE] ![vite][VITE__BADGE] ![google maps][GOOGLE_MAPS__BADGE]
 
@@ -50,7 +50,7 @@
 
 ## 📋 Sobre o Projeto
 
-O **Mapa Colaborativo de Acessibilidade** é uma plataforma que permite aos usuários compartilhar informações sobre a acessibilidade de locais públicos, criando um mapa colaborativo que ajuda pessoas com deficiência a navegar pela cidade com mais facilidade e segurança.
+O **Mobiaccess: Mapa Colaborativo de Acessibilidade** é uma plataforma que permite aos usuários compartilhar informações sobre a acessibilidade de locais públicos, criando um mapa colaborativo que ajuda pessoas com deficiência a navegar pela cidade com mais facilidade e segurança.
 
 ## 🎯 Objetivos
 

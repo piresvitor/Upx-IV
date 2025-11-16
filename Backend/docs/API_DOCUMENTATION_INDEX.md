@@ -1,4 +1,4 @@
-# Documentação da API - Mapa Colaborativo de Acessibilidade
+# Documentação da API - Mobiaccess: Mapa Colaborativo de Acessibilidade
 
 ## Visão Geral
 

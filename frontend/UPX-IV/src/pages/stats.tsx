@@ -206,7 +206,7 @@ export default function Stats() {
     // O backend retorna "Estacionamento Acessível"
     const normalized = feature.toLowerCase().trim();
     if (normalized.includes("estacionamento")) {
-      return "Vagas PCD";
+      return "Estacionamento Acessível";
     }
     return feature;
   };
@@ -217,7 +217,7 @@ export default function Stats() {
     const configs: Record<string, { icon: React.ComponentType<{ size?: number }>; color: string; label: string }> = {
       "rampa": { icon: Accessibility, color: "blue", label: "Rampa de Acesso" },
       "banheiro": { icon: Building2, color: "green", label: "Banheiro Acessível" },
-      "estacionamento": { icon: ParkingSquare, color: "purple", label: "Vagas PCD" },
+      "estacionamento": { icon: ParkingSquare, color: "purple", label: "Estacionamento Acessível" },
       "visual": { icon: Eye, color: "orange", label: "Acessibilidade Visual" },
     };
 

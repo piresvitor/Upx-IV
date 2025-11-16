@@ -79,7 +79,7 @@ if (process.env.NODE_ENV === "development"){
     server.register(fastifySwagger, {
     openapi: {
         info: {
-            title: "Mapa Colaborativo de Acessibilidade",
+            title: "Mobiaccess: Mapa Colaborativo de Acessibilidade",
             version: '1.0.0'
         }
     },

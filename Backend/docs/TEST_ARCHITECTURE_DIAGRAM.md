@@ -1,4 +1,4 @@
-# Diagrama de Arquitetura de Testes - Mapa Colaborativo de Acessibilidade
+# Diagrama de Arquitetura de Testes - Mobiaccess: Mapa Colaborativo de Acessibilidade
 
 ## Visão Geral
 
