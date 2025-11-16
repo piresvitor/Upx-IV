@@ -425,10 +425,6 @@ const response = await fetch('http://localhost:3333/auth/login', {
 - **Google Maps API**: [Documentação oficial](https://developers.google.com/maps)
 - **Fastify**: [Documentação oficial](https://www.fastify.io/)
 
-## 📄 Licença
-
-Este projeto está licenciado sob a Licença MIT - veja o arquivo [LICENSE](../../LICENSE) para detalhes.
-
 ## 🎯 Impacto Social
 
 ### 🌟 Objetivos Alcançados

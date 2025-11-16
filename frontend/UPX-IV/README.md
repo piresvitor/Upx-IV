@@ -274,11 +274,6 @@ O projeto utiliza componentes acessíveis do Radix UI:
    - Verifique se todas as dependências foram instaladas
    - Execute `npm install` novamente
 
-## 📄 Licença
-
-Este projeto está licenciado sob a Licença MIT.
-
----
 
 **Desenvolvido para promover acessibilidade e inclusão**
 

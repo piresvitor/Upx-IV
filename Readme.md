@@ -512,9 +512,6 @@ docker-compose restart
 - **Mídia**: Cobertura de temas de inclusão com dados visuais
 - **Analistas**: Visualizar tendências e padrões através de gráficos interativos
 
-## 📄 Licença
-
-Este projeto está licenciado sob a Licença MIT.
 
 ## 🎯 Impacto Social
 
