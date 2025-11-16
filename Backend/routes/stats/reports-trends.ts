@@ -65,20 +65,22 @@ export const reportsTrendsRoute: FastifyPluginAsyncZod = async (server) => {
       }
       const safeDateFormat = validFormats[period] || 'YYYY-MM-DD'
       
-      const trendsResult = await db.execute(sql.raw(`
-        SELECT 
-          to_char(created_at AT TIME ZONE 'UTC', '${safeDateFormat}') as date,
-          COUNT(*)::int as count
-        FROM reports 
-        WHERE created_at IS NOT NULL
-          AND created_at <= NOW()
-        GROUP BY to_char(created_at AT TIME ZONE 'UTC', '${safeDateFormat}')
-        ORDER BY to_char(created_at AT TIME ZONE 'UTC', '${safeDateFormat}') DESC
-        LIMIT ${limit}
-      `))
+      // Consultas em paralelo para melhor performance
+      const [trendsResult, totalResult] = await Promise.all([
+        db.execute(sql.raw(`
+          SELECT 
+            to_char(created_at AT TIME ZONE 'UTC', '${safeDateFormat}') as date,
+            COUNT(*)::int as count
+          FROM reports 
+          WHERE created_at IS NOT NULL
+            AND created_at <= NOW()
+          GROUP BY to_char(created_at AT TIME ZONE 'UTC', '${safeDateFormat}')
+          ORDER BY to_char(created_at AT TIME ZONE 'UTC', '${safeDateFormat}') DESC
+          LIMIT ${limit}
+        `)),
+        db.select({ count: count() }).from(reports)
+      ])
 
-      // Consulta para obter o total de relatos
-      const totalResult = await db.select({ count: count() }).from(reports)
       const total = totalResult[0].count
 
       // Converter o resultado para o formato esperado

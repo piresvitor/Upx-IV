@@ -98,37 +98,51 @@ export async function getFavoritesRoute(app: FastifyInstance) {
         .where(inArray(places.id, placeIds))
         .orderBy(desc(places.createdAt))
 
-      // Para cada local, buscar contagem de relatórios e votos
-      const placesWithCounts = await Promise.all(
-        placesData.map(async (place) => {
-          // Encontrar data de favoritado
-          const favoriteData = userFavorites.find(f => f.placeId === place.id)
+      // Buscar contagens agregadas de uma vez (otimizado)
+      const [reportsCountsResult, votesCountsResult] = await Promise.all([
+        db
+          .select({
+            placeId: reports.placeId,
+            reportsCount: sql<number>`COUNT(*)::int`,
+          })
+          .from(reports)
+          .where(inArray(reports.placeId, placeIds))
+          .groupBy(reports.placeId),
+        db
+          .select({
+            placeId: reports.placeId,
+            votesCount: sql<number>`COUNT(${votes.id})::int`,
+          })
+          .from(reports)
+          .leftJoin(votes, eq(votes.reportId, reports.id))
+          .where(inArray(reports.placeId, placeIds))
+          .groupBy(reports.placeId),
+      ])
 
-          // Contar relatórios
-          const reportsResult = await db
-            .select({ count: count() })
-            .from(reports)
-            .where(eq(reports.placeId, place.id))
+      // Criar mapas para acesso rápido
+      const reportsCountsMap = new Map<string, number>()
+      reportsCountsResult.forEach((row) => {
+        reportsCountsMap.set(row.placeId, row.reportsCount)
+      })
 
-          const reportsCount = reportsResult[0]?.count || 0
+      const votesCountsMap = new Map<string, number>()
+      votesCountsResult.forEach((row) => {
+        votesCountsMap.set(row.placeId, row.votesCount || 0)
+      })
 
-          // Contar votos de todos os relatórios deste local
-          const votesResult = await db
-            .select({ count: count() })
-            .from(votes)
-            .innerJoin(reports, eq(reports.id, votes.reportId))
-            .where(eq(reports.placeId, place.id))
+      // Combinar dados
+      const placesWithCounts = placesData.map((place) => {
+        const favoriteData = userFavorites.find(f => f.placeId === place.id)
+        const reportsCount = reportsCountsMap.get(place.id) || 0
+        const votesCount = votesCountsMap.get(place.id) || 0
 
-          const votesCount = votesResult[0]?.count || 0
-
-          return {
-            ...place,
-            reportsCount,
-            votesCount,
-            favoritedAt: favoriteData?.favoritedAt || place.createdAt,
-          }
-        })
-      )
+        return {
+          ...place,
+          reportsCount,
+          votesCount,
+          favoritedAt: favoriteData?.favoritedAt || place.createdAt,
+        }
+      })
 
       // Ordenar pela data de favoritado (mais recente primeiro)
       placesWithCounts.sort((a, b) => {

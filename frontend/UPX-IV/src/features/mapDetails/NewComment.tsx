@@ -63,55 +63,63 @@ export default function NewComment({ placeId, onSuccess }: NewCommentProps) {
   };
 
   return (
-    <div className="mt-10">
-      <h1 className="lg:text-2xl text-base font-semibold text-gray-800 dark:text-white mb-4">
+    <div className="mt-8 lg:mt-10">
+      <h1 className="text-xl lg:text-2xl font-semibold text-gray-800 dark:text-white mb-4 lg:mb-6">
         Compartilhe sua experiência
       </h1>
 
-      <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-end">
-        <div className="flex-1">
-          <Textarea
-            value={description}
-            onChange={(e) => {
-              setDescription(e.target.value);
-              if (error) setError("");
-            }}
-            placeholder="Escreva aqui sobre sua experiência..."
-            className="min-h-28 text-lg"
-          />
-          {error && <p className="text-base text-red-600 dark:text-red-400 mt-1">{error}</p>}
+      {/* Textarea e Botão */}
+      <div className="mb-5 lg:mb-6">
+        <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-end">
+          <div className="flex-1 w-full">
+            <Textarea
+              value={description}
+              onChange={(e) => {
+                setDescription(e.target.value);
+                if (error) setError("");
+              }}
+              placeholder="Escreva aqui sobre sua experiência..."
+              className="min-h-24 lg:min-h-28 text-base lg:text-lg"
+            />
+            {error && <p className="text-sm lg:text-base text-red-600 dark:text-red-400 mt-1.5">{error}</p>}
+          </div>
+          <Button
+            onClick={handleSubmit}
+            disabled={loading}
+            className="cursor-pointer h-11 lg:h-12 px-6 lg:px-8 text-base lg:text-lg font-semibold whitespace-nowrap w-full sm:w-auto"
+          >
+            {loading ? "Enviando..." : "Enviar"}
+          </Button>
         </div>
-        <Button
-          onClick={handleSubmit}
-          disabled={loading}
-          className="cursor-pointer h-12 sm:h-14 px-6 sm:px-8 text-base sm:text-lg font-semibold whitespace-nowrap"
-        >
-          {loading ? "Enviando..." : "Enviar"}
-        </Button>
       </div>
 
-      <div className="mt-5">
-        <ReportTypeSelector
-          value={reportType}
-          onChange={(type) => {
-            setReportType(type);
-            if (typeError) setTypeError("");
-          }}
-          required={true}
-        />
-        {typeError && <p className="text-base text-red-600 dark:text-red-400 mt-2">{typeError}</p>}
-      </div>
+      {/* Layout Desktop: 2 colunas | Mobile: Empilhado */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 lg:gap-6">
+        {/* Coluna 1: Tipo de Relatório */}
+        <div>
+          <ReportTypeSelector
+            value={reportType}
+            onChange={(type) => {
+              setReportType(type);
+              if (typeError) setTypeError("");
+            }}
+            required={true}
+          />
+          {typeError && <p className="text-sm lg:text-base text-red-600 dark:text-red-400 mt-2">{typeError}</p>}
+        </div>
 
-      <div className="mt-5">
-        <p className="text-base text-gray-700 dark:text-white mb-3">
-          Selecione as opções de acessibilidade que este local possui (opcional):
-        </p>
-        <CommentCheckBox
-          selectedTypes={selectedTypes}
-          onChange={(types) => {
-            setSelectedTypes(types);
-          }}
-        />
+        {/* Coluna 2: Opções de Acessibilidade */}
+        <div>
+          <label className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3 block">
+            Características de Acessibilidade <span className="text-gray-500 dark:text-gray-500 text-xs font-normal">(opcional)</span>
+          </label>
+          <CommentCheckBox
+            selectedTypes={selectedTypes}
+            onChange={(types) => {
+              setSelectedTypes(types);
+            }}
+          />
+        </div>
       </div>
     </div>
   );

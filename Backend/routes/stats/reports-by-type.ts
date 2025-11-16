@@ -33,35 +33,35 @@ export const reportsByTypeRoute: FastifyPluginAsyncZod = async (server) => {
     try {
       const { limit } = request.query as { limit: number }
 
-      // Consulta para obter relatos agrupados por tipo
-      const reportsByType = await db
-        .select({
-          type: reports.type,
-          count: count()
-        })
-        .from(reports)
-        .groupBy(reports.type)
-        .orderBy(desc(count()))
-        .limit(limit)
+      // Consultas otimizadas: buscar tudo em paralelo
+      const [reportsByTypeResult, totalResult, uniqueTypesResult] = await Promise.all([
+        // Relatos agrupados por tipo (limitado)
+        db
+          .select({
+            type: reports.type,
+            count: count()
+          })
+          .from(reports)
+          .groupBy(reports.type)
+          .orderBy(desc(count()))
+          .limit(limit),
+        // Total de relatos
+        db.select({ count: count() }).from(reports),
+        // Tipos únicos (total, não limitado)
+        db
+          .selectDistinct({ type: reports.type })
+          .from(reports)
+      ])
 
-      // Consulta para obter o total de relatos
-      const totalResult = await db.select({ count: count() }).from(reports)
       const total = totalResult[0].count
+      const uniqueTypes = uniqueTypesResult.length
 
       // Calcular percentuais e formatar dados
-      const data = reportsByType.map(item => ({
+      const data = reportsByTypeResult.map(item => ({
         type: item.type,
         count: item.count,
         percentage: total > 0 ? Number(((item.count / total) * 100).toFixed(2)) : 0
       }))
-
-      // Contar tipos únicos (total, não limitado)
-      const uniqueTypesResult = await db
-        .select({ count: count() })
-        .from(reports)
-        .groupBy(reports.type)
-      
-      const uniqueTypes = uniqueTypesResult.length
 
       return reply.status(200).send({
         data,

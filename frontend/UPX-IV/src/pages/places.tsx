@@ -8,7 +8,7 @@ import { placeService, type PlaceWithReports } from "@/services/placeService";
 import { useNavigate } from "react-router-dom";
 import PlaceCard from "@/components/PlaceCard";
 
-type SortBy = 'reportsCount' | 'votesCount' | 'createdAt';
+type SortBy = 'reportsCount' | 'votesCount' | 'createdAt' | 'lastReportDate';
 type SortOrder = 'asc' | 'desc';
 
 // Tipos de locais comuns do Google Maps
@@ -35,7 +35,7 @@ export default function Places() {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedType, setSelectedType] = useState("");
-  const [sortBy, setSortBy] = useState<SortBy>('createdAt');
+  const [sortBy, setSortBy] = useState<SortBy>('lastReportDate');
   const [sortOrder, setSortOrder] = useState<SortOrder>('desc');
   const [currentPage, setCurrentPage] = useState(1);
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
@@ -56,10 +56,22 @@ export default function Places() {
     try {
       setLoading(true);
       const data = await placeService.getPlacesWithReports(page, 15, search, type, sortBy, sortOrder);
-      setPlaces(data.places);
-      setPagination(data.pagination);
+      setPlaces(data.places || []);
+      setPagination(data.pagination || {
+        page: 1,
+        limit: 15,
+        total: 0,
+        totalPages: 0,
+      });
     } catch (error) {
       console.error("Erro ao buscar locais:", error);
+      setPlaces([]);
+      setPagination({
+        page: 1,
+        limit: 15,
+        total: 0,
+        totalPages: 0,
+      });
     } finally {
       setLoading(false);
     }
@@ -181,7 +193,8 @@ export default function Places() {
                   }}
                   className="w-full h-11 sm:h-11 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white px-3 sm:px-4 py-2 text-base shadow-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
                 >
-                  <option value="createdAt">Mais Recentes</option>
+                  <option value="lastReportDate">Último Comentário</option>
+                  <option value="createdAt">Data de Criação</option>
                   <option value="reportsCount">Mais Comentários</option>
                   <option value="votesCount">Mais Votos</option>
                 </select>

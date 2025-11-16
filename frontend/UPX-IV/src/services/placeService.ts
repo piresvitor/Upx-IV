@@ -81,7 +81,7 @@ export const placeService = {
     limit: number = 15,
     search?: string,
     type?: string,
-    sortBy: 'reportsCount' | 'votesCount' | 'createdAt' = 'createdAt',
+    sortBy: 'reportsCount' | 'votesCount' | 'createdAt' | 'lastReportDate' = 'lastReportDate',
     sortOrder: 'asc' | 'desc' = 'desc'
   ): Promise<PlacesWithReportsResponse> {
     const params = new URLSearchParams({

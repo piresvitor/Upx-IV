@@ -98,42 +98,48 @@ export default function CommentCheckBox({
 
   return (
     <div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 lg:gap-3">
         {options.map((option) => {
           const Icon = option.icon;
           const isSelected = selectedTypes.includes(option.value);
           const colors = getColorClasses(option.color, isSelected);
           
           return (
-            <button
+            <div
               key={option.id}
-              type="button"
               onClick={() => handleToggle(option.value)}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  handleToggle(option.value);
+                }
+              }}
               className={`
-                p-4 rounded-lg border-2 transition-all text-left
-                hover:shadow-md hover:scale-[1.02]
+                p-3 lg:p-3.5 rounded-lg border-2 transition-all text-left cursor-pointer
+                hover:shadow-sm hover:scale-[1.01] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500
                 ${colors.border} ${colors.bg}
               `}
             >
-              <div className="flex items-start gap-3">
+              <div className="flex items-center gap-2.5 lg:gap-3">
                 <div className={`
-                  w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0
+                  w-9 h-9 lg:w-10 lg:h-10 rounded-lg flex items-center justify-center flex-shrink-0
                   ${colors.iconBg}
                 `}>
-                  <Icon size={20} className={colors.icon} />
+                  <Icon size={18} className={colors.icon} />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 mb-1">
+                  <div className="flex items-center gap-2">
                     <Checkbox
                       id={option.id}
                       checked={isSelected}
                       onCheckedChange={() => handleToggle(option.value)}
-                      className="pointer-events-none"
                     />
                     <Label 
                       htmlFor={option.id}
                       className={`
-                        font-semibold text-sm cursor-pointer
+                        font-semibold text-xs lg:text-sm cursor-pointer
                         ${isSelected 
                           ? 'text-gray-900 dark:text-gray-100' 
                           : 'text-gray-700 dark:text-gray-300'
@@ -144,7 +150,7 @@ export default function CommentCheckBox({
                     </Label>
                   </div>
                   <p className={`
-                    text-xs
+                    text-xs mt-0.5 leading-tight
                     ${isSelected 
                       ? 'text-gray-600 dark:text-gray-400' 
                       : 'text-gray-500 dark:text-gray-500'
@@ -154,7 +160,7 @@ export default function CommentCheckBox({
                   </p>
                 </div>
               </div>
-            </button>
+            </div>
           );
         })}
       </div>

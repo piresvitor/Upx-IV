@@ -67,11 +67,11 @@ export function ReportTypeSelector({ value, onChange, required = true }: ReportT
   };
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-2.5 lg:space-y-3">
       <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
         Tipo de Relatório {required && <span className="text-red-500">*</span>}
       </label>
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 lg:gap-3">
         {types.map((type) => {
           const Icon = type.icon;
           const isSelected = value === type.value;
@@ -83,21 +83,21 @@ export function ReportTypeSelector({ value, onChange, required = true }: ReportT
               type="button"
               onClick={() => onChange(type.value)}
               className={`
-                p-4 rounded-lg border-2 transition-all text-left
-                hover:border-gray-300 dark:hover:border-gray-600
+                p-3 lg:p-3.5 rounded-lg border-2 transition-all text-left
+                hover:border-gray-300 dark:hover:border-gray-600 hover:shadow-sm
                 ${styles.border} ${styles.bg}
               `}
             >
-              <div className="flex items-start gap-3">
+              <div className="flex items-center gap-2.5 lg:gap-3">
                 <Icon 
-                  size={24} 
-                  className={`flex-shrink-0 mt-0.5 ${styles.icon}`}
+                  size={20} 
+                  className={`flex-shrink-0 ${styles.icon}`}
                 />
                 <div className="flex-1 min-w-0">
-                  <p className={`font-semibold text-sm ${styles.text}`}>
+                  <p className={`font-semibold text-xs lg:text-sm ${styles.text}`}>
                     {type.label}
                   </p>
-                  <p className={`text-xs mt-1 ${styles.textSecondary}`}>
+                  <p className={`text-xs mt-0.5 lg:mt-1 leading-tight ${styles.textSecondary}`}>
                     {type.description}
                   </p>
                 </div>

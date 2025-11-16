@@ -82,26 +82,26 @@ export default function AccessibilityInfo({ placeId }: AccessibilityInfoProps) {
       blue: {
         border: hasMajority ? "border-blue-500 dark:border-blue-400" : "border-gray-300 dark:border-gray-600",
         bg: hasMajority ? "bg-blue-50 dark:bg-blue-900/20" : "bg-gray-50 dark:bg-gray-800/50",
-        iconBg: hasMajority ? "bg-blue-100 dark:bg-blue-900/40" : "bg-gray-200 dark:bg-gray-700",
-        icon: hasMajority ? "text-blue-600 dark:text-blue-400" : "text-gray-500 dark:text-gray-400",
+        iconBg: hasMajority ? "bg-blue-100 dark:bg-blue-900/50" : "bg-gray-200 dark:bg-gray-600",
+        icon: hasMajority ? "text-blue-600 dark:text-blue-300" : "text-gray-600 dark:text-gray-300",
       },
       green: {
         border: hasMajority ? "border-green-500 dark:border-green-400" : "border-gray-300 dark:border-gray-600",
         bg: hasMajority ? "bg-green-50 dark:bg-green-900/20" : "bg-gray-50 dark:bg-gray-800/50",
-        iconBg: hasMajority ? "bg-green-100 dark:bg-green-900/40" : "bg-gray-200 dark:bg-gray-700",
-        icon: hasMajority ? "text-green-600 dark:text-green-400" : "text-gray-500 dark:text-gray-400",
+        iconBg: hasMajority ? "bg-green-100 dark:bg-green-900/50" : "bg-gray-200 dark:bg-gray-600",
+        icon: hasMajority ? "text-green-600 dark:text-green-300" : "text-gray-600 dark:text-gray-300",
       },
       purple: {
         border: hasMajority ? "border-purple-500 dark:border-purple-400" : "border-gray-300 dark:border-gray-600",
         bg: hasMajority ? "bg-purple-50 dark:bg-purple-900/20" : "bg-gray-50 dark:bg-gray-800/50",
-        iconBg: hasMajority ? "bg-purple-100 dark:bg-purple-900/40" : "bg-gray-200 dark:bg-gray-700",
-        icon: hasMajority ? "text-purple-600 dark:text-purple-400" : "text-gray-500 dark:text-gray-400",
+        iconBg: hasMajority ? "bg-purple-100 dark:bg-purple-900/50" : "bg-gray-200 dark:bg-gray-600",
+        icon: hasMajority ? "text-purple-600 dark:text-purple-300" : "text-gray-600 dark:text-gray-300",
       },
       orange: {
         border: hasMajority ? "border-orange-500 dark:border-orange-400" : "border-gray-300 dark:border-gray-600",
         bg: hasMajority ? "bg-orange-50 dark:bg-orange-900/20" : "bg-gray-50 dark:bg-gray-800/50",
-        iconBg: hasMajority ? "bg-orange-100 dark:bg-orange-900/40" : "bg-gray-200 dark:bg-gray-700",
-        icon: hasMajority ? "text-orange-600 dark:text-orange-400" : "text-gray-500 dark:text-gray-400",
+        iconBg: hasMajority ? "bg-orange-100 dark:bg-orange-900/50" : "bg-gray-200 dark:bg-gray-600",
+        icon: hasMajority ? "text-orange-600 dark:text-orange-300" : "text-gray-600 dark:text-gray-300",
       },
     };
     
@@ -139,14 +139,14 @@ export default function AccessibilityInfo({ placeId }: AccessibilityInfoProps) {
                   </div>
                   
                   <div className="flex-1 min-w-0">
-                    <div className="flex items-center justify-between gap-2 mb-2">
-                      <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-2">
+                      <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white break-words">
                         {item.label}
                       </h3>
-                      <div className="flex items-center gap-2 flex-shrink-0">
+                      <div className="flex items-center gap-2 flex-shrink-0 self-start sm:self-auto">
                         <StatusIcon 
                           size={18} 
-                          className={item.hasMajority ? "text-green-600 dark:text-green-400" : "text-gray-400 dark:text-gray-500"}
+                          className={item.hasMajority ? "text-green-600 dark:text-green-400" : "text-gray-400 dark:text-gray-400"}
                         />
                         <Badge
                           variant={
@@ -154,7 +154,7 @@ export default function AccessibilityInfo({ placeId }: AccessibilityInfoProps) {
                               ? "hasAccessibility"
                               : "hasntAccessibility"
                           }
-                          className="rounded-full px-2.5 py-0.5 text-xs sm:text-sm"
+                          className="rounded-full px-2.5 py-0.5 text-xs sm:text-sm whitespace-nowrap"
                         >
                           {item.hasMajority ? "Disponível" : "Indisponível"}
                         </Badge>

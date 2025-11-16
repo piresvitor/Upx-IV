@@ -2,7 +2,7 @@ import { FastifyInstance } from 'fastify'
 import { z } from 'zod'
 import { db } from '../../src/database/cliente'
 import { reports, places } from '../../src/database/schema'
-import { eq, and, sql } from 'drizzle-orm'
+import { eq, sql } from 'drizzle-orm'
 
 export async function getPlaceAccessibilityStats(app: FastifyInstance) {
   app.get('/places/:placeId/accessibility-stats', {
@@ -74,18 +74,20 @@ export async function getPlaceAccessibilityStats(app: FastifyInstance) {
         })
       }
 
-      // Buscar todos os relatos do local
-      const allReports = await db
-        .select({
-          rampaAcesso: reports.rampaAcesso,
-          banheiroAcessivel: reports.banheiroAcessivel,
-          estacionamentoAcessivel: reports.estacionamentoAcessivel,
-          acessibilidadeVisual: reports.acessibilidadeVisual
-        })
-        .from(reports)
-        .where(eq(reports.placeId, placeId))
+      // Query otimizada: calcular estatísticas diretamente no banco usando agregações
+      const statsResult = await db.execute(sql`
+        SELECT 
+          COUNT(*)::int as total_reports,
+          COUNT(*) FILTER (WHERE rampa_acesso = true)::int as rampa_acesso_count,
+          COUNT(*) FILTER (WHERE banheiro_acessivel = true)::int as banheiro_acessivel_count,
+          COUNT(*) FILTER (WHERE estacionamento_acessivel = true)::int as estacionamento_acessivel_count,
+          COUNT(*) FILTER (WHERE acessibilidade_visual = true)::int as acessibilidade_visual_count
+        FROM reports
+        WHERE place_id = ${placeId}
+      `)
 
-      const totalReports = allReports.length
+      const row = statsResult.rows[0] as any
+      const totalReports = row?.total_reports || 0
 
       if (totalReports === 0) {
         return reply.status(200).send({
@@ -125,8 +127,7 @@ export async function getPlaceAccessibilityStats(app: FastifyInstance) {
       }
 
       // Calcular estatísticas para cada campo
-      const calculateFieldStats = (fieldName: keyof typeof allReports[0]) => {
-        const positiveCount = allReports.filter(report => report[fieldName] === true).length
+      const calculateFieldStats = (positiveCount: number) => {
         const percentage = totalReports > 0 ? (positiveCount / totalReports) * 100 : 0
         const hasMajority = percentage > 50
 
@@ -139,10 +140,10 @@ export async function getPlaceAccessibilityStats(app: FastifyInstance) {
       }
 
       const accessibilityStats = {
-        rampaAcesso: calculateFieldStats('rampaAcesso'),
-        banheiroAcessivel: calculateFieldStats('banheiroAcessivel'),
-        estacionamentoAcessivel: calculateFieldStats('estacionamentoAcessivel'),
-        acessibilidadeVisual: calculateFieldStats('acessibilidadeVisual')
+        rampaAcesso: calculateFieldStats(row.rampa_acesso_count || 0),
+        banheiroAcessivel: calculateFieldStats(row.banheiro_acessivel_count || 0),
+        estacionamentoAcessivel: calculateFieldStats(row.estacionamento_acessivel_count || 0),
+        acessibilidadeVisual: calculateFieldStats(row.acessibilidade_visual_count || 0)
       }
 
       return reply.status(200).send({
