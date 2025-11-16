@@ -40,6 +40,7 @@ O **Mapa Colaborativo de Acessibilidade** é uma plataforma completa que permite
 - **Google Maps API**: Integração para localização e mapas
 - **Vitest**: Framework de testes com cobertura completa
 - **Testes E2E**: Cobertura completa de testes end-to-end para todas as rotas da API
+- **Otimizações de Performance**: Queries otimizadas com agregações SQL, paralelização de requisições e redução de N+1 queries
 
 ### Frontend (Interface Web)
 - **React.js + TypeScript**: Interface dinâmica e reativa
@@ -48,6 +49,7 @@ O **Mapa Colaborativo de Acessibilidade** é uma plataforma completa que permite
 - **Axios**: Comunicação com APIs
 - **Google Maps API**: Mapas interativos no frontend
 - **Recharts**: Biblioteca de gráficos para visualização de dados
+- **PWA Support**: Suporte a Progressive Web App com favicons e web manifest
 
 ## 📁 Estrutura do Projeto
 
@@ -197,7 +199,7 @@ VITE_GOOGLE_MAPS_API_KEY=sua_chave_google_maps_aqui
 O backend possui uma suíte completa de testes E2E implementada com **Vitest** e **Supertest**, garantindo que todas as rotas da API funcionem corretamente em cenários reais. Os testes cobrem validação de schemas, autenticação, autorização, tratamento de erros e casos de uso completos.
 
 #### Cobertura de Testes
-**Total: 31 rotas testadas** com cobertura completa de casos de sucesso, erros, validações e autorizações.
+**Total: 32 arquivos de teste** cobrindo todas as rotas da API com cobertura completa de casos de sucesso, erros, validações e autorizações.
 
 #### Executar Testes
 
@@ -238,6 +240,7 @@ Cada rota possui testes que verificam:
 - `PUT /users/me` - Atualizar dados do usuário
 - `DELETE /users/me` - Excluir conta
 - `GET /users` - Buscar todos os usuários
+- `GET /users/me/stats` - Obter estatísticas do usuário (relatórios, votos, favoritos)
 
 ### Locais (`/places`)
 - `GET /places/search-nearby` - Buscar locais próximos
@@ -268,6 +271,9 @@ Cada rota possui testes que verificam:
 - `GET /stats/reports/trends` - Tendências de relatos ao longo do tempo
 - `GET /stats/reports/by-type` - Relatos agrupados por tipo
 - `GET /stats/reports/accessibility-features` - Estatísticas de características de acessibilidade
+
+### Diagnósticos
+- `GET /ping` - Health check do servidor e banco de dados
 
 ## 🎯 Campos de Acessibilidade
 
@@ -347,13 +353,15 @@ docker-compose restart
 
 ## 📈 Métricas do Projeto
 
-- **31 endpoints** organizados por módulos, todos com cobertura completa de testes E2E
+- **32 endpoints** organizados por módulos, todos com cobertura completa de testes E2E
+- **32 arquivos de teste** com 192+ testes cobrindo todos os endpoints
 - **Cobertura de testes** completa
 - **Documentação interativa** com Swagger/Scalar
 - **Validação robusta** com schemas Zod
 - **Integração completa** com Google Maps
 - **Dashboard de estatísticas** com gráficos interativos
 - **Sistema de perfil** completo para usuários
+- **Otimizações de performance**: Queries do backend otimizadas com agregações SQL, paralelização de requisições e redução de N+1 queries
 
 ## 🎯 Casos de Uso
 

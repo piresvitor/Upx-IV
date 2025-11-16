@@ -58,7 +58,7 @@ describe('POST /places/:placeId/reports Route', () => {
     const reportData = {
       title: 'Test Report',
       description: 'This is a test report description',
-      type: 'safety',
+      type: 'positive',
       rampaAcesso: true,
       banheiroAcessivel: false,
       estacionamentoAcessivel: true,
@@ -87,7 +87,7 @@ describe('POST /places/:placeId/reports Route', () => {
   test('should return 400 for missing title', async () => {
     const reportData = {
       description: 'This is a test report description',
-      type: 'safety'
+      type: 'positive'
     }
 
     const response = await request(server.server)
@@ -102,7 +102,7 @@ describe('POST /places/:placeId/reports Route', () => {
     const reportData = {
       title: '',
       description: 'This is a test report description',
-      type: 'safety'
+      type: 'positive'
     }
 
     const response = await request(server.server)
@@ -117,7 +117,7 @@ describe('POST /places/:placeId/reports Route', () => {
     const reportData = {
       title: 'A'.repeat(201), // Título muito longo (máximo 200)
       description: 'This is a test report description',
-      type: 'safety'
+      type: 'positive'
     }
 
     const response = await request(server.server)
@@ -131,7 +131,7 @@ describe('POST /places/:placeId/reports Route', () => {
   test('should return 400 for missing description', async () => {
     const reportData = {
       title: 'Test Report',
-      type: 'safety'
+      type: 'positive'
     }
 
     const response = await request(server.server)
@@ -146,7 +146,7 @@ describe('POST /places/:placeId/reports Route', () => {
     const reportData = {
       title: 'Test Report',
       description: '',
-      type: 'safety'
+      type: 'positive'
     }
 
     const response = await request(server.server)
@@ -161,7 +161,7 @@ describe('POST /places/:placeId/reports Route', () => {
     const reportData = {
       title: 'Test Report',
       description: 'A'.repeat(2001), // Descrição muito longa (máximo 2000)
-      type: 'safety'
+      type: 'positive'
     }
 
     const response = await request(server.server)
@@ -205,7 +205,7 @@ describe('POST /places/:placeId/reports Route', () => {
     const reportData = {
       title: 'Test Report',
       description: 'This is a test report description',
-      type: 'safety'
+      type: 'positive'
     }
 
     const response = await request(server.server)
@@ -219,7 +219,7 @@ describe('POST /places/:placeId/reports Route', () => {
     const reportData = {
       title: 'Test Report',
       description: 'This is a test report description',
-      type: 'safety'
+      type: 'positive'
     }
 
     const response = await request(server.server)
@@ -234,7 +234,7 @@ describe('POST /places/:placeId/reports Route', () => {
     const reportData = {
       title: 'Test Report',
       description: 'This is a test report description',
-      type: 'safety'
+      type: 'positive'
     }
 
     const nonExistentPlaceId = '00000000-0000-0000-0000-000000000000'
@@ -252,7 +252,7 @@ describe('POST /places/:placeId/reports Route', () => {
     const reportData = {
       title: 'Test Report',
       description: 'This is a test report description',
-      type: 'safety'
+      type: 'positive'
     }
 
     const response = await request(server.server)
@@ -267,7 +267,7 @@ describe('POST /places/:placeId/reports Route', () => {
     const reportData = {
       title: 'Test Report',
       description: 'This is a test report description',
-      type: 'safety'
+      type: 'positive'
     }
 
     const response = await request(server.server)
