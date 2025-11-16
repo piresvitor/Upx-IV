@@ -66,7 +66,7 @@ export default function Login() {
   };
 
   return (
-    <div className="flex min-h-screen flex-col lg:flex-row bg-primary lg:bg-amber-50 dark:lg:bg-gray-900">
+    <div className="flex min-h-screen flex-col lg:flex-row bg-white dark:bg-gray-900 lg:bg-amber-50">
       <div className="lg:w-2/5 bg-primary dark:bg-gray-800 flex flex-col items-center justify-center p-12 text-white dark:text-gray-100">
         <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold mb-4 text-center leading-[1.2] text-white dark:text-white">
           Olá de novo!

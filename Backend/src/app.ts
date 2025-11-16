@@ -46,17 +46,24 @@ server.addHook('onRequest', async (request, reply) => {
     const isDevelopment = process.env.NODE_ENV === 'development'
     const isPreflight = request.method === 'OPTIONS'
     
-    // Verificar se a origem é permitida
-    const isAllowedOrigin = origin && (allowedOrigins.includes(origin) || isDevelopment)
+    // Verificar se a origem está na lista de permitidas
+    const originInList = origin && allowedOrigins.includes(origin)
+    const isAllowedOrigin = originInList || isDevelopment
     
-    // Para requisições OPTIONS (preflight), sempre adicionar headers CORS
+    // Para requisições OPTIONS (preflight), sempre processar
     // Para outras requisições, apenas se a origem for permitida
     if (isPreflight || isAllowedOrigin) {
+        // Para preflight, sempre verificar a origem novamente
+        const shouldAllowOrigin = isPreflight 
+            ? (originInList || (isDevelopment && origin))
+            : isAllowedOrigin
+        
         // Definir origem permitida
-        if (isAllowedOrigin && origin) {
+        if (shouldAllowOrigin && origin) {
             reply.header('Access-Control-Allow-Origin', origin)
             reply.header('Vary', 'Origin')
         } else if (isDevelopment && !origin) {
+            // Em desenvolvimento sem origem, usar wildcard
             reply.header('Access-Control-Allow-Origin', '*')
         }
         
