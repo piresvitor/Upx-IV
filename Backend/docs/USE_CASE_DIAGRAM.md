@@ -57,11 +57,18 @@ graph TB
 
     %% Casos de Uso - Estatísticas
     subgraph "Sistema de Estatísticas"
-        UC24[Visualizar Estatísticas de Relatos]
-        UC25[Visualizar Estatísticas de Usuários]
-        UC26[Visualizar Estatísticas de Locais]
-        UC27[Visualizar Estatísticas de Votos]
+        UC24[Visualizar Estatísticas Gerais]
+        UC25[Visualizar Tendências de Relatos]
+        UC26[Visualizar Relatos por Tipo]
+        UC27[Visualizar Características de Acessibilidade]
         UC28[Gerar Relatórios]
+    end
+
+    %% Casos de Uso - Favoritos
+    subgraph "Sistema de Favoritos"
+        UC38[Adicionar/Remover Favorito]
+        UC39[Verificar Favorito]
+        UC40[Listar Favoritos]
     end
 
     %% Casos de Uso - Administração
@@ -105,6 +112,9 @@ graph TB
     USER --> UC25
     USER --> UC26
     USER --> UC27
+    USER --> UC38
+    USER --> UC39
+    USER --> UC40
 
     %% Relacionamentos - Visitante
     GUEST --> UC8
@@ -271,11 +281,19 @@ graph TB
 
 | Caso de Uso | Descrição | Atores |
 |-------------|-----------|---------|
-| UC24 - Visualizar Estatísticas de Relatos | Visualiza estatísticas sobre relatos | Usuário, Visitante, Sistema |
-| UC25 - Visualizar Estatísticas de Usuários | Visualiza estatísticas sobre usuários | Usuário, Visitante, Sistema |
-| UC26 - Visualizar Estatísticas de Locais | Visualiza estatísticas sobre locais | Usuário, Visitante, Sistema |
-| UC27 - Visualizar Estatísticas de Votos | Visualiza estatísticas sobre votos | Usuário, Visitante, Sistema |
+| UC24 - Visualizar Estatísticas Gerais | Visualiza estatísticas gerais do sistema (usuários, relatórios, locais, votos) | Usuário, Visitante, Sistema |
+| UC25 - Visualizar Tendências de Relatos | Visualiza tendências de relatos ao longo do tempo | Usuário, Visitante, Sistema |
+| UC26 - Visualizar Relatos por Tipo | Visualiza relatos agrupados por tipo | Usuário, Visitante, Sistema |
+| UC27 - Visualizar Características de Acessibilidade | Visualiza estatísticas de características de acessibilidade | Usuário, Visitante, Sistema |
 | UC28 - Gerar Relatórios | Gera relatórios consolidados | Admin, Sistema |
+
+### Sistema de Favoritos
+
+| Caso de Uso | Descrição | Atores |
+|-------------|-----------|---------|
+| UC38 - Adicionar/Remover Favorito | Adiciona ou remove local dos favoritos (toggle) | Usuário |
+| UC39 - Verificar Favorito | Verifica se um local está nos favoritos | Usuário |
+| UC40 - Listar Favoritos | Lista todos os locais favoritos do usuário | Usuário |
 
 ### Administração do Sistema
 
@@ -356,11 +374,13 @@ graph TB
 - Gerenciamento de locais
 - Gerenciamento de relatos
 - Sistema de votação
+- Sistema de estatísticas
+- Sistema de favoritos
 - Integrações básicas com Google Maps
 
 ### 🔮 Futuros
-- Sistema de estatísticas
 - Administração avançada
 - Relatórios consolidados
 - Moderação de conteúdo
 - Integrações externas avançadas
+- Notificações em tempo real

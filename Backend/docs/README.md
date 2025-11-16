@@ -1,4 +1,78 @@
-# 🗺️ Mapa Colaborativo de Acessibilidade - Backend API
+[NODE__BADGE]: https://img.shields.io/badge/Node.js-20+-43853D?style=for-the-badge&logo=node.js&logoColor=white
+
+[TYPESCRIPT__BADGE]: https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white
+
+[FASTIFY__BADGE]: https://img.shields.io/badge/Fastify-202020?style=for-the-badge&logo=fastify&logoColor=white
+
+[POSTGRESQL__BADGE]: https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white
+
+[DOCKER__BADGE]: https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white
+
+[JWT__BADGE]: https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=JSON%20web%20tokens&logoColor=white
+
+[VITEST__BADGE]: https://img.shields.io/badge/Vitest-6E9F18?style=for-the-badge&logo=vitest&logoColor=white
+
+[ZOD__BADGE]: https://img.shields.io/badge/Zod-3E63DD?style=for-the-badge&logo=zod&logoColor=white
+
+[ARGON2__BADGE]: https://img.shields.io/badge/Argon2-FF6B6B?style=for-the-badge&logo=argon2&logoColor=white
+
+[DRIZZLE__BADGE]: https://img.shields.io/badge/Drizzle_ORM-FF6B6B?style=for-the-badge&logo=drizzle&logoColor=white
+
+[GOOGLE_MAPS__BADGE]: https://img.shields.io/badge/Google_Maps-4285F4?style=for-the-badge&logo=google-maps&logoColor=white
+
+<h1 align="center" style="font-weight: bold;">🗺️ Mapa Colaborativo de Acessibilidade - Backend API 💻</h1>
+
+![node][NODE__BADGE] ![fastify][FASTIFY__BADGE] ![typescript][TYPESCRIPT__BADGE] ![postgresql][POSTGRESQL__BADGE] ![drizzle][DRIZZLE__BADGE] ![zod][ZOD__BADGE] ![jwt][JWT__BADGE] ![argon2][ARGON2__BADGE] ![vitest][VITEST__BADGE] ![docker][DOCKER__BADGE] ![google maps][GOOGLE_MAPS__BADGE]
+
+<details open="open">
+<summary>📑 Sumário</summary>
+
+- [📋 Sobre o Projeto](#-sobre-o-projeto)
+  - [🎯 Objetivos](#-objetivos)
+  - [✨ Funcionalidades Principais](#-funcionalidades-principais)
+  - [🏗️ Arquitetura Técnica](#️-arquitetura-técnica)
+  - [🛠️ Stack Tecnológico](#️-stack-tecnológico)
+- [📁 Estrutura do Projeto](#-estrutura-do-projeto)
+- [📁 Estrutura dos Arquivos de Documentação](#-estrutura-dos-arquivos-de-documentação)
+  - [Documentação Principal](#documentação-principal)
+  - [Arquivos de Teste](#arquivos-de-teste)
+- [🚀 Como Usar](#-como-usar)
+  - [📖 Para Desenvolvedores](#-para-desenvolvedores)
+  - [🛠️ Para Desenvolvimento](#️-para-desenvolvimento)
+  - [🧪 Para Testes](#-para-testes)
+  - [📜 Scripts Disponíveis](#-scripts-disponíveis)
+- [🧪 Testes](#-testes)
+  - [Backend - Testes E2E (End-to-End)](#backend---testes-e2e-end-to-end)
+    - [Cobertura de Testes](#cobertura-de-testes)
+    - [Executar Testes](#executar-testes)
+    - [Estrutura dos Testes](#estrutura-dos-testes)
+    - [Módulos Testados](#módulos-testados)
+- [📋 Endpoints Disponíveis](#-endpoints-disponíveis)
+  - [Autenticação (`/auth`)](#autenticação-auth)
+  - [Usuários (`/users`)](#usuários-users)
+  - [Locais (`/places`)](#locais-places)
+  - [Relatos (`/reports`)](#relatos-reports)
+  - [Favoritos (`/favorites`)](#favoritos-favorites)
+  - [Estatísticas (`/stats`)](#estatísticas-stats)
+- [🔧 Configuração](#-configuração)
+- [📖 Documentação Interativa](#-documentação-interativa)
+- [🏗️ Documentação de Arquitetura](#️-documentação-de-arquitetura)
+- [🌐 Desenvolvimento Frontend](#-desenvolvimento-frontend)
+  - [CORS Configurado](#cors-configurado)
+  - [Arquivos de Teste CORS](#arquivos-de-teste-cors)
+- [🎯 Casos de Uso](#-casos-de-uso)
+  - [👤 Para Usuários Finais](#-para-usuários-finais)
+  - [🏢 Para Organizações](#-para-organizações)
+- [📊 Métricas do Projeto](#-métricas-do-projeto)
+  - [🏗️ Estrutura do Código](#️-estrutura-do-código)
+  - [🗄️ Banco de Dados](#️-banco-de-dados)
+- [📚 Recursos Adicionais](#-recursos-adicionais)
+- [📄 Licença](#-licença)
+- [🎯 Impacto Social](#-impacto-social)
+  - [🌟 Objetivos Alcançados](#-objetivos-alcançados)
+  - [📈 Métricas de Impacto](#-métricas-de-impacto)
+
+</details>
 
 ## 📋 Sobre o Projeto
 
@@ -101,6 +175,7 @@ Esta pasta contém toda a documentação da API do sistema de mapeamento colabor
 - **[API_FAVORITES_DOCUMENTATION.md](./API_FAVORITES_DOCUMENTATION.md)** - Documentação da API de favoritos
 - **[COMPONENT_DIAGRAM.md](./COMPONENT_DIAGRAM.md)** - Diagrama de componentes e arquitetura do sistema
 - **[USE_CASE_DIAGRAM.md](./USE_CASE_DIAGRAM.md)** - Diagrama de caso de uso e interações do sistema
+- **[TEST_ARCHITECTURE_DIAGRAM.md](./TEST_ARCHITECTURE_DIAGRAM.md)** - Diagrama de arquitetura de testes
 - **[CORS_SETUP.md](./CORS_SETUP.md)** - Configuração e teste do CORS para desenvolvimento frontend
 
 ### Arquivos de Teste
@@ -157,6 +232,59 @@ Esta pasta contém toda a documentação da API do sistema de mapeamento colabor
 #### CORS
 - `npm run test:cors` - Testa CORS via Node.js
 - `npm run serve:cors` - Servidor para testes de CORS no navegador
+
+## 🧪 Testes
+
+### Backend - Testes E2E (End-to-End)
+
+O backend possui uma suíte completa de testes E2E implementada com **Vitest** e **Supertest**, garantindo que todas as rotas da API funcionem corretamente em cenários reais. Os testes cobrem validação de schemas, autenticação, autorização, tratamento de erros e casos de uso completos.
+
+#### Cobertura de Testes
+**Total: 32 arquivos de teste** cobrindo todas as rotas da API com cobertura completa de casos de sucesso, erros, validações e autorizações.
+
+#### Executar Testes
+
+```bash
+# Executar todos os testes
+npm test
+
+# Testes com cobertura de código
+npm run test:coverage
+
+# Testes em modo watch (desenvolvimento)
+npm run test:watch
+
+# Testar CORS
+npm run test:cors
+```
+
+#### Estrutura dos Testes
+
+Cada rota possui testes que verificam:
+- ✅ **Casos de sucesso**: Requisições válidas retornam status 200/201 com dados corretos
+- ✅ **Validação de schemas**: Dados inválidos retornam status 400 com mensagens apropriadas
+- ✅ **Autenticação**: Rotas protegidas requerem token JWT válido
+- ✅ **Autorização**: Usuários só podem modificar seus próprios recursos
+- ✅ **Tratamento de erros**: Erros são tratados adequadamente (404, 500, etc.)
+- ✅ **Paginação**: Endpoints com paginação funcionam corretamente
+- ✅ **Filtros e busca**: Parâmetros de query são validados e aplicados
+
+#### Módulos Testados
+
+- **Autenticação** (`/auth`): 3 arquivos de teste
+  - Login, registro e logout
+- **Usuários** (`/users`): 5 arquivos de teste
+  - CRUD de usuários e estatísticas
+- **Locais** (`/places`): 8 arquivos de teste
+  - Busca, criação, atualização e estatísticas
+- **Relatos** (`/reports`): 8 arquivos de teste
+  - CRUD completo e sistema de votação
+- **Favoritos** (`/favorites`): 3 arquivos de teste
+  - Toggle, verificação e listagem
+- **Estatísticas** (`/stats`): 4 arquivos de teste
+  - Estatísticas gerais, tendências e características
+- **Diagnósticos**: 1 arquivo de teste
+  - Health check
 
 ## 📋 Endpoints Disponíveis
 
@@ -291,8 +419,7 @@ const response = await fetch('http://localhost:3333/auth/login', {
 - **Migrações**: Sistema de migrações com Drizzle
 - **Seed**: Dados de exemplo para desenvolvimento
 
-
-### 📚 Recursos Adicionais
+## 📚 Recursos Adicionais
 - **Lei Brasileira de Inclusão**: [Lei 13.146/2015](https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2015/lei/l13146.htm)
 - **Normas ABNT**: NBR 9050 - Acessibilidade a edificações
 - **Google Maps API**: [Documentação oficial](https://developers.google.com/maps)
@@ -315,7 +442,6 @@ Este projeto está licenciado sob a Licença MIT - veja o arquivo [LICENSE](../.
 - **Relatos Criados**: Milhares de relatos sobre acessibilidade
 - **Locais Mapeados**: Cobertura crescente de cidades
 - **Feedback Positivo**: Depoimentos de usuários beneficiados
-
 
 **Desenvolvido para promover acessibilidade e inclusão**
 

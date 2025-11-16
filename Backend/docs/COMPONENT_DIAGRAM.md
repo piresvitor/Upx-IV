@@ -59,17 +59,16 @@ graph TB
         end
 
         subgraph "Statistics System"
-            STATS_REPORTS[Report Statistics<br/>GET /stats/reports]
-            STATS_USERS[User Statistics<br/>GET /stats/users]
-            STATS_PLACES[Place Statistics<br/>GET /stats/places]
-            STATS_VOTES[Vote Statistics<br/>GET /stats/votes]
+            STATS_GENERAL[General Statistics<br/>GET /stats/general]
+            STATS_TRENDS[Reports Trends<br/>GET /stats/reports/trends]
+            STATS_BY_TYPE[Reports by Type<br/>GET /stats/reports/by-type]
+            STATS_ACCESSIBILITY[Accessibility Features<br/>GET /stats/reports/accessibility-features]
         end
 
-        subgraph "Admin System"
-            ADMIN_REPORTS[Admin Reports Management<br/>GET/PUT/DELETE /admin/reports]
-            ADMIN_USERS[Admin Users Management<br/>GET/PUT/DELETE /admin/users]
-            ADMIN_PLACES[Admin Places Management<br/>GET/PUT/DELETE /admin/places]
-            ADMIN_MODERATION[Content Moderation<br/>POST /admin/moderate]
+        subgraph "Favorites System"
+            FAV_TOGGLE[Toggle Favorite<br/>POST /places/:id/favorites]
+            FAV_CHECK[Check Favorite<br/>GET /places/:id/favorites/check]
+            FAV_LIST[List Favorites<br/>GET /users/me/favorites]
         end
     end
 
@@ -123,14 +122,13 @@ graph TB
     API --> REPORT_LIST
     API --> VOTE_CREATE
     API --> VOTE_DELETE
-    API --> STATS_REPORTS
-    API --> STATS_USERS
-    API --> STATS_PLACES
-    API --> STATS_VOTES
-    API --> ADMIN_REPORTS
-    API --> ADMIN_USERS
-    API --> ADMIN_PLACES
-    API --> ADMIN_MODERATION
+    API --> STATS_GENERAL
+    API --> STATS_TRENDS
+    API --> STATS_BY_TYPE
+    API --> STATS_ACCESSIBILITY
+    API --> FAV_TOGGLE
+    API --> FAV_CHECK
+    API --> FAV_LIST
 
     AUTH --> AUTH_SERVICE
     LOGIN --> AUTH_SERVICE
@@ -144,15 +142,14 @@ graph TB
     PLACE_ALL --> PLACE_SERVICE
     PLACE_REPORTS --> PLACE_SERVICE
 
-    STATS_REPORTS --> STATS_SERVICE
-    STATS_USERS --> STATS_SERVICE
-    STATS_PLACES --> STATS_SERVICE
-    STATS_VOTES --> STATS_SERVICE
+    STATS_GENERAL --> STATS_SERVICE
+    STATS_TRENDS --> STATS_SERVICE
+    STATS_BY_TYPE --> STATS_SERVICE
+    STATS_ACCESSIBILITY --> STATS_SERVICE
 
-    ADMIN_REPORTS --> ADMIN_SERVICE
-    ADMIN_USERS --> ADMIN_SERVICE
-    ADMIN_PLACES --> ADMIN_SERVICE
-    ADMIN_MODERATION --> ADMIN_SERVICE
+    FAV_TOGGLE --> DB_CLIENT
+    FAV_CHECK --> DB_CLIENT
+    FAV_LIST --> DB_CLIENT
 
     PLACE_SERVICE --> GOOGLE_MAPS
     AUTH_SERVICE --> JWT_SERVICE
@@ -188,7 +185,7 @@ graph TB
     class FE frontend
     class API,DOCS api
     class AUTH,LOGIN,REGISTER,LOGOUT auth
-    class USER_ME,USER_UPDATE,USER_DELETE,USER_ALL,PLACE_SEARCH,PLACE_CREATE,PLACE_GET,PLACE_UPDATE,PLACE_ALL,PLACE_REPORTS,REPORT_CREATE,REPORT_GET,REPORT_UPDATE,REPORT_DELETE,REPORT_LIST,VOTE_CREATE,VOTE_DELETE,STATS_REPORTS,STATS_USERS,STATS_PLACES,STATS_VOTES,ADMIN_REPORTS,ADMIN_USERS,ADMIN_PLACES,ADMIN_MODERATION business
+    class USER_ME,USER_UPDATE,USER_DELETE,USER_ALL,PLACE_SEARCH,PLACE_CREATE,PLACE_GET,PLACE_UPDATE,PLACE_ALL,PLACE_REPORTS,REPORT_CREATE,REPORT_GET,REPORT_UPDATE,REPORT_DELETE,REPORT_LIST,VOTE_CREATE,VOTE_DELETE,STATS_GENERAL,STATS_TRENDS,STATS_BY_TYPE,STATS_ACCESSIBILITY,FAV_TOGGLE,FAV_CHECK,FAV_LIST business
     class PLACE_SERVICE,AUTH_SERVICE,STATS_SERVICE,ADMIN_SERVICE services
     class DB_CLIENT,SCHEMA data
     class GOOGLE_MAPS,JWT_SERVICE external
@@ -225,17 +222,16 @@ graph TB
 - Sistema de votação em relatos
 - Prevenção de votos duplicados
 
-#### Statistics System (Futuro)
-- **Report Statistics**: Estatísticas sobre relatos
-- **User Statistics**: Estatísticas sobre usuários
-- **Place Statistics**: Estatísticas sobre locais
-- **Vote Statistics**: Estatísticas sobre votos
+#### Statistics System
+- **General Statistics**: Estatísticas gerais do sistema (usuários, relatórios, locais, votos)
+- **Reports Trends**: Tendências de relatos ao longo do tempo
+- **Reports by Type**: Relatos agrupados por tipo
+- **Accessibility Features**: Estatísticas de características de acessibilidade
 
-#### Admin System (Futuro)
-- **Admin Reports Management**: Administração de relatos
-- **Admin Users Management**: Administração de usuários
-- **Admin Places Management**: Administração de locais
-- **Content Moderation**: Moderação de conteúdo
+#### Favorites System
+- **Toggle Favorite**: Adicionar ou remover local dos favoritos
+- **Check Favorite**: Verificar se local está favoritado
+- **List Favorites**: Listar todos os locais favoritos do usuário
 
 ### Services Layer
 - **Places Service**: Integração com Google Maps API
@@ -253,7 +249,7 @@ graph TB
 
 ### Database Layer
 - **PostgreSQL Database**: Banco de dados principal
-- **Tables**: users, places, reports, votes, interest_areas
+- **Tables**: users, places, reports, votes, favorites
 
 ## Fluxo de Dados
 
@@ -274,15 +270,17 @@ graph TB
 - Places Management
 - Reports Management
 - Voting System
-- Services Layer (básico)
+- Statistics System
+- Favorites System
+- Services Layer
 - Data Access Layer
 - Database Layer
 
 ### 🔮 Futuros
-- Statistics System
 - Admin System
-- Advanced Services (Statistics, Admin)
+- Advanced Moderation
 - Enhanced External Integrations
+- Real-time Notifications
 
 ## Considerações de Segurança
 

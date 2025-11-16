@@ -1,6 +1,55 @@
-# 🗺️ Mapa Colaborativo de Acessibilidade - Front-end
+[REACT__BADGE]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
+
+[TYPESCRIPT__BADGE]: https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white
+
+[TAILWIND__BADGE]: https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white
+
+[REACT_ROUTER__BADGE]: https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=react-router&logoColor=white
+
+[RECHARTS__BADGE]: https://img.shields.io/badge/Recharts-FF6B6B?style=for-the-badge&logo=recharts&logoColor=white
+
+[GOOGLE_MAPS__BADGE]: https://img.shields.io/badge/Google_Maps-4285F4?style=for-the-badge&logo=google-maps&logoColor=white
+
+[VITE__BADGE]: https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white
+
+<h1 align="center" style="font-weight: bold;">🗺️ Mapa Colaborativo de Acessibilidade - Frontend 💻</h1>
+
+![react][REACT__BADGE] ![typescript][TYPESCRIPT__BADGE] ![tailwind][TAILWIND__BADGE] ![react router][REACT_ROUTER__BADGE] ![recharts][RECHARTS__BADGE] ![vite][VITE__BADGE] ![google maps][GOOGLE_MAPS__BADGE]
+
+<details open="open">
+<summary>📑 Sumário</summary>
+
+- [📋 Sobre o Projeto](#-sobre-o-projeto)
+- [🎯 Objetivos](#-objetivos)
+- [✨ Funcionalidades Principais](#-funcionalidades-principais)
+- [💻 Tecnologias Utilizadas](#-tecnologias-utilizadas)
+  - [Core](#core)
+  - [Estilização](#estilização)
+  - [Navegação e Roteamento](#navegação-e-roteamento)
+  - [Comunicação com API](#comunicação-com-api)
+  - [Visualização de Dados](#visualização-de-dados)
+  - [Integrações](#integrações)
+- [📁 Estrutura do Projeto](#-estrutura-do-projeto)
+- [🚀 Instruções para Clonar e Executar o Projeto](#-instruções-para-clonar-e-executar-o-projeto)
+  - [Pré-requisitos](#pré-requisitos)
+  - [1. Clone o Repositório](#1-clone-o-repositório)
+  - [2. Instale as Dependências](#2-instale-as-dependências)
+  - [3. Configure as Variáveis de Ambiente](#3-configure-as-variáveis-de-ambiente)
+  - [4. Inicie o Servidor de Desenvolvimento](#4-inicie-o-servidor-de-desenvolvimento)
+- [📱 Páginas da Aplicação](#-páginas-da-aplicação)
+  - [Páginas Públicas](#páginas-públicas)
+  - [Páginas Protegidas (Requerem autenticação)](#páginas-protegidas-requerem-autenticação)
+- [🛠️ Scripts Disponíveis](#️-scripts-disponíveis)
+- [🎨 Componentes UI](#-componentes-ui)
+- [📚 Documentação Adicional](#-documentação-adicional)
+- [🐛 Troubleshooting](#-troubleshooting)
+  - [Problemas Comuns](#problemas-comuns)
+- [📄 Licença](#-licença)
+
+</details>
 
 ## 📋 Sobre o Projeto
+
 O **Mapa Colaborativo de Acessibilidade** é uma plataforma que permite aos usuários compartilhar informações sobre a acessibilidade de locais públicos, criando um mapa colaborativo que ajuda pessoas com deficiência a navegar pela cidade com mais facilidade e segurança.
 
 ## 🎯 Objetivos
@@ -174,7 +223,6 @@ A aplicação estará disponível em `http://localhost:5173`
   - Gráficos de pizza e barras para relatórios por tipo
   - Tabelas detalhadas com percentuais e quantidades
 
-
 ## 🛠️ Scripts Disponíveis
 
 ```bash
@@ -190,7 +238,6 @@ npm run preview
 # Executa linting
 npm run lint
 ```
-
 
 ## 🎨 Componentes UI
 
@@ -208,7 +255,7 @@ O projeto utiliza componentes acessíveis do Radix UI:
 
 ## 📚 Documentação Adicional
 
-- **[README Principal](../README.md)**: Documentação completa do projeto
+- **[README Principal](../../Readme.md)**: Documentação completa do projeto
 - **[Backend Documentation](../../Backend/docs/README.md)**: Documentação da API
 
 ## 🐛 Troubleshooting

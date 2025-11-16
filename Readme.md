@@ -1,4 +1,98 @@
-# 🗺️ Mapa Colaborativo de Acessibilidade - UPX 4
+[NODE__BADGE]: https://img.shields.io/badge/Node.js-20+-43853D?style=for-the-badge&logo=node.js&logoColor=white
+
+[TYPESCRIPT__BADGE]: https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white
+
+[FASTIFY__BADGE]: https://img.shields.io/badge/Fastify-202020?style=for-the-badge&logo=fastify&logoColor=white
+
+[POSTGRESQL__BADGE]: https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white
+
+[DOCKER__BADGE]: https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white
+
+[JWT__BADGE]: https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=JSON%20web%20tokens&logoColor=white
+
+[VITEST__BADGE]: https://img.shields.io/badge/Vitest-6E9F18?style=for-the-badge&logo=vitest&logoColor=white
+
+[REACT__BADGE]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
+
+[TAILWIND__BADGE]: https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white
+
+[GOOGLE_MAPS__BADGE]: https://img.shields.io/badge/Google_Maps-4285F4?style=for-the-badge&logo=google-maps&logoColor=white
+
+[ZOD__BADGE]: https://img.shields.io/badge/Zod-3E63DD?style=for-the-badge&logo=zod&logoColor=white
+
+[ARGON2__BADGE]: https://img.shields.io/badge/Argon2-FF6B6B?style=for-the-badge&logo=argon2&logoColor=white
+
+[DRIZZLE__BADGE]: https://img.shields.io/badge/Drizzle_ORM-FF6B6B?style=for-the-badge&logo=drizzle&logoColor=white
+
+[REACT_ROUTER__BADGE]: https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=react-router&logoColor=white
+
+[RECHARTS__BADGE]: https://img.shields.io/badge/Recharts-FF6B6B?style=for-the-badge&logo=recharts&logoColor=white
+
+<h1 align="center" style="font-weight: bold;">🗺️ Mapa Colaborativo de Acessibilidade - UPX 4 💻</h1>
+
+### 🔧 Backend
+
+![node][NODE__BADGE] ![fastify][FASTIFY__BADGE] ![typescript][TYPESCRIPT__BADGE] ![postgresql][POSTGRESQL__BADGE] ![drizzle][DRIZZLE__BADGE] ![zod][ZOD__BADGE] ![jwt][JWT__BADGE]  ![argon2][ARGON2__BADGE] ![vitest][VITEST__BADGE] ![docker][DOCKER__BADGE]
+
+### 🎨 Frontend
+
+![react][REACT__BADGE] ![typescript][TYPESCRIPT__BADGE] ![tailwind][TAILWIND__BADGE] ![react router][REACT_ROUTER__BADGE] ![recharts][RECHARTS__BADGE] ![google maps][GOOGLE_MAPS__BADGE]
+
+<details open="open">
+<summary>📑 Sumário</summary>
+
+- [📋 Sobre o Projeto](#-sobre-o-projeto)
+  - [🎯 Objetivos](#-objetivos)
+  - [✨ Funcionalidades Principais](#-funcionalidades-principais)
+- [🏗️ Arquitetura do Sistema](#️-arquitetura-do-sistema)
+  - [Backend (API REST)](#backend-api-rest)
+  - [Frontend (Interface Web)](#frontend-interface-web)
+- [📁 Estrutura do Projeto](#-estrutura-do-projeto)
+- [🚀 Como Executar o Projeto](#-como-executar-o-projeto)
+  - [Pré-requisitos](#pré-requisitos)
+  - [1. Clone o Repositório](#1-clone-o-repositório)
+  - [2. Configuração do Backend](#2-configuração-do-backend)
+  - [3. Configuração do Frontend](#3-configuração-do-frontend)
+  - [4. Acesse a Aplicação](#4-acesse-a-aplicação)
+- [🔧 Configuração de Variáveis de Ambiente](#-configuração-de-variáveis-de-ambiente)
+  - [Backend (.env)](#backend-env)
+  - [Frontend (.env)](#frontend-env)
+- [📚 Documentação](#-documentação)
+  - [Backend](#backend)
+  - [Frontend](#frontend)
+- [🧪 Testes](#-testes)
+  - [Backend - Testes E2E (End-to-End)](#backend---testes-e2e-end-to-end)
+    - [Cobertura de Testes](#cobertura-de-testes)
+    - [Executar Testes](#executar-testes)
+    - [Estrutura dos Testes](#estrutura-dos-testes)
+- [📍 Endpoints da API](#-endpoints-da-api)
+  - [Autenticação (`/auth`)](#autenticação-auth)
+  - [Usuários (`/users`)](#usuários-users)
+  - [Locais (`/places`)](#locais-places)
+  - [Relatos (`/reports`)](#relatos-reports)
+  - [Favoritos (`/favorites`)](#favoritos-favorites)
+  - [Estatísticas (`/stats`)](#estatísticas-stats)
+  - [Diagnósticos](#diagnósticos)
+- [🎯 Campos de Acessibilidade](#-campos-de-acessibilidade)
+- [📱 Páginas do Frontend](#-páginas-do-frontend)
+  - [Páginas Públicas](#páginas-públicas)
+  - [Páginas Protegidas (Requerem autenticação)](#páginas-protegidas-requerem-autenticação)
+- [🛠️ Scripts Disponíveis](#️-scripts-disponíveis)
+  - [Backend](#backend-1)
+  - [Frontend](#frontend-1)
+- [🌐 Desenvolvimento](#-desenvolvimento)
+  - [CORS Configurado](#cors-configurado)
+  - [Docker para Banco de Dados](#docker-para-banco-de-dados)
+- [📈 Métricas do Projeto](#-métricas-do-projeto)
+- [🎯 Casos de Uso](#-casos-de-uso)
+  - [Para Usuários Finais](#para-usuários-finais)
+  - [Para Organizações](#para-organizações)
+- [📄 Licença](#-licença)
+- [🎯 Impacto Social](#-impacto-social)
+  - [Objetivos Alcançados](#objetivos-alcançados)
+- [🤝 Colaboradores](#-colaboradores)
+
+</details>
 
 ## 📋 Sobre o Projeto
 
@@ -228,52 +322,75 @@ Cada rota possui testes que verificam:
 - ✅ **Paginação**: Endpoints com paginação funcionam corretamente
 - ✅ **Filtros e busca**: Parâmetros de query são validados e aplicados
 
-## 📊 Endpoints da API
+## 📍 Endpoints da API
+
+Aqui você pode encontrar as principais rotas da API organizadas por serviço.
 
 ### Autenticação (`/auth`)
-- `POST /auth/register` - Registrar usuário
-- `POST /auth/login` - Fazer login
-- `POST /auth/logout` - Fazer logout
+
+| route | description |
+|-------|------------|
+| <kbd>POST /auth/register</kbd> | Registrar novo usuário no sistema |
+| <kbd>POST /auth/login</kbd> | Autenticar usuário e obter token JWT |
+| <kbd>POST /auth/logout</kbd> | Fazer logout do usuário |
 
 ### Usuários (`/users`)
-- `GET /users/me` - Obter dados do usuário
-- `PUT /users/me` - Atualizar dados do usuário
-- `DELETE /users/me` - Excluir conta
-- `GET /users` - Buscar todos os usuários
-- `GET /users/me/stats` - Obter estatísticas do usuário (relatórios, votos, favoritos)
+
+| route | description |
+|-------|------------|
+| <kbd>GET /users/me</kbd> | Obter dados do usuário autenticado |
+| <kbd>PUT /users/me</kbd> | Atualizar dados do usuário autenticado |
+| <kbd>DELETE /users/me</kbd> | Excluir conta do usuário autenticado |
+| <kbd>GET /users</kbd> | Buscar todos os usuários do sistema |
+| <kbd>GET /users/me/stats</kbd> | Obter estatísticas do usuário (relatórios, votos, favoritos) |
 
 ### Locais (`/places`)
-- `GET /places/search-nearby` - Buscar locais próximos
-- `POST /places/check-or-create` - Verificar ou criar local
-- `GET /places/:placeId` - Obter detalhes de um local
-- `PUT /places/:placeId` - Atualizar um local
-- `GET /places` - Buscar todos os locais
-- `GET /places/with-reports` - Buscar locais com comentários (filtros, ordenação, busca)
-- `GET /places/:placeId/accessibility-stats` - Estatísticas de acessibilidade
+
+| route | description |
+|-------|------------|
+| <kbd>GET /places/search-nearby</kbd> | Buscar locais próximos a uma localização |
+| <kbd>POST /places/check-or-create</kbd> | Verificar se local existe ou criar novo local |
+| <kbd>GET /places/:placeId</kbd> | Obter detalhes completos de um local específico |
+| <kbd>PUT /places/:placeId</kbd> | Atualizar informações de um local |
+| <kbd>GET /places</kbd> | Buscar todos os locais cadastrados |
+| <kbd>GET /places/with-reports</kbd> | Buscar locais com relatos (suporta filtros, ordenação e busca) |
+| <kbd>GET /places/:placeId/accessibility-stats</kbd> | Obter estatísticas de acessibilidade de um local |
 
 ### Relatos (`/reports`)
-- `POST /places/:placeId/reports` - Criar relato
-- `GET /places/:placeId/reports` - Buscar relatos de um local
-- `GET /reports` - Listar todos os relatos
-- `GET /reports/:reportId` - Obter relato específico
-- `PUT /reports/:reportId` - Atualizar relato
-- `DELETE /reports/:reportId` - Remover relato
-- `POST /reports/:reportId/votes` - Votar em relato
-- `DELETE /reports/:reportId/votes` - Remover voto
+
+| route | description |
+|-------|------------|
+| <kbd>POST /places/:placeId/reports</kbd> | Criar novo relato sobre acessibilidade de um local |
+| <kbd>GET /places/:placeId/reports</kbd> | Buscar todos os relatos de um local específico |
+| <kbd>GET /reports</kbd> | Listar todos os relatos do sistema |
+| <kbd>GET /reports/:reportId</kbd> | Obter detalhes de um relato específico |
+| <kbd>PUT /reports/:reportId</kbd> | Atualizar informações de um relato |
+| <kbd>DELETE /reports/:reportId</kbd> | Remover um relato do sistema |
+| <kbd>POST /reports/:reportId/votes</kbd> | Votar positivamente em um relato |
+| <kbd>DELETE /reports/:reportId/votes</kbd> | Remover voto de um relato |
 
 ### Favoritos (`/favorites`)
-- `POST /places/:placeId/favorites` - Adicionar ou remover local dos favoritos (toggle)
-- `GET /places/:placeId/favorites/check` - Verificar se local está favoritado
-- `GET /users/me/favorites` - Listar todos os locais favoritos do usuário (com paginação)
+
+| route | description |
+|-------|------------|
+| <kbd>POST /places/:placeId/favorites</kbd> | Adicionar ou remover local dos favoritos (toggle) |
+| <kbd>GET /places/:placeId/favorites/check</kbd> | Verificar se um local está nos favoritos do usuário |
+| <kbd>GET /users/me/favorites</kbd> | Listar todos os locais favoritos do usuário (com paginação) |
 
 ### Estatísticas (`/stats`)
-- `GET /stats/general` - Estatísticas gerais (usuários, relatórios, locais, votos)
-- `GET /stats/reports/trends` - Tendências de relatos ao longo do tempo
-- `GET /stats/reports/by-type` - Relatos agrupados por tipo
-- `GET /stats/reports/accessibility-features` - Estatísticas de características de acessibilidade
+
+| route | description |
+|-------|------------|
+| <kbd>GET /stats/general</kbd> | Obter estatísticas gerais do sistema (usuários, relatórios, locais, votos) |
+| <kbd>GET /stats/reports/trends</kbd> | Obter tendências de relatos ao longo do tempo |
+| <kbd>GET /stats/reports/by-type</kbd> | Obter relatos agrupados por tipo |
+| <kbd>GET /stats/reports/accessibility-features</kbd> | Obter estatísticas de características de acessibilidade |
 
 ### Diagnósticos
-- `GET /ping` - Health check do servidor e banco de dados
+
+| route | description |
+|-------|------------|
+| <kbd>GET /ping</kbd> | Health check do servidor e banco de dados |
 
 ## 🎯 Campos de Acessibilidade
 
@@ -397,3 +514,28 @@ Este projeto está licenciado sob a Licença MIT.
 **Desenvolvido para promover acessibilidade e inclusão**
 
 *"A acessibilidade não é um privilégio, é um direito fundamental de todos os cidadãos."*
+
+## 🤝 Colaboradores
+
+Agradecimento especial a todas as pessoas que contribuíram para este projeto.
+
+<table>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/piresvitor">
+        <img src="https://github.com/piresvitor.png" width="100px;" alt="Vitor Pires Profile Picture"/><br>
+        <sub>
+          <b>Vitor Pires</b>
+        </sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/juliamofardinii">
+        <img src="https://github.com/juliamofardinii.png" width="100px;" alt="Júlia Mofardini Profile Picture"/><br>
+        <sub>
+          <b>Júlia Mofardini</b>
+        </sub>
+      </a>
+    </td>
+  </tr>
+</table>
