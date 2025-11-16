@@ -10,7 +10,7 @@ import {
   DialogTitle,
   DialogFooter,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import {
   reportService,
   type Report,
@@ -25,6 +25,7 @@ interface CommentListProps {
 }
 
 export default function CommentList({
+  placeId,
   comments,
   onCommentsUpdate,
 }: CommentListProps) {
@@ -44,6 +45,8 @@ export default function CommentList({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingComment, setEditingComment] = useState<Report | null>(null);
   const [newDescription, setNewDescription] = useState("");
+  const [editReportType, setEditReportType] = useState<string>("positive");
+  const [editSelectedTypes, setEditSelectedTypes] = useState<string[]>([]);
 
   const start = (page - 1) * limit;
   const end = start + limit;
@@ -58,21 +61,40 @@ export default function CommentList({
   const openEditModal = (comment: Report) => {
     setEditingComment(comment);
     setNewDescription(comment.description);
+    setEditReportType(comment.type || "positive");
+    
+    // Inicializar opções de acessibilidade baseado no comentário
+    const selectedAccessibility: string[] = [];
+    if (comment.rampaAcesso) selectedAccessibility.push("rampaAcesso");
+    if (comment.banheiroAcessivel) selectedAccessibility.push("banheiroAcessivel");
+    if (comment.estacionamentoAcessivel) selectedAccessibility.push("estacionamentoAcessivel");
+    if (comment.acessibilidadeVisual) selectedAccessibility.push("acessibilidadeVisual");
+    setEditSelectedTypes(selectedAccessibility);
+    
     setIsModalOpen(true);
   };
 
   const handleEditSubmit = async () => {
     if (!editingComment) return;
 
+    // Validação
+    if (!newDescription.trim()) {
+      return;
+    }
+
+    if (!editReportType) {
+      return;
+    }
+
     try {
       const updateData: ReportUpdateData = {
         title: editingComment.title,
         description: newDescription,
-        type: editingComment.type,
-        rampaAcesso: editingComment.rampaAcesso,
-        banheiroAcessivel: editingComment.banheiroAcessivel,
-        estacionamentoAcessivel: editingComment.estacionamentoAcessivel,
-        acessibilidadeVisual: editingComment.acessibilidadeVisual,
+        type: editReportType,
+        rampaAcesso: editSelectedTypes.includes("rampaAcesso"),
+        banheiroAcessivel: editSelectedTypes.includes("banheiroAcessivel"),
+        estacionamentoAcessivel: editSelectedTypes.includes("estacionamentoAcessivel"),
+        acessibilidadeVisual: editSelectedTypes.includes("acessibilidadeVisual"),
       };
       await reportService.updateReport(editingComment.id, updateData);
       setIsModalOpen(false);
@@ -234,20 +256,105 @@ export default function CommentList({
       )}
 
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Editar Comentário</DialogTitle>
+        <DialogContent className="max-w-xl max-h-[85vh] overflow-y-auto">
+          <DialogHeader className="pb-2">
+            <DialogTitle className="text-lg">Editar Comentário</DialogTitle>
           </DialogHeader>
-          <Input
-            value={newDescription}
-            onChange={(e) => setNewDescription(e.target.value)}
-            className="mt-2"
-          />
-          <DialogFooter className="mt-4 flex justify-end gap-2">
-            <Button variant="outline" onClick={() => setIsModalOpen(false)}>
+          
+          <div className="space-y-3">
+            {/* Descrição */}
+            <div>
+              <label className="text-xs font-medium text-gray-600 dark:text-gray-400 mb-1.5 block">
+                Descrição <span className="text-red-500">*</span>
+              </label>
+              <Textarea
+                value={newDescription}
+                onChange={(e) => setNewDescription(e.target.value)}
+                placeholder="Escreva aqui sobre sua experiência..."
+                className="min-h-20 text-sm"
+              />
+            </div>
+
+            {/* Tipo de Relatório - Compacto */}
+            <div>
+              <label className="text-xs font-medium text-gray-600 dark:text-gray-400 mb-1.5 block">
+                Tipo <span className="text-red-500">*</span>
+              </label>
+              <div className="grid grid-cols-3 gap-2">
+                {[
+                  { value: "positive", label: "Positivo", icon: "✓", color: "green" },
+                  { value: "negative", label: "Negativo", icon: "✗", color: "red" },
+                  { value: "neutral", label: "Neutro", icon: "−", color: "blue" },
+                ].map((type) => {
+                  const isSelected = editReportType === type.value;
+                  return (
+                    <button
+                      key={type.value}
+                      type="button"
+                      onClick={() => setEditReportType(type.value)}
+                      className={`
+                        px-3 py-2 rounded-md border text-xs font-medium transition-all
+                        ${isSelected
+                          ? type.color === "green"
+                            ? "border-green-500 bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300"
+                            : type.color === "red"
+                            ? "border-red-500 bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300"
+                            : "border-blue-500 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300"
+                          : "border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:border-gray-300"
+                        }
+                      `}
+                    >
+                      {type.label}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Opções de Acessibilidade - Compacto */}
+            <div>
+              <label className="text-xs font-medium text-gray-600 dark:text-gray-400 mb-1.5 block">
+                Acessibilidade <span className="text-gray-400 text-xs font-normal">(opcional)</span>
+              </label>
+              <div className="grid grid-cols-2 gap-2">
+                {[
+                  { value: "rampaAcesso", label: "Rampa" },
+                  { value: "banheiroAcessivel", label: "Banheiro" },
+                  { value: "estacionamentoAcessivel", label: "Estacionamento" },
+                  { value: "acessibilidadeVisual", label: "Visual" },
+                ].map((option) => {
+                  const isSelected = editSelectedTypes.includes(option.value);
+                  return (
+                    <button
+                      key={option.value}
+                      type="button"
+                      onClick={() => {
+                        const updated = isSelected
+                          ? editSelectedTypes.filter((t) => t !== option.value)
+                          : [...editSelectedTypes, option.value];
+                        setEditSelectedTypes(updated);
+                      }}
+                      className={`
+                        px-3 py-2 rounded-md border text-xs font-medium transition-all text-left
+                        ${isSelected
+                          ? "border-blue-500 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300"
+                          : "border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:border-gray-300"
+                        }
+                      `}
+                    >
+                      {option.label}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+
+          <DialogFooter className="mt-4 pt-3 border-t border-gray-200 dark:border-gray-700">
+            <Button variant="outline" size="sm" onClick={() => setIsModalOpen(false)}>
               Cancelar
             </Button>
-            <Button onClick={handleEditSubmit}>Salvar</Button>
+            <Button size="sm" onClick={handleEditSubmit}>Salvar</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

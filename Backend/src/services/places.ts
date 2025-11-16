@@ -1,4 +1,4 @@
-import { eq } from 'drizzle-orm'
+import { eq, inArray } from 'drizzle-orm'
 import { db } from '../database/cliente'
 import { places } from '../database/schema'
 import { googleMapsService, GooglePlace } from './google-maps'
@@ -107,6 +107,7 @@ class PlacesService {
 
   /**
    * Busca locais próximos usando a API do Google Maps e verifica quais já existem no banco
+   * Otimizado para evitar N+1 queries
    */
   async searchNearbyPlaces(
     latitude: number,
@@ -128,16 +129,62 @@ class PlacesService {
         keyword
       )
 
-      // Para cada local do Google Maps, verifica se já existe no banco
-      const places: PlaceWithReports[] = []
-      
+      if (googlePlaces.length === 0) {
+        return {
+          places: [],
+          googlePlaces: [],
+        }
+      }
+
+      // Otimização: Buscar todos os locais existentes de uma vez (evita N+1)
+      const placeIds = googlePlaces.map(gp => gp.place_id)
+      const existingPlaces = await db
+        .select()
+        .from(places)
+        .where(inArray(places.placeId, placeIds))
+
+      // Criar mapa para acesso rápido
+      const existingPlacesMap = new Map<string, PlaceWithReports>()
+      existingPlaces.forEach(place => {
+        existingPlacesMap.set(place.placeId, place)
+      })
+
+      // Separar locais existentes e novos
+      const placesToCreate: CreatePlaceData[] = []
+      const resultPlaces: PlaceWithReports[] = []
+
       for (const googlePlace of googlePlaces) {
-        const place = await this.findOrCreateFromGooglePlace(googlePlace)
-        places.push(place)
+        const existingPlace = existingPlacesMap.get(googlePlace.place_id)
+        
+        if (existingPlace) {
+          resultPlaces.push(existingPlace)
+        } else {
+          // Preparar dados para criação em lote
+          placesToCreate.push({
+            placeId: googlePlace.place_id,
+            name: googlePlace.name,
+            address: googlePlace.formatted_address,
+            latitude: googlePlace.geometry.location.lat,
+            longitude: googlePlace.geometry.location.lng,
+            types: googlePlace.types,
+            rating: googlePlace.rating,
+            userRatingsTotal: googlePlace.user_ratings_total,
+          })
+        }
+      }
+
+      // Criar novos locais em lote (se houver)
+      if (placesToCreate.length > 0) {
+        const newPlaces = await db
+          .insert(places)
+          .values(placesToCreate)
+          .returning()
+        
+        resultPlaces.push(...newPlaces)
       }
 
       return {
-        places,
+        places: resultPlaces,
         googlePlaces,
       }
     } catch (error) {

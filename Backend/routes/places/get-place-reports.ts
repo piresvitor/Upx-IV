@@ -1,7 +1,7 @@
 import { FastifyPluginAsyncZod } from 'fastify-type-provider-zod'
 import { db } from '../../src/database/cliente.ts'
 import { places, reports, users, votes } from '../../src/database/schema.ts'
-import { eq, sql, count, and } from 'drizzle-orm'
+import { eq, sql, count, and, inArray } from 'drizzle-orm'
 import z from 'zod'
 import jwt from 'jsonwebtoken'
 
@@ -135,54 +135,77 @@ export const getPlaceReportsRoute: FastifyPluginAsyncZod = async (server) => {
         userId = undefined
       }
 
-      // Buscar contagem de votos e verificar se o usuário votou em cada relatório
-      const reportsWithVotes = await Promise.all(
-        placeReports.map(async (report) => {
-          // Buscar contagem de votos
-          const votesResult = await db
-            .select({ count: count() })
-            .from(votes)
-            .where(eq(votes.reportId, report.id))
-          
-          const votesCount = votesResult[0]?.count || 0
-
-          // Verificar se o usuário votou (se estiver autenticado)
-          let userVoted = false
-          if (userId) {
-            const userVoteResult = await db
-              .select()
+      // Otimização: Buscar contagens de votos e votos do usuário de uma vez (evita N+1)
+      const reportIds = placeReports.map(r => r.id)
+      
+      // Buscar contagens de votos para todos os relatórios de uma vez
+      const [votesCountsResult, userVotesResult] = await Promise.all([
+        // Contagem de votos por relatório
+        db
+          .select({
+            reportId: votes.reportId,
+            votesCount: sql<number>`COUNT(*)::int`,
+          })
+          .from(votes)
+          .where(inArray(votes.reportId, reportIds))
+          .groupBy(votes.reportId),
+        // Votos do usuário (se autenticado)
+        userId
+          ? db
+              .select({
+                reportId: votes.reportId,
+              })
               .from(votes)
               .where(and(
                 eq(votes.userId, userId),
-                eq(votes.reportId, report.id)
+                inArray(votes.reportId, reportIds)
               ))
-              .limit(1)
-            
-            userVoted = userVoteResult.length > 0
-          }
+          : Promise.resolve([])
+      ])
 
-          const reportData: any = {
-            id: report.id,
-            title: report.title,
-            description: report.description,
-            type: report.type,
-            createdAt: report.createdAt,
-            user: report.user,
-            rampaAcesso: report.rampaAcesso,
-            banheiroAcessivel: report.banheiroAcessivel,
-            estacionamentoAcessivel: report.estacionamentoAcessivel,
-            acessibilidadeVisual: report.acessibilidadeVisual,
-            votesCount: votesCount,
-          }
+      // Criar mapas para acesso rápido
+      const votesCountsMap = new Map<string, number>()
+      votesCountsResult.forEach((row) => {
+        if (row.reportId) {
+          votesCountsMap.set(row.reportId, row.votesCount)
+        }
+      })
 
-          // Só adiciona userVoted se o usuário estiver autenticado
-          if (userId) {
-            reportData.userVoted = userVoted
+      const userVotesMap = new Set<string>()
+      if (userId && Array.isArray(userVotesResult)) {
+        userVotesResult.forEach((row: any) => {
+          if (row.reportId) {
+            userVotesMap.add(row.reportId)
           }
-
-          return reportData
         })
-      )
+      }
+
+      // Formatar relatórios com contagens de votos
+      const reportsWithVotes = placeReports.map((report) => {
+        const votesCount = votesCountsMap.get(report.id) || 0
+        const userVoted = userId ? userVotesMap.has(report.id) : false
+
+        const reportData: any = {
+          id: report.id,
+          title: report.title,
+          description: report.description,
+          type: report.type,
+          createdAt: report.createdAt,
+          user: report.user,
+          rampaAcesso: report.rampaAcesso,
+          banheiroAcessivel: report.banheiroAcessivel,
+          estacionamentoAcessivel: report.estacionamentoAcessivel,
+          acessibilidadeVisual: report.acessibilidadeVisual,
+          votesCount: votesCount,
+        }
+
+        // Só adiciona userVoted se o usuário estiver autenticado
+        if (userId) {
+          reportData.userVoted = userVoted
+        }
+
+        return reportData
+      })
 
       return reply.status(200).send({
         place: {
