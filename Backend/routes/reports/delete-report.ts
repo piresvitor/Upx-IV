@@ -1,6 +1,6 @@
 import { FastifyPluginAsyncZod } from 'fastify-type-provider-zod'
 import { db } from '../../src/database/cliente.ts'
-import { reports } from '../../src/database/schema.ts'
+import { reports, votes } from '../../src/database/schema.ts'
 import { eq } from 'drizzle-orm'
 import z from 'zod'
 import { authenticateToken } from '../../src/middleware/auth.ts'
@@ -31,7 +31,12 @@ export const deleteReportRoute: FastifyPluginAsyncZod = async (server) => {
       if (!report) return reply.status(404).send({ message: 'Relato não encontrado' })
       if (report.userId !== userId) return reply.status(403).send({ message: 'Acesso negado' })
 
+      // Deletar votos associados primeiro (devido à foreign key constraint)
+      await db.delete(votes).where(eq(votes.reportId, reportId))
+      
+      // Depois deletar o relatório
       await db.delete(reports).where(eq(reports.id, reportId))
+      
       return reply.status(200).send({ message: 'Relato removido com sucesso' })
     } catch (error) {
       console.error('Erro ao remover relato:', error)

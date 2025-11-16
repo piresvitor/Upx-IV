@@ -79,8 +79,11 @@ export default function MapDetails() {
   const handleCommentSuccess = async () => {
     const scrollY = window.scrollY;
     try {
-      await fetchDetails();
-      await fetchComments();
+      // Executar chamadas em paralelo para melhor performance
+      await Promise.all([
+        fetchDetails(),
+        fetchComments()
+      ]);
     } finally {
       window.scrollTo(0, scrollY);
     }
@@ -91,9 +94,18 @@ export default function MapDetails() {
 
     const init = async () => {
       try {
-        await fetchDetails();
-        await fetchComments();
-        await checkFavoriteStatus();
+        // Executar chamadas em paralelo para melhor performance
+        // checkFavoriteStatus só executa se o usuário estiver autenticado
+        const promises = [
+          fetchDetails(),
+          fetchComments()
+        ];
+        
+        if (isAuthenticated) {
+          promises.push(checkFavoriteStatus());
+        }
+        
+        await Promise.all(promises);
       } finally {
         setLoading(false);
       }

@@ -25,6 +25,12 @@ const privateLinks = [
   { href: "/stats", label: "Estatísticas" },
 ];
 
+// Links que ficam no menu suspenso no mobile (todos exceto Mapa)
+const mobileMenuLinks = [
+  { href: "/places", label: "Locais" },
+  { href: "/stats", label: "Estatísticas" },
+];
+
 export default function NavBar({ isAuthenticated, onLogout }: NavBarProps) {
   const navigationLinks = isAuthenticated ? privateLinks : [];
   const navigate = useNavigate();
@@ -41,22 +47,33 @@ export default function NavBar({ isAuthenticated, onLogout }: NavBarProps) {
           </Link>
 
           {isAuthenticated && (
-            <NavigationMenu className="hidden md:flex">
-              <NavigationMenuList className="gap-4 md:gap-6">
-                {navigationLinks.map((link) => (
-                  <NavigationMenuItem key={link.href}>
-                    <NavigationMenuLink asChild>
-                      <Link
-                        to={link.href}
-                        className="text-base md:text-lg text-muted-foreground hover:text-primary dark:hover:text-primary font-medium transition-colors"
-                      >
-                        {link.label}
-                      </Link>
-                    </NavigationMenuLink>
-                  </NavigationMenuItem>
-                ))}
-              </NavigationMenuList>
-            </NavigationMenu>
+            <>
+              {/* Menu Desktop - todos os links */}
+              <NavigationMenu className="hidden md:flex">
+                <NavigationMenuList className="gap-4 md:gap-6">
+                  {navigationLinks.map((link) => (
+                    <NavigationMenuItem key={link.href}>
+                      <NavigationMenuLink asChild>
+                        <Link
+                          to={link.href}
+                          className="text-base md:text-lg text-muted-foreground hover:text-primary dark:hover:text-primary font-medium transition-colors"
+                        >
+                          {link.label}
+                        </Link>
+                      </NavigationMenuLink>
+                    </NavigationMenuItem>
+                  ))}
+                </NavigationMenuList>
+              </NavigationMenu>
+
+              {/* Link Mapa visível no mobile */}
+              <Link
+                to="/map"
+                className="sm:hidden text-base text-muted-foreground hover:text-primary dark:hover:text-primary font-medium transition-colors ml-2"
+              >
+                Mapa
+              </Link>
+            </>
           )}
         </div>
 
@@ -110,7 +127,8 @@ export default function NavBar({ isAuthenticated, onLogout }: NavBarProps) {
                   className="w-48 p-3 bg-white dark:bg-gray-800 shadow-md rounded-xl border-gray-200 dark:border-gray-700"
                 >
                   <nav className="flex flex-col gap-2">
-                    {navigationLinks.map((link) => (
+                    {/* Links do menu (Locais e Estatísticas) - Mapa fica visível fora do menu */}
+                    {mobileMenuLinks.map((link) => (
                       <Link
                         key={link.href}
                         to={link.href}

@@ -7,7 +7,7 @@ import { jsonSchemaTransform, serializerCompiler, validatorCompiler } from 'fast
 dotenv.config()
 import { loginRoute } from '../routes/auth/login'
 import { logoutRoute } from '../routes/auth/logout'
-import { getMeRoute, updateMeRoute, deleteMeRoute, getAllUsersRoute } from '../routes/users'
+import { getMeRoute, updateMeRoute, deleteMeRoute, getAllUsersRoute, getMyStatsRoute } from '../routes/users'
 import scalarAPIReference from '@scalar/fastify-api-reference'
 import { pingRoute } from '../routes/ping'
 import { registerRoute } from '../routes/auth/register'
@@ -109,6 +109,7 @@ server.register(getMeRoute)
 server.register(updateMeRoute)
 server.register(deleteMeRoute)
 server.register(getAllUsersRoute)
+server.register(getMyStatsRoute)
 server.register(searchNearbyRoute)
 server.register(checkOrCreateRoute)
 server.register(getPlaceRoute)

@@ -46,158 +46,81 @@ export const userService = {
     return res.data;
   },
 
-  getMyReports: async (page: number = 1, limit: number = 10) => {
-    const token = localStorage.getItem("token");
-    if (!token) throw new Error("Não autenticado");
-
-    // Primeiro, buscar o ID do usuário
-    const userRes = await api.get("/users/me", {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    const userId = userRes.data.id;
+  getMyReports: async (page: number = 1, limit: number = 10, userId?: string) => {
+    // Se userId não foi fornecido, buscar do token (fallback para compatibilidade)
+    let finalUserId = userId;
+    
+    if (!finalUserId) {
+      const token = localStorage.getItem("token");
+      if (!token) throw new Error("Não autenticado");
+      
+      // Buscar o ID do usuário apenas se não foi fornecido
+      const userRes = await api.get("/users/me", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      finalUserId = userRes.data.id;
+    }
 
     // Buscar relatórios do usuário
     const reportsRes = await api.get("/reports", {
-      params: { user_id: userId, page, limit },
-      headers: { Authorization: `Bearer ${token}` },
+      params: { user_id: finalUserId, page, limit },
     });
 
     return reportsRes.data;
   },
 
-  getMyStats: async (): Promise<UserStats> => {
-    const token = localStorage.getItem("token");
-    if (!token) throw new Error("Não autenticado");
-
+  getMyStats: async (reportsLimit: number = 50): Promise<UserStats> => {
     try {
-      // Buscar o ID do usuário
-      const userRes = await api.get("/users/me", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      const userId = userRes.data.id;
-
-      // Buscar todos os relatórios do usuário
-      // O backend tem limite máximo de 50, então vamos buscar em lotes se necessário
-      const limit = 50; // Limite máximo do backend
-      const reportsRes = await api.get("/reports", {
-        params: { user_id: userId, page: 1, limit },
+      // Usar a nova rota otimizada que retorna tudo em uma única chamada
+      const res = await api.get("/users/me/stats", {
+        params: { reportsLimit },
       });
 
-      const reports = reportsRes.data.reports || [];
-    
-      // Buscar quantidade de favoritos
-      let totalFavorites = 0;
-      try {
-        const favoritesRes = await api.get("/users/me/favorites", {
-          params: { page: 1, limit: 1 },
-        });
-        totalFavorites = favoritesRes.data.pagination?.total || 0;
-      } catch (error) {
-        console.error("Erro ao buscar favoritos:", error);
-        totalFavorites = 0;
-      }
+      const data = res.data;
 
-      if (!reports || reports.length === 0) {
+      // Formatar relatórios garantindo que createdAt seja uma string
+      const reportsFormatted = (data.reports || []).map((report: any) => {
+        let createdAt = "";
+        if (report.createdAt) {
+          if (typeof report.createdAt === 'string') {
+            createdAt = report.createdAt;
+          } else if (report.createdAt instanceof Date) {
+            createdAt = report.createdAt.toISOString();
+          } else {
+            try {
+              const date = new Date(report.createdAt);
+              if (!isNaN(date.getTime())) {
+                createdAt = date.toISOString();
+              } else {
+                createdAt = new Date().toISOString();
+              }
+            } catch {
+              createdAt = new Date().toISOString();
+            }
+          }
+        } else {
+          createdAt = new Date().toISOString();
+        }
+
         return {
-          totalReports: 0,
-          totalVotes: 0,
-          totalFavorites,
-          reports: [],
+          id: report.id || "",
+          title: report.title || "",
+          description: report.description || "",
+          type: report.type || "",
+          createdAt,
+          votesCount: report.votesCount || 0,
+          place: report.place || null,
         };
-      }
-      
-      // Contar votos totais (soma dos votesCount de cada relatório)
-      // Buscar detalhes de cada relatório para obter votesCount
-      let totalVotes = 0;
-      const reportsWithVotes = await Promise.all(
-        reports.map(async (report: any) => {
-          try {
-          const reportDetail = await api.get(`/reports/${report.id}`, {
-            headers: { Authorization: `Bearer ${token}` },
-          });
-          const votesCount = reportDetail.data.votesCount || 0;
-          totalVotes += votesCount;
-          
-          // Garantir que createdAt seja uma string
-          let createdAt = "";
-          if (report.createdAt) {
-            if (typeof report.createdAt === 'string') {
-              createdAt = report.createdAt;
-            } else if (report.createdAt instanceof Date) {
-              createdAt = report.createdAt.toISOString();
-            } else {
-              // Tentar converter para Date e depois para ISO string
-              try {
-                const date = new Date(report.createdAt);
-                if (!isNaN(date.getTime())) {
-                  createdAt = date.toISOString();
-                } else {
-                  createdAt = new Date().toISOString();
-                }
-              } catch {
-                createdAt = new Date().toISOString();
-              }
-            }
-          } else {
-            createdAt = new Date().toISOString();
-          }
-          
-          return {
-            id: report.id || "",
-            title: report.title || "",
-            description: report.description || "",
-            type: report.type || "",
-            createdAt,
-            votesCount,
-            place: report.place || null,
-          };
-        } catch (error) {
-          console.error(`Erro ao buscar detalhes do relatório ${report.id}:`, error);
-          
-          // Garantir que createdAt seja uma string mesmo em caso de erro
-          let createdAt = "";
-          if (report.createdAt) {
-            if (typeof report.createdAt === 'string') {
-              createdAt = report.createdAt;
-            } else if (report.createdAt instanceof Date) {
-              createdAt = report.createdAt.toISOString();
-            } else {
-              try {
-                const date = new Date(report.createdAt);
-                if (!isNaN(date.getTime())) {
-                  createdAt = date.toISOString();
-                } else {
-                  createdAt = new Date().toISOString();
-                }
-              } catch {
-                createdAt = new Date().toISOString();
-              }
-            }
-          } else {
-            createdAt = new Date().toISOString();
-          }
-          
-          return { 
-            id: report.id || "",
-            title: report.title || "",
-            description: report.description || "",
-            type: report.type || "",
-            createdAt,
-            votesCount: 0,
-            place: report.place || null,
-          };
-          }
-        })
-      );
+      });
 
       return {
-        totalReports: reports.length,
-        totalVotes,
-        totalFavorites,
-        reports: reportsWithVotes,
+        totalReports: data.totalReports || 0,
+        totalVotes: data.totalVotes || 0,
+        totalFavorites: data.totalFavorites || 0,
+        reports: reportsFormatted,
       };
     } catch (error) {
-      console.error("Erro completo ao buscar estatísticas:", error);
+      console.error("Erro ao buscar estatísticas:", error);
       throw error;
     }
   },

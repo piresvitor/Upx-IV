@@ -2,7 +2,7 @@ import { FastifyInstance } from 'fastify'
 import { z } from 'zod'
 import { db } from '../../src/database/cliente'
 import { favorites, places, reports, votes } from '../../src/database/schema'
-import { eq, desc, count, inArray } from 'drizzle-orm'
+import { eq, desc, count, inArray, sql } from 'drizzle-orm'
 import { authenticateTokenWithError } from '../../src/middleware/auth'
 
 export async function getFavoritesRoute(app: FastifyInstance) {
@@ -91,12 +91,24 @@ export async function getFavoritesRoute(app: FastifyInstance) {
 
       const placeIds = userFavorites.map(f => f.placeId)
 
+      // Verificação de segurança para arrays vazios
+      if (placeIds.length === 0) {
+        return reply.status(200).send({
+          places: [],
+          pagination: {
+            page,
+            limit,
+            total: 0,
+            totalPages: 0,
+          },
+        })
+      }
+
       // Buscar dados completos dos locais
       const placesData = await db
         .select()
         .from(places)
         .where(inArray(places.id, placeIds))
-        .orderBy(desc(places.createdAt))
 
       // Buscar contagens agregadas de uma vez (otimizado)
       const [reportsCountsResult, votesCountsResult] = await Promise.all([
