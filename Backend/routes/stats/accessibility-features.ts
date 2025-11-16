@@ -27,44 +27,41 @@ export const accessibilityFeaturesRoute: FastifyPluginAsyncZod = async (server) 
     }
   }, async (request, reply) => {
     try {
-      // Consulta para obter o total de relatos
-      const totalResult = await db.select({ count: count() }).from(reports)
-      const total = totalResult[0].count
-
-      // Consultas para contar cada característica de acessibilidade
-      const [
-        rampaAcessoResult,
-        banheiroAcessivelResult,
-        estacionamentoAcessivelResult,
-        acessibilidadeVisualResult
-      ] = await Promise.all([
-        db.select({ count: count() }).from(reports).where(eq(reports.rampaAcesso, true)),
-        db.select({ count: count() }).from(reports).where(eq(reports.banheiroAcessivel, true)),
-        db.select({ count: count() }).from(reports).where(eq(reports.estacionamentoAcessivel, true)),
-        db.select({ count: count() }).from(reports).where(eq(reports.acessibilidadeVisual, true))
-      ])
+  
+      const result = await db.execute(sql`
+        SELECT 
+          COUNT(*)::int as total,
+          COUNT(*) FILTER (WHERE rampa_acesso = true)::int as rampa_acesso,
+          COUNT(*) FILTER (WHERE banheiro_acessivel = true)::int as banheiro_acessivel,
+          COUNT(*) FILTER (WHERE estacionamento_acessivel = true)::int as estacionamento_acessivel,
+          COUNT(*) FILTER (WHERE acessibilidade_visual = true)::int as acessibilidade_visual
+        FROM reports
+      `)
+      
+      const row = result.rows[0] as any
+      const total = row.total
 
       // Formatar dados com nomes em português
       const data = [
         {
           feature: 'Rampa de Acesso',
-          count: rampaAcessoResult[0].count,
-          percentage: total > 0 ? Number(((rampaAcessoResult[0].count / total) * 100).toFixed(2)) : 0
+          count: row.rampa_acesso,
+          percentage: total > 0 ? Number(((row.rampa_acesso / total) * 100).toFixed(2)) : 0
         },
         {
           feature: 'Banheiro Acessível',
-          count: banheiroAcessivelResult[0].count,
-          percentage: total > 0 ? Number(((banheiroAcessivelResult[0].count / total) * 100).toFixed(2)) : 0
+          count: row.banheiro_acessivel,
+          percentage: total > 0 ? Number(((row.banheiro_acessivel / total) * 100).toFixed(2)) : 0
         },
         {
           feature: 'Estacionamento Acessível',
-          count: estacionamentoAcessivelResult[0].count,
-          percentage: total > 0 ? Number(((estacionamentoAcessivelResult[0].count / total) * 100).toFixed(2)) : 0
+          count: row.estacionamento_acessivel,
+          percentage: total > 0 ? Number(((row.estacionamento_acessivel / total) * 100).toFixed(2)) : 0
         },
         {
           feature: 'Acessibilidade Visual',
-          count: acessibilidadeVisualResult[0].count,
-          percentage: total > 0 ? Number(((acessibilidadeVisualResult[0].count / total) * 100).toFixed(2)) : 0
+          count: row.acessibilidade_visual,
+          percentage: total > 0 ? Number(((row.acessibilidade_visual / total) * 100).toFixed(2)) : 0
         }
       ]
 

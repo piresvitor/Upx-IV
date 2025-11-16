@@ -57,15 +57,23 @@ export const reportsTrendsRoute: FastifyPluginAsyncZod = async (server) => {
       // Consulta para obter tendências agrupadas por período usando SQL raw
       // Retornar dados em UTC (sem conversão de timezone)
       // A conversão deve ser feita no frontend
+      // O dateFormat já é validado pelo Zod enum, então é seguro
+      const validFormats = {
+        'day': 'YYYY-MM-DD',
+        'week': 'YYYY-"W"WW',
+        'month': 'YYYY-MM'
+      }
+      const safeDateFormat = validFormats[period] || 'YYYY-MM-DD'
+      
       const trendsResult = await db.execute(sql.raw(`
         SELECT 
-          to_char(created_at AT TIME ZONE 'UTC', '${dateFormat}') as date,
+          to_char(created_at AT TIME ZONE 'UTC', '${safeDateFormat}') as date,
           COUNT(*)::int as count
         FROM reports 
         WHERE created_at IS NOT NULL
-          AND created_at <= NOW() -- Garantir que não há datas no futuro
-        GROUP BY to_char(created_at AT TIME ZONE 'UTC', '${dateFormat}')
-        ORDER BY to_char(created_at AT TIME ZONE 'UTC', '${dateFormat}') DESC
+          AND created_at <= NOW()
+        GROUP BY to_char(created_at AT TIME ZONE 'UTC', '${safeDateFormat}')
+        ORDER BY to_char(created_at AT TIME ZONE 'UTC', '${safeDateFormat}') DESC
         LIMIT ${limit}
       `))
 
