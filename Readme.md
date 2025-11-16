@@ -109,7 +109,8 @@ O **Mobiaccess: Mapa Colaborativo de Acessibilidade** é uma plataforma completa
 
 ### ✨ Funcionalidades Principais
 - 🗺️ **Mapeamento de Locais**: Integração com Google Maps para localização precisa
-- 📝 **Sistema de Relatos**: Usuários podem criar relatos sobre acessibilidade de locais
+- 📝 **Sistema de Relatos**: Usuários podem criar, editar e excluir relatos sobre acessibilidade de locais
+  - Edição completa de relatos: descrição, tipo (positivo, negativo, neutro) e características de acessibilidade
 - 🎯 **Campos de Acessibilidade**: Relatos específicos para rampa de acesso, banheiro acessível, estacionamento acessível e acessibilidade visual
 - 📊 **Estatísticas de Acessibilidade**: Análise automática de padrões de acessibilidade por local
 - 👍 **Sistema de Votação**: Comunidade pode validar e classificar relatos
@@ -415,7 +416,13 @@ Esses campos são utilizados nos relatos e também são exibidos em gráficos es
 
 ### Páginas Protegidas (Requerem autenticação)
 - **Mapa** (`/map`): Mapa interativo com locais e relatórios de acessibilidade
-- **Detalhes do Local** (`/details/:placeId`): Detalhes completos de um local específico com opção de favoritar
+- **Detalhes do Local** (`/details/:placeId`): Detalhes completos de um local específico com:
+  - Informações do local e estatísticas de acessibilidade
+  - Lista de comentários/relatórios com paginação e filtros por tipo
+  - Opção de favoritar o local (usuários autenticados)
+  - Edição e exclusão de relatórios próprios (descrição, tipo e características de acessibilidade)
+  - Sistema de votação em relatórios
+  - Formulário para criar novos relatórios
 - **Locais** (`/places`): Lista de locais com comentários, filtros e ordenação
 - **Meus Favoritos** (`/favorites`): Página com todos os locais favoritos do usuário
 - **Perfil** (`/profile`): Página de perfil do usuário com:
@@ -425,10 +432,13 @@ Esses campos são utilizados nos relatos e também são exibidos em gráficos es
   - Exclusão de conta
 - **Estatísticas** (`/stats`): Dashboard completo de estatísticas do sistema com:
   - Cards com estatísticas gerais (usuários, relatórios, locais, votos)
-  - Gráfico de linha com tendências de relatórios (dia, semana, mês)
-  - Gráficos de pizza e barras para características de acessibilidade
-  - Gráficos de pizza e barras para relatórios por tipo
-  - Tabelas detalhadas com percentuais e quantidades
+  - Gráfico de linha interativo com tendências de relatórios ao longo do tempo (com seletor de período: dia, semana, mês)
+  - Gráfico de pizza para características de acessibilidade (rampa de acesso, banheiro acessível, estacionamento acessível, acessibilidade visual)
+  - Seção de métricas calculadas do sistema (média de votos por relatório, relatórios por usuário, relatórios recentes, tipos únicos de relatórios)
+  - Gráfico de barras para distribuição de relatórios por tipo (positivo, negativo, neutro, etc.)
+  - Tabelas detalhadas com percentuais e quantidades para características de acessibilidade e tipos de relatórios
+  - Layout responsivo com visualização otimizada para mobile e desktop
+  - Suporte a dark mode com cores adaptadas para gráficos
 
 ## 🛠️ Scripts Disponíveis
 
