@@ -28,15 +28,18 @@
 
 [RECHARTS__BADGE]: https://img.shields.io/badge/Recharts-FF6B6B?style=for-the-badge&logo=recharts&logoColor=white
 
+[VITE__BADGE]: https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white
+
 <h1 align="center" style="font-weight: bold;">🗺️ Mapa Colaborativo de Acessibilidade - UPX 4 💻</h1>
 
 ### 🔧 Backend
 
-![node][NODE__BADGE] ![fastify][FASTIFY__BADGE] ![typescript][TYPESCRIPT__BADGE] ![postgresql][POSTGRESQL__BADGE] ![drizzle][DRIZZLE__BADGE] ![zod][ZOD__BADGE] ![jwt][JWT__BADGE]  ![argon2][ARGON2__BADGE] ![vitest][VITEST__BADGE] ![docker][DOCKER__BADGE]
+![node][NODE__BADGE] ![fastify][FASTIFY__BADGE] ![typescript][TYPESCRIPT__BADGE] ![postgresql][POSTGRESQL__BADGE] ![drizzle][DRIZZLE__BADGE] ![zod][ZOD__BADGE] ![jwt][JWT__BADGE]  ![argon2][ARGON2__BADGE] ![vitest][VITEST__BADGE] ![docker][DOCKER__BADGE] ![google maps][GOOGLE_MAPS__BADGE]
+
 
 ### 🎨 Frontend
 
-![react][REACT__BADGE] ![typescript][TYPESCRIPT__BADGE] ![tailwind][TAILWIND__BADGE] ![react router][REACT_ROUTER__BADGE] ![recharts][RECHARTS__BADGE] ![google maps][GOOGLE_MAPS__BADGE]
+![react][REACT__BADGE] ![typescript][TYPESCRIPT__BADGE] ![tailwind][TAILWIND__BADGE] ![react router][REACT_ROUTER__BADGE] ![recharts][RECHARTS__BADGE] ![vite][VITE__BADGE] ![google maps][GOOGLE_MAPS__BADGE]
 
 <details open="open">
 <summary>📑 Sumário</summary>
