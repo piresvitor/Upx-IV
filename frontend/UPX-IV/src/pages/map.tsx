@@ -49,10 +49,10 @@ export default function MapPage() {
           </DialogTrigger>
           <DialogContent className="max-w-md">
             <DialogHeader>
-              <DialogTitle className="text-xl sm:text-2xl">
+              <DialogTitle className="text-xl sm:text-2xl dark:text-white">
                 Como usar o mapa
               </DialogTitle>
-              <DialogDescription className="text-base leading-relaxed pt-2 space-y-3">
+              <DialogDescription className="text-base leading-relaxed pt-2 space-y-3 text-gray-700 dark:text-white">
                 <p>
                   Navegue pelo mapa para encontrar o local que você deseja visualizar.
                 </p>
@@ -60,9 +60,9 @@ export default function MapPage() {
                   Ao clicar em um marcador no mapa, um popup será exibido com informações básicas sobre aquele local.
                 </p>
                 <p>
-                  Clique no popup ou no nome do local para ser redirecionado à página de detalhes, onde você poderá:
+                  Clique no popup para ser redirecionado à página de detalhes, onde você poderá:
                 </p>
-                <ul className="list-disc list-inside space-y-1 ml-2 text-gray-700 dark:text-gray-300">
+                <ul className="list-disc list-inside space-y-1 ml-2 text-gray-700 dark:text-white">
                   <li>Ver informações completas sobre acessibilidade</li>
                   <li>Visualizar comentários e avaliações de outros usuários</li>
                   <li>Deixar seu próprio comentário e avaliação</li>
