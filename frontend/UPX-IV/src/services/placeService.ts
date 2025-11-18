@@ -122,4 +122,29 @@ export const placeService = {
     const res = await api.get(`/places/search-by-text?${params.toString()}`);
     return res.data;
   },
+
+  async searchNearby(
+    latitude: number,
+    longitude: number,
+    radius: number = 1000,
+    type?: string,
+    keyword?: string
+  ): Promise<{ places: Place[]; googlePlaces: any[] }> {
+    const params = new URLSearchParams({
+      latitude: latitude.toString(),
+      longitude: longitude.toString(),
+      radius: radius.toString(),
+    });
+    
+    if (type) {
+      params.append('type', type);
+    }
+    
+    if (keyword) {
+      params.append('keyword', keyword);
+    }
+    
+    const res = await api.get(`/places/search-nearby?${params.toString()}`);
+    return res.data;
+  },
 };

@@ -73,7 +73,8 @@ export default function MapContainer({ selectedPlace, onPlaceSelected }: MapCont
     }
   }, [infoBoxData, isMobile]);
 
-  // Efeito para atualizar mapa quando um lugar é selecionado
+
+  // Efeito para atualizar mapa quando um lugar é selecionado (busca)
   useEffect(() => {
     if (selectedPlace && map) {
       const position = new google.maps.LatLng(
@@ -111,26 +112,33 @@ export default function MapContainer({ selectedPlace, onPlaceSelected }: MapCont
   }
 
   const handleMapClick = async (event: MapMouseEventWithPlaceId) => {
-    if (!event.placeId || !map || !event.latLng) {
+    if (!map || !event.latLng) {
+      // Se clicar em área vazia, fechar popup
       setInfoBoxData(null);
       return;
     }
 
-    event.stop();
+    // Se clicar em um lugar do Google Maps (com placeId), criar/verificar
+    if (event.placeId) {
+      event.stop();
 
-    try {
-      const place: Place = await placeService.checkOrCreate(event.placeId);
+      try {
+        const place: Place = await placeService.checkOrCreate(event.placeId);
 
-      const position = new google.maps.LatLng(place.latitude, place.longitude);
+        const position = new google.maps.LatLng(place.latitude, place.longitude);
 
-      setInfoBoxData({
-        position,
-        name: place.name,
-        address: place.address,
-        placeId: place.id,
-      });
-    } catch (err) {
-      console.error("Erro ao verificar/criar local:", err);
+        setInfoBoxData({
+          position,
+          name: place.name,
+          address: place.address,
+          placeId: place.id,
+        });
+      } catch (err) {
+        console.error("Erro ao verificar/criar local:", err);
+        setInfoBoxData(null);
+      }
+    } else {
+      // Se clicar em área vazia do mapa, fechar popup
       setInfoBoxData(null);
     }
   };
