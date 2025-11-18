@@ -99,4 +99,27 @@ export const placeService = {
     const res = await api.get(`/places/with-reports?${params.toString()}`);
     return res.data;
   },
+
+  async searchByText(
+    query: string,
+    latitude?: number,
+    longitude?: number,
+    radius?: number
+  ): Promise<{ places: Place[]; googlePlaces: any[] }> {
+    const params = new URLSearchParams({
+      query,
+    });
+    
+    if (latitude !== undefined && longitude !== undefined) {
+      params.append('latitude', latitude.toString());
+      params.append('longitude', longitude.toString());
+    }
+    
+    if (radius !== undefined) {
+      params.append('radius', radius.toString());
+    }
+    
+    const res = await api.get(`/places/search-by-text?${params.toString()}`);
+    return res.data;
+  },
 };

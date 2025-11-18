@@ -130,8 +130,11 @@ class GoogleMapsService {
     radius?: number
   ): Promise<GooglePlace[]> {
     try {
+      // Adicionar "Sorocaba, SP" na query para limitar resultados à cidade
+      const queryWithLocation = `${query} Sorocaba SP`
+      
       const params = new URLSearchParams({
-        query,
+        query: queryWithLocation,
         key: this.apiKey,
       })
 
@@ -151,7 +154,39 @@ class GoogleMapsService {
         throw new Error(`Erro na API do Google Maps: ${response.data.status}`)
       }
 
-      return response.data.results || []
+      // Filtrar resultados para garantir que estão em Sorocaba
+      const results = response.data.results || []
+      
+      // Bounds aproximados de Sorocaba
+      const sorocabaBounds = {
+        north: -23.400,
+        south: -23.600,
+        east: -47.300,
+        west: -47.600,
+      }
+
+      // Filtrar por coordenadas e endereço
+      const filteredResults = results.filter(place => {
+        const lat = place.geometry.location.lat
+        const lng = place.geometry.location.lng
+        
+        // Verificar se está dentro dos bounds de Sorocaba
+        const withinBounds = 
+          lat >= sorocabaBounds.south &&
+          lat <= sorocabaBounds.north &&
+          lng >= sorocabaBounds.west &&
+          lng <= sorocabaBounds.east
+        
+        // Verificar se o endereço contém "Sorocaba" (case insensitive)
+        const addressContainsSorocaba = 
+          place.formatted_address?.toLowerCase().includes('sorocaba') ||
+          place.formatted_address?.toLowerCase().includes('sorocaba, sp') ||
+          place.formatted_address?.toLowerCase().includes('sorocaba - sp')
+        
+        return withinBounds && (addressContainsSorocaba || !place.formatted_address)
+      })
+
+      return filteredResults
     } catch (error) {
       console.error('Erro ao buscar locais por texto:', error)
       throw new Error('Falha ao buscar locais por texto')

@@ -109,6 +109,14 @@ O **Mobiaccess: Mapa Colaborativo de Acessibilidade** é uma plataforma completa
 
 ### ✨ Funcionalidades Principais
 - 🗺️ **Mapeamento de Locais**: Integração com Google Maps para localização precisa
+- 🔍 **Busca Inteligente de Locais**: Campo de busca na página do mapa que permite:
+  - Buscar locais por nome ou endereço (ex: "Shopping", "Hospital", "Restaurante")
+  - Busca limitada à cidade de Sorocaba, SP
+  - Autocomplete com resultados em tempo real
+  - Histórico de buscas recentes (até 5 buscas)
+  - Atualização automática do mapa para a localização encontrada
+  - Abertura automática do popup com informações do local
+  - Interface responsiva e otimizada para mobile e desktop
 - 📝 **Sistema de Relatos**: Usuários podem criar, editar e excluir relatos sobre acessibilidade de locais
   - Edição completa de relatos: descrição, tipo (positivo, negativo, neutro) e características de acessibilidade
 - 🎯 **Campos de Acessibilidade**: Relatos específicos para rampa de acesso, banheiro acessível, estacionamento acessível e acessibilidade visual
@@ -353,6 +361,7 @@ Aqui você pode encontrar as principais rotas da API organizadas por serviço.
 | route | description |
 |-------|------------|
 | <kbd>GET /places/search-nearby</kbd> | Buscar locais próximos a uma localização |
+| <kbd>GET /places/search-by-text</kbd> | Buscar locais por texto (nome ou endereço) - limitado a Sorocaba, SP |
 | <kbd>POST /places/check-or-create</kbd> | Verificar se local existe ou criar novo local |
 | <kbd>GET /places/:placeId</kbd> | Obter detalhes completos de um local específico |
 | <kbd>PUT /places/:placeId</kbd> | Atualizar informações de um local |
@@ -416,6 +425,12 @@ Esses campos são utilizados nos relatos e também são exibidos em gráficos es
 
 ### Páginas Protegidas (Requerem autenticação)
 - **Mapa** (`/map`): Mapa interativo com locais e relatórios de acessibilidade
+  - Campo de busca inteligente com autocomplete
+  - Histórico de buscas recentes
+  - Busca limitada à cidade de Sorocaba, SP
+  - Atualização automática do mapa e abertura de popup ao selecionar local
+  - Botão de ajuda com instruções de uso
+  - Interface responsiva para mobile e desktop
 - **Detalhes do Local** (`/details/:placeId`): Detalhes completos de um local específico com:
   - Informações do local e estatísticas de acessibilidade
   - Lista de comentários/relatórios com paginação e filtros por tipo
@@ -483,12 +498,13 @@ docker-compose restart
 
 ## 📈 Métricas do Projeto
 
-- **32 endpoints** organizados por módulos, todos com cobertura completa de testes E2E
-- **32 arquivos de teste** com 192+ testes cobrindo todos os endpoints
+- **33 endpoints** organizados por módulos, todos com cobertura completa de testes E2E
+- **33 arquivos de teste** com 209+ testes cobrindo todos os endpoints
 - **Cobertura de testes** completa
 - **Documentação interativa** com Swagger/Scalar
 - **Validação robusta** com schemas Zod
 - **Integração completa** com Google Maps
+- **Busca inteligente de locais** com autocomplete e histórico
 - **Dashboard de estatísticas** com gráficos interativos
 - **Sistema de perfil** completo para usuários
 - **Otimizações de performance**: Queries do backend otimizadas com agregações SQL, paralelização de requisições e redução de N+1 queries

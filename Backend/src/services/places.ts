@@ -235,6 +235,110 @@ class PlacesService {
       throw new Error('Falha ao atualizar local')
     }
   }
+
+  /**
+   * Busca locais por texto usando a API do Google Maps
+   * Limitado à cidade de Sorocaba, SP
+   */
+  async searchByText(
+    query: string,
+    latitude?: number,
+    longitude?: number,
+    radius?: number
+  ): Promise<{
+    places: PlaceWithReports[]
+    googlePlaces: GooglePlace[]
+  }> {
+    try {
+      // Busca locais no Google Maps por texto (já filtrado para Sorocaba)
+      const googlePlaces = await googleMapsService.instance.searchByText(
+        query,
+        latitude,
+        longitude,
+        radius
+      )
+
+      if (googlePlaces.length === 0) {
+        return {
+          places: [],
+          googlePlaces: [],
+        }
+      }
+
+      // Bounds de Sorocaba para filtro adicional
+      const sorocabaBounds = {
+        north: -23.400,
+        south: -23.600,
+        east: -47.300,
+        west: -47.600,
+      }
+
+      // Filtrar lugares do Google que estão dentro dos bounds
+      const filteredGooglePlaces = googlePlaces.filter(place => {
+        const lat = place.geometry.location.lat
+        const lng = place.geometry.location.lng
+        return (
+          lat >= sorocabaBounds.south &&
+          lat <= sorocabaBounds.north &&
+          lng >= sorocabaBounds.west &&
+          lng <= sorocabaBounds.east
+        )
+      })
+
+      // Otimização: Buscar todos os locais existentes de uma vez
+      const placeIds = filteredGooglePlaces.map(gp => gp.place_id)
+      const existingPlaces = await db
+        .select()
+        .from(places)
+        .where(inArray(places.placeId, placeIds))
+
+      const existingPlacesMap = new Map<string, PlaceWithReports>()
+      existingPlaces.forEach(place => {
+        existingPlacesMap.set(place.placeId, place)
+      })
+
+      // Separar locais existentes e novos
+      const placesToCreate: CreatePlaceData[] = []
+      const resultPlaces: PlaceWithReports[] = []
+
+      for (const googlePlace of filteredGooglePlaces) {
+        const existingPlace = existingPlacesMap.get(googlePlace.place_id)
+
+        if (existingPlace) {
+          resultPlaces.push(existingPlace)
+        } else {
+          placesToCreate.push({
+            placeId: googlePlace.place_id,
+            name: googlePlace.name,
+            address: googlePlace.formatted_address,
+            latitude: googlePlace.geometry.location.lat,
+            longitude: googlePlace.geometry.location.lng,
+            types: googlePlace.types,
+            rating: googlePlace.rating,
+            userRatingsTotal: googlePlace.user_ratings_total,
+          })
+        }
+      }
+
+      // Criar novos locais em batch
+      if (placesToCreate.length > 0) {
+        const newPlaces = await db
+          .insert(places)
+          .values(placesToCreate)
+          .returning()
+
+        resultPlaces.push(...newPlaces)
+      }
+
+      return {
+        places: resultPlaces,
+        googlePlaces: filteredGooglePlaces,
+      }
+    } catch (error) {
+      console.error('Erro ao buscar locais por texto:', error)
+      throw new Error('Falha ao buscar locais por texto')
+    }
+  }
 }
 
 export const placesService = new PlacesService()

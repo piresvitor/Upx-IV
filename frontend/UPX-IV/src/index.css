@@ -165,8 +165,18 @@
     color: rgb(55 65 81) !important; /* gray-700 original */
   }
   
-  .dark [class*="text-gray-600"] {
+  .dark [class*="text-gray-600"]:not(.address-text) {
     color: oklch(0.80 0 0);
+  }
+  
+  /* Forçar texto branco para endereços no dark mode - sobrescreve style inline */
+  .dark .address-text {
+    color: white !important;
+  }
+  
+  /* Garantir que sobrescreve style inline mesmo dentro de botões */
+  .dark button .address-text {
+    color: white !important;
   }
   
   /* Garantir transições suaves entre temas para elementos específicos */

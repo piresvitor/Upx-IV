@@ -62,6 +62,14 @@ O **Mobiaccess: Mapa Colaborativo de Acessibilidade** é uma plataforma que perm
 ## ✨ Funcionalidades Principais
 
 - 🗺️ **Mapeamento de Locais**: Integração com Google Maps para localização precisa
+- 🔍 **Busca Inteligente de Locais**: Campo de busca na página do mapa que permite:
+  - Buscar locais por nome ou endereço (ex: "Shopping", "Hospital", "Restaurante")
+  - Busca limitada à cidade de Sorocaba, SP
+  - Autocomplete com resultados em tempo real
+  - Histórico de buscas recentes (até 5 buscas)
+  - Atualização automática do mapa para a localização encontrada
+  - Abertura automática do popup com informações do local
+  - Interface responsiva e otimizada para mobile e desktop
 - 📝 **Sistema de Relatos**: Usuários podem criar relatos sobre acessibilidade de locais
 - 🎯 **Campos de Acessibilidade**: Relatos específicos para rampa de acesso, banheiro acessível, estacionamento acessível e acessibilidade visual
 - 👍 **Sistema de Votação**: Comunidade pode validar e classificar relatos
@@ -208,6 +216,12 @@ A aplicação estará disponível em `http://localhost:5173`
 ### Páginas Protegidas (Requerem autenticação)
 
 - **Mapa** (`/map`): Mapa interativo com locais e relatórios de acessibilidade
+  - Campo de busca inteligente com autocomplete
+  - Histórico de buscas recentes
+  - Busca limitada à cidade de Sorocaba, SP
+  - Atualização automática do mapa e abertura de popup ao selecionar local
+  - Botão de ajuda com instruções de uso
+  - Interface responsiva para mobile e desktop
 - **Detalhes do Local** (`/details/:placeId`): Detalhes completos de um local específico com opção de favoritar
 - **Locais** (`/places`): Lista de locais com comentários, filtros por tipo, ordenação e busca
 - **Meus Favoritos** (`/favorites`): Página com todos os locais favoritos do usuário para acesso rápido

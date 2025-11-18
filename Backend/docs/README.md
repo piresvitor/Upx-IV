@@ -86,6 +86,13 @@ O **Mobiaccess: Mapa Colaborativo de Acessibilidade** é uma plataforma que perm
 
 ### ✨ Funcionalidades Principais
 - **🗺️ Mapeamento de Locais**: Integração com Google Maps para localização precisa
+- **🔍 Busca Inteligente de Locais**: API para busca de locais por texto (nome ou endereço):
+  - Busca limitada à cidade de Sorocaba, SP
+  - Integração com Google Maps Places API (Text Search)
+  - Filtro geográfico por bounds de Sorocaba
+  - Criação automática de locais não existentes no banco
+  - Retorno de lugares do banco e dados do Google Maps
+  - Suporte a parâmetros opcionais (latitude, longitude, radius)
 - **📝 Sistema de Relatos**: Usuários podem criar relatos sobre acessibilidade de locais
 - **🎯 Campos de Acessibilidade**: Relatos específicos para rampa de acesso, banheiro acessível, estacionamento acessível e acessibilidade visual
 - **📊 Estatísticas de Acessibilidade**: Análise automática de padrões de acessibilidade por local
@@ -240,7 +247,7 @@ Esta pasta contém toda a documentação da API do sistema de mapeamento colabor
 O backend possui uma suíte completa de testes E2E implementada com **Vitest** e **Supertest**, garantindo que todas as rotas da API funcionem corretamente em cenários reais. Os testes cobrem validação de schemas, autenticação, autorização, tratamento de erros e casos de uso completos.
 
 #### Cobertura de Testes
-**Total: 32 arquivos de teste** cobrindo todas as rotas da API com cobertura completa de casos de sucesso, erros, validações e autorizações.
+**Total: 33 arquivos de teste** cobrindo todas as rotas da API com cobertura completa de casos de sucesso, erros, validações e autorizações.
 
 #### Executar Testes
 
@@ -275,8 +282,8 @@ Cada rota possui testes que verificam:
   - Login, registro e logout
 - **Usuários** (`/users`): 5 arquivos de teste
   - CRUD de usuários e estatísticas
-- **Locais** (`/places`): 8 arquivos de teste
-  - Busca, criação, atualização e estatísticas
+- **Locais** (`/places`): 9 arquivos de teste
+  - Busca por proximidade, busca por texto, criação, atualização e estatísticas
 - **Relatos** (`/reports`): 8 arquivos de teste
   - CRUD completo e sistema de votação
 - **Favoritos** (`/favorites`): 3 arquivos de teste
@@ -301,6 +308,7 @@ Cada rota possui testes que verificam:
 
 ### Locais (`/places`)
 - `GET /places/search-nearby` - Buscar locais próximos
+- `GET /places/search-by-text` - Buscar locais por texto (nome ou endereço) - limitado a Sorocaba, SP
 - `POST /places/check-or-create` - Verificar ou criar local
 - `GET /places/:placeId` - Obter detalhes de um local
 - `PUT /places/:placeId` - Atualizar um local
@@ -407,11 +415,12 @@ const response = await fetch('http://localhost:3333/auth/login', {
 ## 📊 Métricas do Projeto
 
 ### 🏗️ Estrutura do Código
-- **Rotas**: 25+ endpoints organizados por módulos
-- **Testes**: Cobertura de testes E2E
+- **Rotas**: 33 endpoints organizados por módulos
+- **Testes**: 33 arquivos de teste com 209+ testes E2E
 - **Documentação**: 10+ arquivos de documentação
 - **Validação**: Schemas Zod para todas as APIs
 - **Estatísticas**: 4 endpoints de estatísticas completos
+- **Busca**: API de busca por texto com integração Google Maps
 
 ### 🗄️ Banco de Dados
 - **Tabelas**: 5 tabelas principais (users, places, reports, votes, favorites)

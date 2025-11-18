@@ -19,6 +19,18 @@ interface InfoBoxData {
   placeId: string; // UUID do backend
 }
 
+interface MapContainerProps {
+  selectedPlace?: {
+    id: string;
+    name: string;
+    address: string;
+    latitude: number;
+    longitude: number;
+    placeId: string;
+  } | null;
+  onPlaceSelected?: () => void;
+}
+
 const containerStyle = { width: "100%", height: "100%", borderRadius: "8px" };
 const center = { lat: -23.529, lng: -47.4686 }; // Av. Domingos Júlio, Campolim, Sorocaba - SP
 const campolimBounds = {
@@ -28,7 +40,7 @@ const campolimBounds = {
   west: -47.568,   
 };
 
-export default function MapContainer() {
+export default function MapContainer({ selectedPlace, onPlaceSelected }: MapContainerProps = {}) {
   const navigate = useNavigate();
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: GOOGLE_MAPS_API_KEY,
@@ -60,6 +72,33 @@ export default function MapContainer() {
       }, 100);
     }
   }, [infoBoxData, isMobile]);
+
+  // Efeito para atualizar mapa quando um lugar é selecionado
+  useEffect(() => {
+    if (selectedPlace && map) {
+      const position = new google.maps.LatLng(
+        selectedPlace.latitude,
+        selectedPlace.longitude
+      );
+
+      // Centralizar mapa no local com animação suave
+      map.panTo(position);
+      map.setZoom(17);
+
+      // Abrir popup do local
+      setInfoBoxData({
+        position,
+        name: selectedPlace.name,
+        address: selectedPlace.address,
+        placeId: selectedPlace.id,
+      });
+
+      // Callback opcional
+      if (onPlaceSelected) {
+        onPlaceSelected();
+      }
+    }
+  }, [selectedPlace, map, onPlaceSelected]);
 
   const onLoad = useCallback((mapInstance: google.maps.Map) => {
     setMap(mapInstance);
@@ -119,10 +158,10 @@ export default function MapContainer() {
         />
         {!isMobile && infoBoxData && (
           <div className="absolute bottom-0 left-0 right-0 w-full flex justify-center px-3 sm:px-4 pb-3 sm:pb-4 z-[1000] pointer-events-auto">
-            <div className="bg-white dark:bg-gray-800 p-4 sm:p-5 rounded-xl sm:rounded-2xl shadow-2xl w-full max-w-lg flex flex-row items-start border border-gray-200 dark:border-gray-700">
+            <div className="bg-white dark:bg-gray-800 p-4 sm:p-5 rounded-xl sm:rounded-2xl shadow-2xl w-full max-w-lg flex flex-row items-start border-2 border-gray-300 dark:border-gray-600">
               <div className="flex-1 min-w-0 pr-2">
                 <h2 className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-800 dark:text-gray-100 mb-1.5 sm:mb-2 line-clamp-2">{infoBoxData.name}</h2>
-                <p className="text-sm sm:text-base text-gray-700 dark:text-gray-300 leading-[1.5] mb-2 sm:mb-3 line-clamp-2">
+                <p className="text-sm sm:text-base text-gray-700 address-text leading-[1.5] mb-2 sm:mb-3 line-clamp-2">
                   {infoBoxData.address}
                 </p>
                 <Button
@@ -149,10 +188,10 @@ export default function MapContainer() {
           ref={infoBoxRef}
           className="relative mt-4 w-full flex justify-center px-3 sm:px-4 pointer-events-auto"
         >
-          <div className="bg-white dark:bg-gray-800 p-4 sm:p-5 rounded-xl sm:rounded-2xl shadow-2xl w-full max-w-lg flex flex-row items-start border border-gray-200 dark:border-gray-700">
+          <div className="bg-white dark:bg-gray-800 p-4 sm:p-5 rounded-xl sm:rounded-2xl shadow-2xl w-full max-w-lg flex flex-row items-start border-2 border-gray-300 dark:border-gray-600">
             <div className="flex-1 min-w-0 pr-2">
               <h2 className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-800 dark:text-gray-100 mb-1.5 sm:mb-2 line-clamp-2">{infoBoxData.name}</h2>
-              <p className="text-sm sm:text-base text-gray-700 dark:text-gray-300 leading-[1.5] mb-2 sm:mb-3 line-clamp-2">
+              <p className="text-sm sm:text-base text-gray-700 address-text leading-[1.5] mb-2 sm:mb-3 line-clamp-2">
                 {infoBoxData.address}
               </p>
               <Button

@@ -1,4 +1,5 @@
 export { searchNearbyRoute } from './search-nearby'
+export { searchByTextRoute } from './search-by-text'
 export { checkOrCreateRoute } from './check-or-create'
 export { getPlaceRoute } from './get-place'
 export { updatePlaceRoute } from './update-place'
