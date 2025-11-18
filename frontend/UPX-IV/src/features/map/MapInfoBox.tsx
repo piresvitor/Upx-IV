@@ -22,17 +22,17 @@ export default function MapInfoBox({
   const navigate = useNavigate();
 
   const content = (
-    <div className="bg-white dark:bg-gray-800 p-4 sm:p-5 rounded-xl sm:rounded-2xl shadow-2xl w-full max-w-lg flex flex-row items-start border-2 border-gray-300 dark:border-gray-600">
-      <div className="flex-1 min-w-0 pr-2">
-        <h2 className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-800 dark:text-gray-100 mb-1.5 sm:mb-2 line-clamp-2">
+    <div className="bg-white dark:bg-gray-800 p-3 sm:p-4 md:p-5 rounded-lg sm:rounded-xl md:rounded-2xl shadow-2xl w-full max-w-lg flex flex-row items-start border-2 border-gray-300 dark:border-gray-600">
+      <div className="flex-1 min-w-0 pr-1.5 sm:pr-2">
+        <h2 className="text-base sm:text-lg md:text-xl lg:text-2xl font-semibold text-gray-800 dark:text-gray-100 mb-1 sm:mb-1.5 md:mb-2 line-clamp-2 leading-tight">
           {name}
         </h2>
-        <p className="text-sm sm:text-base text-gray-700 address-text leading-[1.5] mb-2 sm:mb-3 line-clamp-2">
+        <p className="text-xs sm:text-sm md:text-base text-gray-700 address-text leading-relaxed mb-2 sm:mb-2.5 md:mb-3 line-clamp-2">
           {address}
         </p>
         <Button
           variant="default"
-          className="mt-2 sm:mt-3 cursor-pointer text-sm sm:text-base w-full sm:w-auto h-10 sm:h-11"
+          className="mt-1.5 sm:mt-2 md:mt-3 cursor-pointer text-xs sm:text-sm md:text-base w-full sm:w-auto h-9 sm:h-10 md:h-11 px-3 sm:px-4"
           onClick={() => navigate(`/details/${placeId}`)}
         >
           Ver Detalhes
@@ -40,10 +40,10 @@ export default function MapInfoBox({
       </div>
       <button
         onClick={onClose}
-        className="ml-2 flex-shrink-0 cursor-pointer text-gray-500 hover:text-gray-700 p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition"
+        className="ml-1.5 sm:ml-2 flex-shrink-0 cursor-pointer text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition"
         aria-label="Fechar"
       >
-        <X size={20} className="sm:w-6 sm:h-6" />
+        <X size={18} className="sm:w-5 sm:h-5 md:w-6 md:h-6" />
       </button>
     </div>
   );
@@ -52,7 +52,7 @@ export default function MapInfoBox({
     return (
       <div
         ref={containerRef}
-        className="relative mt-4 w-full flex justify-center px-3 sm:px-4 pointer-events-auto"
+        className="relative mt-3 sm:mt-4 w-full flex justify-center px-2 sm:px-3 md:px-4 pointer-events-auto"
       >
         {content}
       </div>

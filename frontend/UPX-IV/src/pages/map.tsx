@@ -143,13 +143,13 @@ export default function MapPage() {
   };
 
   return (
-    <div className="px-3 sm:px-4 md:px-6 pt-3 pb-4 sm:pb-6 relative">
+    <div className="px-2 sm:px-4 md:px-6 pt-2 sm:pt-3 pb-3 sm:pb-4 md:pb-6 relative min-h-screen">
       <MapHeader />
 
       {/* Campo de Busca com Toggle de Pins */}
-      <div className="mb-4 sm:mb-6 max-w-2xl mx-auto w-full">
-        <div className="flex gap-2 sm:gap-3 items-center">
-          <div className="flex-1">
+      <div className="mb-3 sm:mb-4 md:mb-6 max-w-2xl mx-auto w-full">
+        <div className="flex gap-1.5 sm:gap-2 md:gap-3 items-center">
+          <div className="flex-1 min-w-0">
             <SearchPlaceInput
               onPlaceSelect={handlePlaceSelect}
               onSearch={handleSearch}

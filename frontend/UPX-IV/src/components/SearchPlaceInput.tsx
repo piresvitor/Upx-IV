@@ -180,10 +180,10 @@ export default function SearchPlaceInput({
       </div>
 
       {showResults && displayResults.length > 0 && (
-        <div className="absolute z-50 w-full mt-2 bg-white dark:bg-gray-800 border-2 border-gray-300 dark:border-gray-600 rounded-lg shadow-lg max-h-64 sm:max-h-80 overflow-y-auto">
+        <div className="absolute z-50 w-full mt-1.5 sm:mt-2 bg-white dark:bg-gray-800 border-2 border-gray-300 dark:border-gray-600 rounded-lg shadow-lg max-h-56 sm:max-h-64 md:max-h-80 overflow-y-auto">
           {showHistoryLabel && (
-            <div className="px-4 py-2 text-xs sm:text-sm font-semibold text-gray-500 dark:text-gray-400 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 flex items-center gap-2">
-              <Clock className="w-4 h-4" />
+            <div className="px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-semibold text-gray-500 dark:text-gray-400 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 flex items-center gap-2">
+              <Clock className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               Buscas recentes
             </div>
           )}
@@ -191,17 +191,17 @@ export default function SearchPlaceInput({
             <button
               key={place.placeId || index}
               onClick={() => handleSelectPlace(place)}
-              className="w-full text-left px-4 py-3 sm:py-3.5 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors border-b border-gray-200 dark:border-gray-700 last:border-b-0 active:bg-gray-200 dark:active:bg-gray-600"
+              className="w-full text-left px-3 sm:px-4 py-2.5 sm:py-3 md:py-3.5 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors border-b border-gray-200 dark:border-gray-700 last:border-b-0 active:bg-gray-200 dark:active:bg-gray-600 touch-manipulation"
             >
-              <div className="flex items-start gap-3">
+              <div className="flex items-start gap-2 sm:gap-3">
                 <MapPin className="w-4 h-4 sm:w-5 sm:h-5 text-primary mt-0.5 flex-shrink-0" />
                 <div className="flex-1 min-w-0">
-                  <div className="font-semibold text-sm sm:text-base text-gray-900 dark:text-gray-100 truncate">
+                  <div className="font-semibold text-sm sm:text-base text-gray-900 dark:text-gray-100 truncate leading-tight">
                     {place.name}
                   </div>
                   {place.address && (
                     <div 
-                      className="text-xs sm:text-sm address-text mt-1 line-clamp-2" 
+                      className="text-xs sm:text-sm address-text mt-0.5 sm:mt-1 line-clamp-2 leading-relaxed" 
                       style={{ color: 'rgb(75 85 99)' }}
                     >
                       {place.address}
@@ -218,11 +218,11 @@ export default function SearchPlaceInput({
         query.length >= 3 &&
         results.length === 0 &&
         !isLoading && (
-          <div className="absolute z-50 w-full mt-2 bg-white dark:bg-gray-800 border-2 border-gray-300 dark:border-gray-600 rounded-lg shadow-lg p-4 sm:p-6">
-            <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 text-center">
+          <div className="absolute z-50 w-full mt-1.5 sm:mt-2 bg-white dark:bg-gray-800 border-2 border-gray-300 dark:border-gray-600 rounded-lg shadow-lg p-3 sm:p-4 md:p-6">
+            <p className="text-xs sm:text-sm md:text-base text-gray-600 dark:text-gray-400 text-center">
               Nenhum local encontrado
             </p>
-            <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-500 text-center mt-1">
+            <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-500 text-center mt-0.5 sm:mt-1">
               Tente buscar com outros termos
             </p>
           </div>

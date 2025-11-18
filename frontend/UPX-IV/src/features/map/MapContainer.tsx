@@ -264,7 +264,7 @@ export default function MapContainer({ selectedPlace, onPlaceSelected, showPins 
 
   return (
     <div className="relative">
-      <div className="h-[600px] sm:h-[650px] lg:h-[700px] w-full lg:w-[90%] lg:mx-auto rounded-lg overflow-hidden relative">
+      <div className="h-[500px] sm:h-[600px] md:h-[650px] lg:h-[700px] w-full lg:w-[90%] lg:mx-auto rounded-lg overflow-hidden relative">
         <GoogleMap
           mapContainerStyle={containerStyle}
           center={center}
