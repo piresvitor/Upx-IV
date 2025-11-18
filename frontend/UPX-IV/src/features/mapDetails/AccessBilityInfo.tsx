@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Accessibility, Eye, ParkingSquare, Building2, CheckCircle2, XCircle } from "lucide-react";
+import { Accessibility, Eye, ParkingSquare, Building2, CheckCircle2, XCircle, ChevronDown, ChevronUp } from "lucide-react";
 import { placeService } from "@/services/placeService";
 import type { AccessibilityResponse } from "@/services/placeService";
 
@@ -12,6 +12,7 @@ interface AccessibilityInfoProps {
 export default function AccessibilityInfo({ placeId }: AccessibilityInfoProps) {
   const [stats, setStats] = useState<AccessibilityResponse | null>(null);
   const [loading, setLoading] = useState(true);
+  const [expandedItems, setExpandedItems] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     const fetchStats = async () => {
@@ -115,39 +116,73 @@ export default function AccessibilityInfo({ placeId }: AccessibilityInfoProps) {
       </h1>
 
       <Card className="w-full max-w-4xl lg:p-8 p-4 sm:p-6">
-        {/* Mobile Layout - Cards individuais */}
-        <div className="block lg:hidden space-y-3 sm:space-y-4">
+        {/* Mobile Layout - 1 coluna com expandir */}
+        <div className="block lg:hidden space-y-2 sm:space-y-3">
           {accessibilityItems.map((item) => {
             const Icon = item.icon;
             const colors = getColorClasses(item.color, item.hasMajority);
             const StatusIcon = item.hasMajority ? CheckCircle2 : XCircle;
+            const isExpanded = expandedItems.has(item.id);
+            
+            const toggleExpand = () => {
+              const newExpanded = new Set(expandedItems);
+              if (isExpanded) {
+                newExpanded.delete(item.id);
+              } else {
+                newExpanded.add(item.id);
+              }
+              setExpandedItems(newExpanded);
+            };
             
             return (
               <div
                 key={item.id}
                 className={`
-                  rounded-lg border-2 p-4 transition-all
+                  rounded-lg border-2 p-3 sm:p-4 transition-all cursor-pointer
                   ${colors.border} ${colors.bg}
                 `}
+                onClick={toggleExpand}
               >
                 <div className="flex items-start gap-3">
                   <div className={`
-                    w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0
+                    w-10 h-10 sm:w-12 sm:h-12 rounded-lg flex items-center justify-center flex-shrink-0
                     ${colors.iconBg}
                   `}>
-                    <Icon size={24} className={colors.icon} />
+                    <Icon size={20} className={`sm:w-6 sm:h-6 ${colors.icon}`} />
                   </div>
                   
                   <div className="flex-1 min-w-0">
-                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-2">
-                      <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white break-words">
+                    <div className="flex items-center justify-between gap-2 mb-1.5">
+                      <h3 className="text-sm sm:text-base font-semibold text-gray-900 dark:text-white">
                         {item.label}
                       </h3>
-                      <div className="flex items-center gap-2 flex-shrink-0 self-start sm:self-auto">
+                      <div className="flex items-center gap-2 flex-shrink-0">
                         <StatusIcon 
-                          size={18} 
-                          className={item.hasMajority ? "text-green-600 dark:text-green-400" : "text-gray-400 dark:text-gray-400"}
+                          size={16} 
+                          className={`sm:w-5 sm:h-5 ${item.hasMajority ? "text-green-600 dark:text-green-400" : "text-gray-400 dark:text-gray-400"}`}
                         />
+                        {!isExpanded && (
+                          <ChevronDown size={16} className="sm:w-5 sm:h-5 text-gray-400 dark:text-gray-500" />
+                        )}
+                        {isExpanded && (
+                          <ChevronUp size={16} className="sm:w-5 sm:h-5 text-gray-400 dark:text-gray-500" />
+                        )}
+                      </div>
+                    </div>
+                    {!isExpanded && (
+                      <Badge
+                        variant={
+                          item.hasMajority
+                            ? "hasAccessibility"
+                            : "hasntAccessibility"
+                        }
+                        className="rounded-full px-2 py-0.5 text-xs sm:text-sm whitespace-nowrap"
+                      >
+                        {item.hasMajority ? "Disponível" : "Indisponível"}
+                      </Badge>
+                    )}
+                    {isExpanded && (
+                      <div className="space-y-2 mt-2">
                         <Badge
                           variant={
                             item.hasMajority
@@ -158,11 +193,11 @@ export default function AccessibilityInfo({ placeId }: AccessibilityInfoProps) {
                         >
                           {item.hasMajority ? "Disponível" : "Indisponível"}
                         </Badge>
+                        <p className="text-sm sm:text-base text-gray-700 dark:text-gray-300 leading-relaxed">
+                          {item.description}
+                        </p>
                       </div>
-                    </div>
-                    <p className="text-sm sm:text-base text-gray-700 dark:text-gray-300 leading-relaxed">
-                      {item.description}
-                    </p>
+                    )}
                   </div>
                 </div>
               </div>
