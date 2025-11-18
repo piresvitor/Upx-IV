@@ -1,16 +1,14 @@
 import { GoogleMap, useLoadScript } from "@react-google-maps/api";
 import { useState, useCallback, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
 
-import { X } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import MapInfoBox from "./MapInfoBox";
 
 import {
   GOOGLE_MAPS_API_KEY,
   GOOGLE_MAPS_LIBRARIES,
 } from "@/services/googleMaps";
 import { placeService } from "@/services/placeService";
-import type { Place } from "@/services/placeService";
+import type { Place, PlaceWithReports } from "@/services/placeService";
 
 interface InfoBoxData {
   position: google.maps.LatLng;
@@ -29,6 +27,7 @@ interface MapContainerProps {
     placeId: string;
   } | null;
   onPlaceSelected?: () => void;
+  showPins?: boolean;
 }
 
 const containerStyle = { width: "100%", height: "100%", borderRadius: "8px" };
@@ -40,17 +39,19 @@ const campolimBounds = {
   west: -47.568,   
 };
 
-export default function MapContainer({ selectedPlace, onPlaceSelected }: MapContainerProps = {}) {
-  const navigate = useNavigate();
+export default function MapContainer({ selectedPlace, onPlaceSelected, showPins = false }: MapContainerProps = {}) {
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: GOOGLE_MAPS_API_KEY,
-    libraries: ["places", ...GOOGLE_MAPS_LIBRARIES],
+    libraries: GOOGLE_MAPS_LIBRARIES, // Usar diretamente a constante (já contém "places")
   });
 
   const [map, setMap] = useState<google.maps.Map | null>(null);
   const [infoBoxData, setInfoBoxData] = useState<InfoBoxData | null>(null);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const [placesWithReports, setPlacesWithReports] = useState<PlaceWithReports[]>([]);
   const infoBoxRef = useRef<HTMLDivElement>(null);
+  const markersRef = useRef<google.maps.Marker[]>([]);
+  const markerClickRef = useRef<boolean>(false);
 
   useEffect(() => {
     const handleResize = () => {
@@ -72,6 +73,114 @@ export default function MapContainer({ selectedPlace, onPlaceSelected }: MapCont
       }, 100);
     }
   }, [infoBoxData, isMobile]);
+
+  // Buscar lugares com relatórios quando os pins são ativados
+  useEffect(() => {
+    if (!showPins || !isLoaded) {
+      // Se os pins estão desativados, limpar marcadores
+      markersRef.current.forEach(marker => {
+        google.maps.event.clearListeners(marker, "click");
+        marker.setMap(null);
+      });
+      markersRef.current = [];
+      setPlacesWithReports([]);
+      return;
+    }
+
+    const loadPlacesWithReports = async () => {
+      try {
+        // Buscar todos os lugares com relatórios (sem limite de página para mostrar todos)
+        let allPlaces: PlaceWithReports[] = [];
+        let page = 1;
+        let hasMore = true;
+
+        while (hasMore) {
+          const result = await placeService.getPlacesWithReports(page, 15); // Limite máximo é 15
+          allPlaces = [...allPlaces, ...result.places];
+          
+          if (page >= result.pagination.totalPages) {
+            hasMore = false;
+          } else {
+            page++;
+          }
+        }
+
+        // Filtrar apenas lugares com relatórios (reportsCount > 0)
+        const placesWithReportsOnly = allPlaces.filter(p => p.reportsCount > 0);
+        setPlacesWithReports(placesWithReportsOnly);
+      } catch (error) {
+        console.error("Erro ao carregar lugares com relatórios:", error);
+        setPlacesWithReports([]);
+      }
+    };
+
+    loadPlacesWithReports();
+  }, [showPins, isLoaded]);
+
+  // Criar marcadores para lugares com relatórios
+  useEffect(() => {
+    if (!map || !isLoaded || !showPins || placesWithReports.length === 0) {
+      // Limpar marcadores se não deve mostrar ou não há lugares
+      markersRef.current.forEach(marker => {
+        google.maps.event.clearListeners(marker, "click");
+        marker.setMap(null);
+      });
+      markersRef.current = [];
+      return;
+    }
+
+    // Limpar marcadores anteriores
+    markersRef.current.forEach(marker => {
+      google.maps.event.clearListeners(marker, "click");
+      marker.setMap(null);
+    });
+    markersRef.current = [];
+
+    // Criar novos marcadores apenas para lugares com relatórios
+    const newMarkers = placesWithReports.map(place => {
+      const marker = new google.maps.Marker({
+        position: { lat: place.latitude, lng: place.longitude },
+        map: map,
+        title: `${place.name} - ${place.reportsCount} relatório(s)`,
+        animation: google.maps.Animation.DROP,
+      });
+
+      // Adicionar listener de clique no marcador
+      marker.addListener("click", () => {
+        // Marcar que foi um clique no marcador
+        markerClickRef.current = true;
+        
+        const position = new google.maps.LatLng(place.latitude, place.longitude);
+        setInfoBoxData({
+          position,
+          name: place.name,
+          address: place.address || "",
+          placeId: place.id,
+        });
+        
+        // Centralizar no marcador
+        map.panTo(position);
+        map.setZoom(17);
+        
+        // Resetar a flag após um pequeno delay
+        setTimeout(() => {
+          markerClickRef.current = false;
+        }, 100);
+      });
+
+      return marker;
+    });
+
+    markersRef.current = newMarkers;
+
+    return () => {
+      markersRef.current.forEach(marker => {
+        google.maps.event.clearListeners(marker, "click");
+        marker.setMap(null);
+      });
+      markersRef.current = [];
+    };
+  }, [map, isLoaded, showPins, placesWithReports]);
 
 
   // Efeito para atualizar mapa quando um lugar é selecionado (busca)
@@ -118,9 +227,16 @@ export default function MapContainer({ selectedPlace, onPlaceSelected }: MapCont
       return;
     }
 
+    // Se foi um clique em um marcador, ignorar o clique do mapa
+    if (markerClickRef.current) {
+      return;
+    }
+
     // Se clicar em um lugar do Google Maps (com placeId), criar/verificar
     if (event.placeId) {
-      event.stop();
+      if (event.stop) {
+        event.stop();
+      }
 
       try {
         const place: Place = await placeService.checkOrCreate(event.placeId);
@@ -130,7 +246,7 @@ export default function MapContainer({ selectedPlace, onPlaceSelected }: MapCont
         setInfoBoxData({
           position,
           name: place.name,
-          address: place.address,
+          address: place.address || "",
           placeId: place.id,
         });
       } catch (err) {
@@ -165,60 +281,24 @@ export default function MapContainer({ selectedPlace, onPlaceSelected }: MapCont
           }}
         />
         {!isMobile && infoBoxData && (
-          <div className="absolute bottom-0 left-0 right-0 w-full flex justify-center px-3 sm:px-4 pb-3 sm:pb-4 z-[1000] pointer-events-auto">
-            <div className="bg-white dark:bg-gray-800 p-4 sm:p-5 rounded-xl sm:rounded-2xl shadow-2xl w-full max-w-lg flex flex-row items-start border-2 border-gray-300 dark:border-gray-600">
-              <div className="flex-1 min-w-0 pr-2">
-                <h2 className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-800 dark:text-gray-100 mb-1.5 sm:mb-2 line-clamp-2">{infoBoxData.name}</h2>
-                <p className="text-sm sm:text-base text-gray-700 address-text leading-[1.5] mb-2 sm:mb-3 line-clamp-2">
-                  {infoBoxData.address}
-                </p>
-                <Button
-                  variant="default"
-                  className="mt-2 sm:mt-3 cursor-pointer text-sm sm:text-base w-full sm:w-auto h-10 sm:h-11"
-                  onClick={() => navigate(`/details/${infoBoxData.placeId}`)}
-                >
-                  Ver Detalhes
-                </Button>
-              </div>
-              <button
-                onClick={() => setInfoBoxData(null)}
-                className="ml-2 flex-shrink-0 cursor-pointer text-gray-500 hover:text-gray-700 p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition"
-                aria-label="Fechar"
-              >
-                <X size={20} className="sm:w-6 sm:h-6" />
-              </button>
-            </div>
-          </div>
+          <MapInfoBox
+            name={infoBoxData.name}
+            address={infoBoxData.address}
+            placeId={infoBoxData.placeId}
+            onClose={() => setInfoBoxData(null)}
+            isMobile={false}
+          />
         )}
       </div>
       {isMobile && infoBoxData && (
-        <div 
-          ref={infoBoxRef}
-          className="relative mt-4 w-full flex justify-center px-3 sm:px-4 pointer-events-auto"
-        >
-          <div className="bg-white dark:bg-gray-800 p-4 sm:p-5 rounded-xl sm:rounded-2xl shadow-2xl w-full max-w-lg flex flex-row items-start border-2 border-gray-300 dark:border-gray-600">
-            <div className="flex-1 min-w-0 pr-2">
-              <h2 className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-800 dark:text-gray-100 mb-1.5 sm:mb-2 line-clamp-2">{infoBoxData.name}</h2>
-              <p className="text-sm sm:text-base text-gray-700 address-text leading-[1.5] mb-2 sm:mb-3 line-clamp-2">
-                {infoBoxData.address}
-              </p>
-              <Button
-                variant="default"
-                className="mt-2 sm:mt-3 cursor-pointer text-sm sm:text-base w-full sm:w-auto h-10 sm:h-11"
-                onClick={() => navigate(`/details/${infoBoxData.placeId}`)}
-              >
-                Ver Detalhes
-              </Button>
-            </div>
-            <button
-              onClick={() => setInfoBoxData(null)}
-              className="ml-2 flex-shrink-0 cursor-pointer text-gray-500 hover:text-gray-700 p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition"
-              aria-label="Fechar"
-            >
-              <X size={20} className="sm:w-6 sm:h-6" />
-            </button>
-          </div>
-        </div>
+        <MapInfoBox
+          name={infoBoxData.name}
+          address={infoBoxData.address}
+          placeId={infoBoxData.placeId}
+          onClose={() => setInfoBoxData(null)}
+          isMobile={true}
+          containerRef={infoBoxRef}
+        />
       )}
     </div>
   );

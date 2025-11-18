@@ -103,6 +103,7 @@ O **Mobiaccess: Mapa Colaborativo de Acessibilidade** é uma plataforma que perm
   - Tendências de relatórios ao longo do tempo (dia, semana, mês)
   - Relatórios agrupados por tipo
   - Estatísticas de características de acessibilidade
+- **📍 Suporte a Marcadores no Mapa**: API `/places/with-reports` permite buscar locais com relatórios para exibição de marcadores no mapa do frontend
 - **🔐 Autenticação Segura**: Sistema de login com JWT e hash de senhas
 - **👥 Gestão de Usuários**: Perfis personalizáveis e controle de acesso
 

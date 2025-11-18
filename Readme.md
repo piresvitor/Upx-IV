@@ -117,6 +117,13 @@ O **Mobiaccess: Mapa Colaborativo de Acessibilidade** é uma plataforma completa
   - Atualização automática do mapa para a localização encontrada
   - Abertura automática do popup com informações do local
   - Interface responsiva e otimizada para mobile e desktop
+- 📍 **Sistema de Marcadores (Pins)**: Visualização de locais com comentários no mapa:
+  - Toggle para ativar/desativar marcadores ao lado do campo de busca
+  - Marcadores aparecem apenas em locais que possuem relatórios/comentários
+  - Um marcador por local (sem duplicatas)
+  - Clique no marcador abre popup com informações do local
+  - Centralização automática do mapa ao clicar em um marcador
+  - Marcadores começam desativados por padrão
 - 📝 **Sistema de Relatos**: Usuários podem criar, editar e excluir relatos sobre acessibilidade de locais
   - Edição completa de relatos: descrição, tipo (positivo, negativo, neutro) e características de acessibilidade
 - 🎯 **Campos de Acessibilidade**: Relatos específicos para rampa de acesso, banheiro acessível, estacionamento acessível e acessibilidade visual
@@ -429,6 +436,10 @@ Esses campos são utilizados nos relatos e também são exibidos em gráficos es
   - Histórico de buscas recentes
   - Busca limitada à cidade de Sorocaba, SP
   - Atualização automática do mapa e abertura de popup ao selecionar local
+  - **Sistema de marcadores (pins)**: Toggle para mostrar/ocultar marcadores de locais com comentários
+    - Marcadores aparecem apenas em locais que possuem relatórios
+    - Um marcador por local
+    - Clique no marcador abre popup e centraliza o mapa
   - Botão de ajuda com instruções de uso
   - Interface responsiva para mobile e desktop
 - **Detalhes do Local** (`/details/:placeId`): Detalhes completos de um local específico com:
