@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import MapContainer from "@/features/map/MapContainer";
-import SearchPlaceInput from "@/components/SearchPlaceInput";
+import SearchPlaceInput, { type SearchPlaceInputRef } from "@/components/SearchPlaceInput";
 import PinsToggleButton from "@/components/PinsToggleButton";
 import MapHelpButton from "@/components/MapHelpButton";
 import MapHeader from "@/components/MapHeader";
@@ -26,6 +26,7 @@ export default function MapPage() {
     longitude: number;
     placeId: string;
   } | null>(null);
+  const searchInputRef = useRef<SearchPlaceInputRef>(null);
 
   const handleSearch = async (query: string): Promise<PlaceResult[]> => {
     if (query.length < 3) {
@@ -151,6 +152,7 @@ export default function MapPage() {
         <div className="flex gap-1.5 sm:gap-2 md:gap-3 items-center">
           <div className="flex-1 min-w-0">
             <SearchPlaceInput
+              ref={searchInputRef}
               onPlaceSelect={handlePlaceSelect}
               onSearch={handleSearch}
               className="w-full"
@@ -165,7 +167,16 @@ export default function MapPage() {
       
       <MapHelpButton isOpen={isHelpOpen} onOpenChange={setIsHelpOpen} />
 
-      <MapContainer selectedPlace={selectedPlace} showPins={showPins} />
+      <MapContainer 
+        selectedPlace={selectedPlace} 
+        showPins={showPins}
+        onInfoBoxChange={(hasInfoBox) => {
+          // Limpar campo de busca quando um local é selecionado
+          if (hasInfoBox) {
+            searchInputRef.current?.clear();
+          }
+        }}
+      />
     </div>
   );
 }

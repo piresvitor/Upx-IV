@@ -58,15 +58,18 @@ export const updateReportRoute: FastifyPluginAsyncZod = async (server) => {
       if (!report) return reply.status(404).send({ message: 'Relato não encontrado' })
       if (report.userId !== userId) return reply.status(403).send({ message: 'Acesso negado' })
 
-      await db.update(reports).set({
-        title: title ?? report.title,
-        description: description ?? report.description,
-        type: type ?? report.type,
-        rampaAcesso: rampaAcesso ?? report.rampaAcesso,
-        banheiroAcessivel: banheiroAcessivel ?? report.banheiroAcessivel,
-        estacionamentoAcessivel: estacionamentoAcessivel ?? report.estacionamentoAcessivel,
-        acessibilidadeVisual: acessibilidadeVisual ?? report.acessibilidadeVisual,
-      }).where(eq(reports.id, reportId))
+      // Construir objeto de atualização apenas com campos fornecidos
+      // Para campos booleanos, precisamos verificar explicitamente se foram fornecidos (não undefined)
+      const updateData: any = {}
+      if (title !== undefined) updateData.title = title
+      if (description !== undefined) updateData.description = description
+      if (type !== undefined) updateData.type = type
+      if (rampaAcesso !== undefined) updateData.rampaAcesso = rampaAcesso
+      if (banheiroAcessivel !== undefined) updateData.banheiroAcessivel = banheiroAcessivel
+      if (estacionamentoAcessivel !== undefined) updateData.estacionamentoAcessivel = estacionamentoAcessivel
+      if (acessibilidadeVisual !== undefined) updateData.acessibilidadeVisual = acessibilidadeVisual
+
+      await db.update(reports).set(updateData).where(eq(reports.id, reportId))
 
       return reply.status(200).send({ message: 'Relato atualizado com sucesso' })
     } catch (error) {

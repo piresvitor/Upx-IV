@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, ChevronRight, Pencil, Trash, Filter } from "lucide-react";
+import { ChevronLeft, ChevronRight, Pencil, Trash, Filter, Accessibility, Building2, Car, Eye } from "lucide-react";
 import CommentVote from "./CommentVote";
 import { useAuthContext } from "@/context/useAuthContext";
 import {
@@ -200,6 +200,37 @@ export default function CommentList({
                   <p className="text-gray-800 dark:text-white text-base mt-3 leading-[1.5]">
                     {comment.description}
                   </p>
+                  
+                  {/* Campos de Acessibilidade - Compacto no mobile */}
+                  {(comment.rampaAcesso || comment.banheiroAcessivel || comment.estacionamentoAcessivel || comment.acessibilidadeVisual) && (
+                    <div className="flex flex-wrap gap-1.5 sm:gap-2 mt-2 sm:mt-3">
+                      {comment.rampaAcesso && (
+                        <div className="flex items-center gap-1 sm:gap-1.5 px-1.5 sm:px-2 py-0.5 sm:py-1 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 rounded sm:rounded-md text-[10px] sm:text-xs">
+                          <Accessibility size={12} className="sm:w-3.5 sm:h-3.5" />
+                          <span className="hidden sm:inline">Rampa</span>
+                        </div>
+                      )}
+                      {comment.banheiroAcessivel && (
+                        <div className="flex items-center gap-1 sm:gap-1.5 px-1.5 sm:px-2 py-0.5 sm:py-1 bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300 rounded sm:rounded-md text-[10px] sm:text-xs">
+                          <Building2 size={12} className="sm:w-3.5 sm:h-3.5" />
+                          <span className="hidden sm:inline">Banheiro</span>
+                        </div>
+                      )}
+                      {comment.estacionamentoAcessivel && (
+                        <div className="flex items-center gap-1 sm:gap-1.5 px-1.5 sm:px-2 py-0.5 sm:py-1 bg-purple-50 dark:bg-purple-900/20 text-purple-700 dark:text-purple-300 rounded sm:rounded-md text-[10px] sm:text-xs">
+                          <Car size={12} className="sm:w-3.5 sm:h-3.5" />
+                          <span className="hidden sm:inline">Estacionamento</span>
+                        </div>
+                      )}
+                      {comment.acessibilidadeVisual && (
+                        <div className="flex items-center gap-1 sm:gap-1.5 px-1.5 sm:px-2 py-0.5 sm:py-1 bg-orange-50 dark:bg-orange-900/20 text-orange-700 dark:text-orange-300 rounded sm:rounded-md text-[10px] sm:text-xs">
+                          <Eye size={12} className="sm:w-3.5 sm:h-3.5" />
+                          <span className="hidden sm:inline">Visual</span>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                  
                   <CommentVote 
                     reportId={comment.id} 
                     initialVotesCount={comment.votesCount || 0}

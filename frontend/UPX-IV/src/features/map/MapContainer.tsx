@@ -28,6 +28,7 @@ interface MapContainerProps {
   } | null;
   onPlaceSelected?: () => void;
   showPins?: boolean;
+  onInfoBoxChange?: (hasInfoBox: boolean) => void;
 }
 
 const containerStyle = { width: "100%", height: "100%", borderRadius: "8px" };
@@ -39,7 +40,7 @@ const campolimBounds = {
   west: -47.568,   
 };
 
-export default function MapContainer({ selectedPlace, onPlaceSelected, showPins = false }: MapContainerProps = {}) {
+export default function MapContainer({ selectedPlace, onPlaceSelected, showPins = false, onInfoBoxChange }: MapContainerProps = {}) {
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: GOOGLE_MAPS_API_KEY,
     libraries: GOOGLE_MAPS_LIBRARIES, // Usar diretamente a constante (já contém "places")
@@ -52,6 +53,11 @@ export default function MapContainer({ selectedPlace, onPlaceSelected, showPins 
   const infoBoxRef = useRef<HTMLDivElement>(null);
   const markersRef = useRef<google.maps.Marker[]>([]);
   const markerClickRef = useRef<boolean>(false);
+
+  // Notificar o componente pai quando o infoBox mudar
+  useEffect(() => {
+    onInfoBoxChange?.(infoBoxData !== null);
+  }, [infoBoxData, onInfoBoxChange]);
 
   useEffect(() => {
     const handleResize = () => {

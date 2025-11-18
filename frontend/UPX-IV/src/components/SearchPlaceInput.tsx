@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useImperativeHandle, forwardRef } from "react";
 import { Search, X, Loader2, Clock, MapPin } from "lucide-react";
 import { Input } from "@/components/ui/input";
 
@@ -17,14 +17,18 @@ interface SearchPlaceInputProps {
   className?: string;
 }
 
+export interface SearchPlaceInputRef {
+  clear: () => void;
+}
+
 const SEARCH_HISTORY_KEY = "place_search_history";
 const MAX_HISTORY_ITEMS = 5;
 
-export default function SearchPlaceInput({
+const SearchPlaceInput = forwardRef<SearchPlaceInputRef, SearchPlaceInputProps>(({
   onPlaceSelect,
   onSearch,
   className = "",
-}: SearchPlaceInputProps) {
+}, ref) => {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<PlaceResult[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -131,8 +135,13 @@ export default function SearchPlaceInput({
     setQuery("");
     setResults([]);
     setShowResults(false);
-    inputRef.current?.focus();
+    inputRef.current?.blur();
   };
+
+  // Expor método clear através da ref
+  useImperativeHandle(ref, () => ({
+    clear: clearSearch,
+  }));
 
   const handleInputFocus = () => {
     if (query.length === 0 && searchHistory.length > 0) {
@@ -229,5 +238,8 @@ export default function SearchPlaceInput({
         )}
     </div>
   );
-}
+});
 
+SearchPlaceInput.displayName = "SearchPlaceInput";
+
+export default SearchPlaceInput;
