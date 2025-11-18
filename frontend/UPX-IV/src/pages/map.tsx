@@ -57,53 +57,60 @@ export default function MapPage() {
         west: -47.600,
       };
 
-      // Combinar lugares do backend e do Google, filtrando por bounds
-      const allPlaces: PlaceResult[] = [
-        ...result.places
-          .filter(p => {
-            // Verificar se está dentro dos bounds de Sorocaba
-            return (
-              p.latitude >= sorocabaBounds.south &&
-              p.latitude <= sorocabaBounds.north &&
-              p.longitude >= sorocabaBounds.west &&
-              p.longitude <= sorocabaBounds.east
-            );
-          })
-          .map(p => ({
-            id: p.id,
-            placeId: p.placeId,
-            name: p.name,
-            address: p.address || "",
-            latitude: p.latitude,
-            longitude: p.longitude,
-          })),
-        ...result.googlePlaces
-          .filter(gp => {
-            const lat = gp.geometry.location.lat;
-            const lng = gp.geometry.location.lng;
-            // Verificar bounds e se o endereço contém Sorocaba
-            const withinBounds = (
-              lat >= sorocabaBounds.south &&
-              lat <= sorocabaBounds.north &&
-              lng >= sorocabaBounds.west &&
-              lng <= sorocabaBounds.east
-            );
-            const addressContainsSorocaba = 
-              gp.formatted_address?.toLowerCase().includes('sorocaba') ||
-              gp.formatted_address?.toLowerCase().includes('sorocaba, sp') ||
-              gp.formatted_address?.toLowerCase().includes('sorocaba - sp');
-            
-            return withinBounds && (addressContainsSorocaba || !gp.formatted_address);
-          })
-          .map(gp => ({
-            id: null,
-            placeId: gp.place_id,
-            name: gp.name,
-            address: gp.formatted_address || "",
-            latitude: gp.geometry.location.lat,
-            longitude: gp.geometry.location.lng,
-          })),
-      ];
+      // Filtrar lugares do backend por bounds
+      const backendPlaces = result.places
+        .filter(p => {
+          // Verificar se está dentro dos bounds de Sorocaba
+          return (
+            p.latitude >= sorocabaBounds.south &&
+            p.latitude <= sorocabaBounds.north &&
+            p.longitude >= sorocabaBounds.west &&
+            p.longitude <= sorocabaBounds.east
+          );
+        })
+        .map(p => ({
+          id: p.id,
+          placeId: p.placeId,
+          name: p.name,
+          address: p.address || "",
+          latitude: p.latitude,
+          longitude: p.longitude,
+        }));
+
+      // Criar um Set com os placeIds dos lugares do backend para verificar duplicatas
+      const backendPlaceIds = new Set(backendPlaces.map(p => p.placeId));
+
+      // Filtrar lugares do Google Maps por bounds e remover duplicatas
+      const googlePlaces = result.googlePlaces
+        .filter(gp => {
+          const lat = gp.geometry.location.lat;
+          const lng = gp.geometry.location.lng;
+          // Verificar bounds e se o endereço contém Sorocaba
+          const withinBounds = (
+            lat >= sorocabaBounds.south &&
+            lat <= sorocabaBounds.north &&
+            lng >= sorocabaBounds.west &&
+            lng <= sorocabaBounds.east
+          );
+          const addressContainsSorocaba = 
+            gp.formatted_address?.toLowerCase().includes('sorocaba') ||
+            gp.formatted_address?.toLowerCase().includes('sorocaba, sp') ||
+            gp.formatted_address?.toLowerCase().includes('sorocaba - sp');
+          
+          return withinBounds && (addressContainsSorocaba || !gp.formatted_address);
+        })
+        .filter(gp => !backendPlaceIds.has(gp.place_id)) // Remover duplicatas que já estão no backend
+        .map(gp => ({
+          id: null,
+          placeId: gp.place_id,
+          name: gp.name,
+          address: gp.formatted_address || "",
+          latitude: gp.geometry.location.lat,
+          longitude: gp.geometry.location.lng,
+        }));
+
+      // Combinar lugares do backend e do Google (sem duplicatas)
+      const allPlaces: PlaceResult[] = [...backendPlaces, ...googlePlaces];
 
       return allPlaces;
     } catch (error) {
