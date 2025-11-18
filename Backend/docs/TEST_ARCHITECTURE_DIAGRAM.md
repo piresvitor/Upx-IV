@@ -32,6 +32,7 @@ graph TB
         end
 
         subgraph "Places Tests"
+            TEST_SEARCH_TEXT[search-by-text.test.ts<br/>Search by Text Tests]
             TEST_SEARCH[search-nearby.test.ts<br/>Search Nearby Tests]
             TEST_CHECK_CREATE[check-or-create.test.ts<br/>Check or Create Tests]
             TEST_GET_PLACE[get-place.test.ts<br/>Get Place Tests]
@@ -126,6 +127,8 @@ graph TB
     TEST_STATS --> SCENARIO_SUCCESS
     TEST_STATS --> SCENARIO_AUTH
 
+    TEST_SEARCH_TEXT --> SCENARIO_SUCCESS
+    TEST_SEARCH_TEXT --> SCENARIO_VALIDATION
     TEST_SEARCH --> SCENARIO_SUCCESS
     TEST_SEARCH --> SCENARIO_VALIDATION
     TEST_CHECK_CREATE --> SCENARIO_SUCCESS
@@ -191,7 +194,7 @@ graph TB
     classDef scenarios fill:#fff8e1,stroke:#f9a825,stroke-width:2px
 
     class VITEST,SUPERTEST,COVERAGE framework
-    class TEST_LOGIN,TEST_REGISTER,TEST_LOGOUT,TEST_GET_ME,TEST_UPDATE_ME,TEST_DELETE_ME,TEST_GET_ALL,TEST_STATS,TEST_SEARCH,TEST_CHECK_CREATE,TEST_GET_PLACE,TEST_UPDATE_PLACE,TEST_GET_ALL_PLACES,TEST_PLACE_REPORTS,TEST_PLACE_STATS,TEST_PLACES_WITH_REPORTS,TEST_CREATE_REPORT,TEST_GET_REPORT,TEST_UPDATE_REPORT,TEST_DELETE_REPORT,TEST_LIST_REPORTS,TEST_CREATE_VOTE,TEST_DELETE_VOTE,TEST_TOGGLE_FAV,TEST_CHECK_FAV,TEST_GET_FAVS,TEST_GENERAL_STATS,TEST_TRENDS,TEST_BY_TYPE,TEST_ACCESSIBILITY tests
+    class TEST_LOGIN,TEST_REGISTER,TEST_LOGOUT,TEST_GET_ME,TEST_UPDATE_ME,TEST_DELETE_ME,TEST_GET_ALL,TEST_STATS,TEST_SEARCH_TEXT,TEST_SEARCH,TEST_CHECK_CREATE,TEST_GET_PLACE,TEST_UPDATE_PLACE,TEST_GET_ALL_PLACES,TEST_PLACE_REPORTS,TEST_PLACE_STATS,TEST_PLACES_WITH_REPORTS,TEST_CREATE_REPORT,TEST_GET_REPORT,TEST_UPDATE_REPORT,TEST_DELETE_REPORT,TEST_LIST_REPORTS,TEST_CREATE_VOTE,TEST_DELETE_VOTE,TEST_TOGGLE_FAV,TEST_CHECK_FAV,TEST_GET_FAVS,TEST_GENERAL_STATS,TEST_TRENDS,TEST_BY_TYPE,TEST_ACCESSIBILITY tests
     class FACTORIES,MOCKS,HELPERS utils
     class TEST_DB,TEST_SCHEMA database
     class FASTIFY_SERVER,ROUTES,MIDDLEWARE,SERVICES app
@@ -217,7 +220,8 @@ graph TB
 - Estatísticas do usuário
 - Validação de autorização
 
-#### Places Tests (8 arquivos)
+#### Places Tests (9 arquivos)
+- Busca de locais por texto (search-by-text)
 - Busca de locais próximos
 - Criação e atualização de locais
 - Estatísticas de acessibilidade
@@ -357,8 +361,8 @@ npm test -- routes/auth/login.test.ts
 
 ## Métricas
 
-- **Total de arquivos de teste**: 32
-- **Total de testes**: 192+
+- **Total de arquivos de teste**: 33
+- **Total de testes**: 209+
 - **Cobertura de código**: >90%
 - **Tempo de execução**: <30 segundos
 - **Taxa de sucesso**: 100%

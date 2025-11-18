@@ -1,12 +1,30 @@
 ### API Places - Requisições de Teste
 
-### 1. Buscar locais próximos (FACENS Sorocaba)
+### 1. Buscar locais por texto (limitado a Sorocaba, SP)
+GET http://localhost:3333/places/search-by-text?query=shopping
+Content-Type: application/json
+
+###
+
+### 1.1. Buscar locais por texto com coordenadas e raio
+GET http://localhost:3333/places/search-by-text?query=hospital&latitude=-23.529&longitude=-47.4686&radius=5000
+Content-Type: application/json
+
+###
+
+### 1.2. Buscar locais por texto - restaurante
+GET http://localhost:3333/places/search-by-text?query=restaurante
+Content-Type: application/json
+
+###
+
+### 2. Buscar locais próximos (FACENS Sorocaba)
 GET http://localhost:3333/places/search-nearby?latitude=-23.5015&longitude=-47.4526&radius=1000&type=restaurant
 Content-Type: application/json
 
 ###
 
-### 2. Buscar locais próximos com palavra-chave (FACENS Sorocaba)
+### 2.1. Buscar locais próximos com palavra-chave (FACENS Sorocaba)
 GET http://localhost:3333/places/search-nearby?latitude=-23.5015&longitude=-47.4526&radius=2000&keyword=pizza
 Content-Type: application/json
 
@@ -22,24 +40,24 @@ Content-Type: application/json
 
 ###
 
-### 4. Buscar hospitais próximos à FACENS
+### 5. Buscar hospitais próximos à FACENS
 GET http://localhost:3333/places/search-nearby?latitude=-23.5015&longitude=-47.4526&radius=1500&type=hospital
 Content-Type: application/json
 
 
 
-### 9. Obter detalhes de um local específico
+### 10. Obter detalhes de um local específico
 GET http://localhost:3333/places/{{placeId}}
 Content-Type: application/json
 
 ###
 
-### 9.1. Buscar relatos deste local
+### 10.1. Buscar relatos deste local
 GET http://localhost:3333/places/{{placeId}}/reports
 
 ###
 
-### 10. Atualizar um local
+### 11. Atualizar um local
 PUT http://localhost:3333/places/{{placeId}}
 Content-Type: application/json
 
@@ -52,7 +70,7 @@ Content-Type: application/json
 
 ###
 
-### 11. Atualizar apenas o nome
+### 12. Atualizar apenas o nome
 PUT http://localhost:3333/places/{{placeId}}
 Content-Type: application/json
 
@@ -62,52 +80,52 @@ Content-Type: application/json
 
 ###
 
-### 12. Buscar todos os locais (paginação padrão)
+### 13. Buscar todos os locais (paginação padrão)
 GET http://localhost:3333/places
 
 ###
 
-### 13. Buscar todos os locais com paginação customizada
+### 14. Buscar todos os locais com paginação customizada
 GET http://localhost:3333/places?page=1&limit=5
 
 ###
 
-### 14. Buscar locais por termo de pesquisa
+### 15. Buscar locais por termo de pesquisa
 GET http://localhost:3333/places?search=restaurante
 
 ###
 
-### 15. Buscar locais por tipo
+### 16. Buscar locais por tipo
 GET http://localhost:3333/places?type=hospital
 
 ###
 
-### 16. Buscar locais ordenados por nome (ascendente)
+### 17. Buscar locais ordenados por nome (ascendente)
 GET http://localhost:3333/places?sortBy=name&sortOrder=asc
 
 ###
 
-### 17. Buscar locais ordenados por rating (descendente)
+### 18. Buscar locais ordenados por rating (descendente)
 GET http://localhost:3333/places?sortBy=rating&sortOrder=desc
 
 ###
 
-### 18. Buscar locais com múltiplos filtros
+### 19. Buscar locais com múltiplos filtros
 GET http://localhost:3333/places?search=sorocaba&type=restaurant&sortBy=rating&sortOrder=desc&page=1&limit=3
 
 ###
 
-### 19. Teste de validação - UUID inválido
+### 20. Teste de validação - UUID inválido
 GET http://localhost:3333/places/invalid-uuid
 
 ###
 
-### 20. Teste de validação - Local inexistente
+### 21. Teste de validação - Local inexistente
 GET http://localhost:3333/places/00000000-0000-0000-0000-000000000000
 
 ###
 
-### 21. Teste de validação - Rating inválido
+### 22. Teste de validação - Rating inválido
 PUT http://localhost:3333/places/{{placeId}}
 Content-Type: application/json
 
@@ -117,23 +135,35 @@ Content-Type: application/json
 
 ###
 
-### 22. Teste de validação - Parâmetros de paginação inválidos
+### 23. Teste de validação - Parâmetros de paginação inválidos
 GET http://localhost:3333/places?page=0&limit=-1
 
 ###
 
-### 23. Teste de validação - Parâmetros de ordenação inválidos
+### 24. Teste de validação - Parâmetros de ordenação inválidos
 GET http://localhost:3333/places?sortBy=invalid&sortOrder=invalid
 
 ###
 
-### 24. Teste de validação - Coordenadas inválidas
+### 25. Teste de validação - Coordenadas inválidas
 GET http://localhost:3333/places/search-nearby?latitude=91&longitude=181&radius=1000
 
 ###
 
-### 25. Teste de validação - Raio inválido
+### 26. Teste de validação - Raio inválido
 GET http://localhost:3333/places/search-nearby?latitude=-23.5015&longitude=-47.4526&radius=60000
+
+###
+
+### 27. Teste de validação - Query vazia (search-by-text)
+GET http://localhost:3333/places/search-by-text?query=
+Content-Type: application/json
+
+###
+
+### 28. Teste de validação - Query faltando (search-by-text)
+GET http://localhost:3333/places/search-by-text
+Content-Type: application/json
 
 ###
 

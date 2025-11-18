@@ -195,6 +195,15 @@ UPX 4/
 │       │   │   ├── login.tsx       # Login
 │       │   │   └── createUser.tsx  # Registro
 │       │   ├── components/    # Componentes reutilizáveis
+│       │   │   ├── ui/        # Componentes base (Button, Card, Dialog, etc.)
+│       │   │   ├── SearchPlaceInput.tsx  # Busca de locais com autocomplete
+│       │   │   ├── PinsToggleButton.tsx  # Toggle de marcadores
+│       │   │   ├── MapHelpButton.tsx     # Botão de ajuda
+│       │   │   └── MapHeader.tsx         # Cabeçalho do mapa
+│       │   ├── features/      # Features organizadas por módulo
+│       │   │   └── map/       # Componentes do mapa
+│       │   │       ├── MapContainer.tsx  # Container do Google Maps
+│       │   │       └── MapInfoBox.tsx    # Popup de informações
 │       │   ├── services/      # Serviços de API
 │       │   ├── routes/         # Configuração de rotas
 │       │   └── layouts/        # Layouts da aplicação
@@ -519,6 +528,7 @@ docker-compose restart
 - **Dashboard de estatísticas** com gráficos interativos
 - **Sistema de perfil** completo para usuários
 - **Otimizações de performance**: Queries do backend otimizadas com agregações SQL, paralelização de requisições e redução de N+1 queries
+- **Refatoração de componentes**: Código modularizado com componentes reutilizáveis (MapInfoBox, PinsToggleButton, MapHelpButton, MapHeader) para melhor manutenibilidade
 
 ## 🎯 Casos de Uso
 

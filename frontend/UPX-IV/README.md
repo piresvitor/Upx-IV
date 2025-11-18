@@ -137,10 +137,20 @@ UPX-IV/
 │   │   └── createUser.tsx  # Registro
 │   ├── components/         # Componentes reutilizáveis
 │   │   ├── ui/             # Componentes de UI (Button, Card, Dialog, etc.)
-│   │   └── navbar.tsx      # Barra de navegação
+│   │   ├── navbar.tsx      # Barra de navegação
+│   │   ├── SearchPlaceInput.tsx  # Campo de busca de locais com autocomplete
+│   │   ├── PinsToggleButton.tsx  # Botão toggle para ativar/desativar marcadores
+│   │   ├── MapHelpButton.tsx     # Botão de ajuda do mapa
+│   │   ├── MapHeader.tsx         # Cabeçalho da página do mapa
+│   │   ├── PlaceCard.tsx         # Card de exibição de local
+│   │   ├── ReportTypeBadge.tsx   # Badge de tipo de relatório
+│   │   ├── ReportTypeSelector.tsx # Seletor de tipo de relatório
+│   │   └── ThemeToggle.tsx       # Toggle de tema (claro/escuro)
 │   ├── features/           # Features organizadas por módulo
 │   │   ├── home/           # Componentes da página inicial
 │   │   ├── map/            # Componentes do mapa
+│   │   │   ├── MapContainer.tsx  # Container principal do mapa Google Maps
+│   │   │   └── MapInfoBox.tsx    # Popup de informações do local no mapa
 │   │   └── mapDetails/     # Componentes de detalhes do local
 │   ├── services/           # Serviços de API
 │   │   ├── api.ts          # Configuração do Axios
@@ -266,8 +276,9 @@ npm run lint
 
 ## 🎨 Componentes UI
 
-O projeto utiliza componentes acessíveis do Radix UI:
+O projeto utiliza componentes acessíveis do Radix UI e componentes customizados:
 
+### Componentes Base (Radix UI)
 - **Button**: Botões customizáveis
 - **Card**: Cards para conteúdo
 - **Dialog**: Modais e diálogos
@@ -277,6 +288,20 @@ O projeto utiliza componentes acessíveis do Radix UI:
 - **Popover**: Popovers e tooltips
 - **Checkbox**: Checkboxes
 - **Textarea**: Áreas de texto
+
+### Componentes Customizados do Mapa
+- **MapContainer**: Container principal do Google Maps com integração completa
+- **MapInfoBox**: Popup responsivo que exibe informações do local (mobile e desktop)
+- **MapHeader**: Cabeçalho da página do mapa com título e descrição
+- **MapHelpButton**: Botão flutuante de ajuda com modal explicativo
+- **PinsToggleButton**: Botão toggle estilizado para ativar/desativar marcadores
+- **SearchPlaceInput**: Campo de busca com autocomplete, histórico e integração com Google Maps
+
+### Outros Componentes
+- **PlaceCard**: Card para exibição de informações de locais
+- **ReportTypeBadge**: Badge visual para tipos de relatórios
+- **ReportTypeSelector**: Seletor de tipo de relatório
+- **ThemeToggle**: Toggle para alternar entre tema claro e escuro
 
 ## 📚 Documentação Adicional
 

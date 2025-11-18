@@ -2,11 +2,64 @@
 
 ## Visão Geral
 
-A API de locais permite integrar com o Google Maps para buscar locais próximos e verificar se um local já existe no sistema.
+A API de locais permite integrar com o Google Maps para buscar locais por texto (nome ou endereço), buscar locais próximos e verificar se um local já existe no sistema. A busca por texto é limitada à cidade de Sorocaba, SP.
 
 ## Endpoints
 
-### 1. Buscar Locais Próximos
+### 1. Buscar Locais por Texto
+
+**GET** `/places/search-by-text`
+
+Busca locais por texto (nome ou endereço) usando a API do Google Maps Places Text Search. Os resultados são limitados à cidade de Sorocaba, SP.
+
+#### Parâmetros de Query:
+- `query` (string, obrigatório): Texto de busca (nome ou endereço do local)
+- `latitude` (number, opcional): Latitude para busca próxima (padrão: centro de Sorocaba)
+- `longitude` (number, opcional): Longitude para busca próxima (padrão: centro de Sorocaba)
+- `radius` (number, opcional): Raio de busca em metros (padrão: 5000, máximo: 50000)
+
+#### Exemplo de Requisição:
+```http
+GET /places/search-by-text?query=shopping&latitude=-23.529&longitude=-47.4686&radius=5000
+```
+
+#### Resposta:
+```json
+{
+  "places": [
+    {
+      "id": "uuid-do-local-no-banco",
+      "placeId": "ChIJ...",
+      "name": "Shopping Iguatemi Sorocaba",
+      "address": "Rod. Sen. José Ermírio de Moraes, 1425 - Alto da Boa Vista, Sorocaba - SP",
+      "latitude": -23.529,
+      "longitude": -47.4686,
+      "types": ["shopping_mall", "establishment"],
+      "rating": 4.5,
+      "userRatingsTotal": 150
+    }
+  ],
+  "googlePlaces": [
+    {
+      "place_id": "ChIJ...",
+      "name": "Novo Local do Google",
+      "formatted_address": "Rua Exemplo, Sorocaba - SP",
+      "geometry": {
+        "location": {
+          "lat": -23.530,
+          "lng": -47.469
+        }
+      },
+      "types": ["establishment"],
+      "rating": 4.0
+    }
+  ]
+}
+```
+
+**Nota**: Esta rota retorna tanto locais que já existem no banco de dados quanto novos locais encontrados no Google Maps. Os resultados são filtrados para incluir apenas locais dentro dos limites geográficos de Sorocaba, SP.
+
+### 2. Buscar Locais Próximos
 
 **GET** `/places/search-nearby`
 
@@ -48,7 +101,7 @@ GET /places/search-nearby?latitude=-23.5505&longitude=-46.6333&radius=2000&type=
 }
 ```
 
-### 2. Verificar ou Criar Local
+### 3. Verificar ou Criar Local
 
 **POST** `/places/check-or-create`
 
@@ -82,7 +135,7 @@ Verifica se um local existe no sistema pelo place_id do Google Maps. Se não exi
 }
 ```
 
-### 3. Obter Detalhes de um Local
+### 4. Obter Detalhes de um Local
 
 **GET** `/places/:placeId`
 
@@ -113,7 +166,7 @@ GET /places/123e4567-e89b-12d3-a456-426614174000
 }
 ```
 
-### 4. Atualizar um Local
+### 5. Atualizar um Local
 
 **PUT** `/places/:placeId`
 
@@ -150,7 +203,7 @@ Atualiza informações de um local específico.
 }
 ```
 
-### 5. Estatísticas de Acessibilidade de um Local
+### 6. Estatísticas de Acessibilidade de um Local
 
 **GET** `/places/:placeId/accessibility-stats`
 
@@ -208,7 +261,7 @@ GET /places/123e4567-e89b-12d3-a456-426614174000/accessibility-stats
 - **`positiveCount`**: Quantidade de relatos com valor `true`
 - **`totalCount`**: Total de relatos analisados
 
-### 6. Buscar Locais com Comentários
+### 7. Buscar Locais com Comentários
 
 **GET** `/places/with-reports`
 
@@ -258,7 +311,7 @@ GET /places/with-reports?page=1&limit=15&search=restaurante&type=restaurant&sort
 
 **Nota**: Esta rota retorna apenas locais que possuem pelo menos um relato (comentário). Para buscar todos os locais, use `/places`.
 
-### 7. Buscar Todos os Locais
+### 8. Buscar Todos os Locais
 
 **GET** `/places`
 
@@ -307,13 +360,14 @@ GET /places?page=1&limit=5&search=restaurante&type=restaurant&sortBy=rating&sort
 
 ## Fluxo de Uso Recomendado
 
-1. **Buscar locais próximos**: Use `/places/search-nearby` para mostrar locais no mapa
-2. **Usuário clica em um local**: Use `/places/check-or-create` para verificar se o local existe
-3. **Se o local existe**: Mostre a página do local com os relatos existentes
-4. **Se o local não existe**: O sistema cria automaticamente e você pode mostrar a página vazia
-5. **Para gerenciar relatos**: Use as rotas da API de Relatos (`/reports/`)
-6. **Para estatísticas de acessibilidade**: Use `/places/:placeId/accessibility-stats` para dashboards e análises
-7. **Para favoritar locais**: Use as rotas da API de Favoritos (`/places/:placeId/favorites`) - veja [API_FAVORITES_DOCUMENTATION.md](./API_FAVORITES_DOCUMENTATION.md)
+1. **Buscar locais por texto**: Use `/places/search-by-text` para buscar locais por nome ou endereço (ex: "Shopping", "Hospital")
+2. **Buscar locais próximos**: Use `/places/search-nearby` para mostrar locais próximos a uma coordenada no mapa
+3. **Usuário clica em um local**: Use `/places/check-or-create` para verificar se o local existe
+4. **Se o local existe**: Mostre a página do local com os relatos existentes
+5. **Se o local não existe**: O sistema cria automaticamente e você pode mostrar a página vazia
+6. **Para gerenciar relatos**: Use as rotas da API de Relatos (`/reports/`)
+7. **Para estatísticas de acessibilidade**: Use `/places/:placeId/accessibility-stats` para dashboards e análises
+8. **Para favoritar locais**: Use as rotas da API de Favoritos (`/places/:placeId/favorites`) - veja [API_FAVORITES_DOCUMENTATION.md](./API_FAVORITES_DOCUMENTATION.md)
 
 ## Códigos de Erro
 

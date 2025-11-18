@@ -33,6 +33,7 @@ Para uma visão completa da arquitetura e componentes do sistema, consulte:
     - **Base URL**: `/places`
     - **Documentação**: [API_PLACES_DOCUMENTATION.md](./API_PLACES_DOCUMENTATION.md)
     - **Endpoints**:
+      - `GET /places/search-by-text` - Buscar locais por texto (nome ou endereço) - limitado a Sorocaba, SP
       - `GET /places/search-nearby` - Buscar locais próximos
       - `POST /places/check-or-create` - Verificar ou criar local
       - `GET /places/:placeId` - Obter detalhes de um local
