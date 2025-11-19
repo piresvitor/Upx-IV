@@ -72,7 +72,7 @@ export default function MapHelpButton({
                   Use o botão ao lado da busca para ativar ou desativar os marcadores no mapa.
                 </p>
                 <ul className="list-disc list-inside space-y-0.5 sm:space-y-1 ml-1 sm:ml-2 text-xs sm:text-sm text-gray-600 dark:text-gray-300">
-                  <li>Os marcadores aparecem apenas em locais que possuem relatórios/comentários</li>
+                  <li>Os marcadores aparecem apenas em locais que possuem relatos/comentários</li>
                   <li>Um marcador por local (sem duplicatas)</li>
                   <li>Clique em um marcador para ver informações do local</li>
                   <li>O mapa centraliza automaticamente ao clicar em um marcador</li>

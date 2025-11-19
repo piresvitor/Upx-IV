@@ -230,7 +230,7 @@ export default function Stats() {
     return { icon: Accessibility, color: "gray", label: feature };
   };
 
-  // Formatar e traduzir tipos de relatórios
+  // Formatar e traduzir tipos de relatos
   const formatReportType = (type: string): string => {
     const typeMap: Record<string, string> = {
       positive: "Positivo",
@@ -243,7 +243,7 @@ export default function Stats() {
     return typeMap[type.toLowerCase()] || type;
   };
 
-  // Obter cor por tipo de relatório
+  // Obter cor por tipo de relato
   const getTypeColor = (type: string, index: number): string => {
     const colorMap: Record<string, string> = {
       positive: "#10B981", // verde
@@ -378,7 +378,7 @@ export default function Stats() {
               <FileText size={24} className="text-green-600" />
             </div>
             <div>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Total de Relatórios</p>
+              <p className="text-sm text-gray-600 dark:text-gray-400">Total de Relatos</p>
               <p className="text-2xl font-bold text-gray-800 dark:text-white">
                 {generalStats?.totalReports || 0}
               </p>
@@ -420,7 +420,7 @@ export default function Stats() {
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 sm:mb-6 gap-4">
           <h2 className="text-lg sm:text-xl font-semibold text-gray-800 dark:text-white flex items-center gap-2">
             <TrendingUp size={20} className="sm:w-6 sm:h-6" />
-            Tendências de Relatórios
+            Tendências de Relatos
           </h2>
           <div className="flex gap-2 flex-wrap">
             <button
@@ -476,7 +476,7 @@ export default function Stats() {
                 <Tooltip
                   content={<CustomTooltip 
                     labelFormatter={(value: string) => formatDate(value, trends.period || trendPeriod)}
-                    formatter={(value: number) => [`${value} relatórios`, "Relatórios"]}
+                    formatter={(value: number) => [`${value} relatos`, "Relatos"]}
                   />}
                 />
                 <Legend 
@@ -487,7 +487,7 @@ export default function Stats() {
                   dataKey="count"
                   stroke="#0088FE"
                   strokeWidth={2}
-                  name="Relatórios"
+                  name="Relatos"
                   dot={{ r: 3, fill: "#0088FE" }}
                   activeDot={{ r: 5, fill: "#0088FE" }}
                   animationDuration={500}
@@ -592,7 +592,7 @@ export default function Stats() {
               <>
                 <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
                   <div>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">Média de Votos por Relatório</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Média de Votos por Relato</p>
                     <p className="text-2xl font-bold text-gray-900 dark:text-white mt-1">
                       {generalStats.totalReports > 0 
                         ? (generalStats.totalVotes / generalStats.totalReports).toFixed(1)
@@ -608,7 +608,7 @@ export default function Stats() {
                 
                 <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
                   <div>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">Relatórios por Usuário</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Relatos por Usuário</p>
                     <p className="text-2xl font-bold text-gray-900 dark:text-white mt-1">
                       {generalStats.totalUsers > 0 
                         ? (generalStats.totalReports / generalStats.totalUsers).toFixed(1)
@@ -616,7 +616,7 @@ export default function Stats() {
                       }
                     </p>
                     <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                      Média de relatórios criados
+                      Média de relatos criados
                     </p>
                   </div>
                   <Users size={32} className="text-green-600 dark:text-green-400" />
@@ -625,7 +625,7 @@ export default function Stats() {
                 {trends && trends.data && trends.data.length > 0 && (
                   <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
                     <div>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">Relatórios Recentes</p>
+                      <p className="text-sm text-gray-600 dark:text-gray-400">Relatos Recentes</p>
                       <p className="text-2xl font-bold text-gray-900 dark:text-white mt-1">
                         {trends.data.slice(-7).reduce((sum, item) => sum + item.count, 0)}
                       </p>
@@ -642,7 +642,7 @@ export default function Stats() {
             {reportsByType && reportsByType.data.length > 0 && (
               <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
                 <div>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">Tipos Únicos de Relatórios</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">Tipos Únicos de Relatos</p>
                   <p className="text-2xl font-bold text-gray-900 dark:text-white mt-1">
                     {reportsByType.uniqueTypes}
                   </p>
@@ -657,10 +657,10 @@ export default function Stats() {
         </Card>
       </div>
 
-      {/* Gráfico de Relatórios por Tipo */}
+      {/* Gráfico de Relatos por Tipo */}
       <Card className="p-4 sm:p-6 overflow-hidden mt-6 sm:mt-8">
         <h2 className="text-lg sm:text-xl font-semibold text-gray-800 dark:text-white mb-4 sm:mb-6">
-          Distribuição de Relatórios por Tipo
+          Distribuição de Relatos por Tipo
         </h2>
         {reportsByType && reportsByType.data.length > 0 ? (
           <div className="w-full" style={{ minHeight: isMobile ? '320px' : '450px', height: isMobile ? '320px' : '450px', position: 'relative' }}>
@@ -850,7 +850,7 @@ export default function Stats() {
           </Card>
         )}
 
-        {/* Tabela de Relatórios por Tipo */}
+        {/* Tabela de Relatos por Tipo */}
         {reportsByType && reportsByType.data.length > 0 && (
           <Card className="p-4 sm:p-6">
             <h2 className="text-lg sm:text-xl font-semibold text-gray-800 dark:text-white mb-4 sm:mb-6">

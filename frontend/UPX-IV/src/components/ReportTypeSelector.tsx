@@ -69,7 +69,7 @@ export function ReportTypeSelector({ value, onChange, required = true }: ReportT
   return (
     <div className="space-y-2.5 lg:space-y-3">
       <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
-        Tipo de Relatório {required && <span className="text-red-500">*</span>}
+        Tipo de Relato {required && <span className="text-red-500">*</span>}
       </label>
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 lg:gap-3">
         {types.map((type) => {

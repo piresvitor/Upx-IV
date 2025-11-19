@@ -80,7 +80,7 @@ export default function MapContainer({ selectedPlace, onPlaceSelected, showPins 
     }
   }, [infoBoxData, isMobile]);
 
-  // Buscar lugares com relatórios quando os pins são ativados
+  // Buscar lugares com relatos quando os pins são ativados
   useEffect(() => {
     if (!showPins || !isLoaded) {
       // Se os pins estão desativados, limpar marcadores
@@ -95,7 +95,7 @@ export default function MapContainer({ selectedPlace, onPlaceSelected, showPins 
 
     const loadPlacesWithReports = async () => {
       try {
-        // Buscar todos os lugares com relatórios (sem limite de página para mostrar todos)
+        // Buscar todos os lugares com relatos (sem limite de página para mostrar todos)
         let allPlaces: PlaceWithReports[] = [];
         let page = 1;
         let hasMore = true;
@@ -111,11 +111,11 @@ export default function MapContainer({ selectedPlace, onPlaceSelected, showPins 
           }
         }
 
-        // Filtrar apenas lugares com relatórios (reportsCount > 0)
+        // Filtrar apenas lugares com relatos (reportsCount > 0)
         const placesWithReportsOnly = allPlaces.filter(p => p.reportsCount > 0);
         setPlacesWithReports(placesWithReportsOnly);
       } catch (error) {
-        console.error("Erro ao carregar lugares com relatórios:", error);
+        console.error("Erro ao carregar lugares com relatos:", error);
         setPlacesWithReports([]);
       }
     };
@@ -123,7 +123,7 @@ export default function MapContainer({ selectedPlace, onPlaceSelected, showPins 
     loadPlacesWithReports();
   }, [showPins, isLoaded]);
 
-  // Criar marcadores para lugares com relatórios
+  // Criar marcadores para lugares com relatos
   useEffect(() => {
     if (!map || !isLoaded || !showPins || placesWithReports.length === 0) {
       // Limpar marcadores se não deve mostrar ou não há lugares
@@ -142,12 +142,12 @@ export default function MapContainer({ selectedPlace, onPlaceSelected, showPins 
     });
     markersRef.current = [];
 
-    // Criar novos marcadores apenas para lugares com relatórios
+    // Criar novos marcadores apenas para lugares com relatos
     const newMarkers = placesWithReports.map(place => {
       const marker = new google.maps.Marker({
         position: { lat: place.latitude, lng: place.longitude },
         map: map,
-        title: `${place.name} - ${place.reportsCount} relatório(s)`,
+        title: `${place.name} - ${place.reportsCount} relato(s)`,
         animation: google.maps.Animation.DROP,
       });
 

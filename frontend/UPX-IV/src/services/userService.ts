@@ -61,7 +61,7 @@ export const userService = {
       finalUserId = userRes.data.id;
     }
 
-    // Buscar relatórios do usuário
+    // Buscar relatos do usuário
     const reportsRes = await api.get("/reports", {
       params: { user_id: finalUserId, page, limit },
     });
@@ -78,7 +78,7 @@ export const userService = {
 
       const data = res.data;
 
-      // Formatar relatórios garantindo que createdAt seja uma string
+      // Formatar relatos garantindo que createdAt seja uma string
       const reportsFormatted = (data.reports || []).map((report: any) => {
         let createdAt = "";
         if (report.createdAt) {

@@ -27,7 +27,7 @@ export default function NewComment({ placeId, onSuccess }: NewCommentProps) {
 
     // valida tipo
     if (!reportType) {
-      setTypeError("Selecione o tipo de relatório.");
+      setTypeError("Selecione o tipo de relato.");
       return;
     }
 
@@ -95,7 +95,7 @@ export default function NewComment({ placeId, onSuccess }: NewCommentProps) {
 
       {/* Layout Desktop: 2 colunas | Mobile: Empilhado */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 lg:gap-6">
-        {/* Coluna 1: Tipo de Relatório */}
+        {/* Coluna 1: Tipo de Relato */}
         <div>
           <ReportTypeSelector
             value={reportType}

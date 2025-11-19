@@ -304,7 +304,7 @@ export default function CommentList({
               />
             </div>
 
-            {/* Tipo de Relatório - Compacto */}
+            {/* Tipo de Relato - Compacto */}
             <div>
               <label className="text-xs font-medium text-gray-600 dark:text-gray-400 mb-1.5 block">
                 Tipo <span className="text-red-500">*</span>

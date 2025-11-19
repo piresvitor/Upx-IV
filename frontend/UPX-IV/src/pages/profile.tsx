@@ -109,14 +109,14 @@ export default function Profile() {
   };
 
   const handleDeleteReport = async (reportId: string) => {
-    if (!confirm("Tem certeza que deseja excluir este relatório?")) return;
+    if (!confirm("Tem certeza que deseja excluir este relato?")) return;
     
     try {
       await reportService.deleteReport(reportId);
       await fetchStats();
     } catch (error) {
-      console.error("Erro ao excluir relatório:", error);
-      alert("Erro ao excluir relatório. Tente novamente.");
+      console.error("Erro ao excluir relato:", error);
+      alert("Erro ao excluir relato. Tente novamente.");
     }
   };
 
@@ -175,7 +175,7 @@ export default function Profile() {
           </Card>
         </div>
 
-        {/* Estatísticas e Relatórios */}
+        {/* Estatísticas e Relatos */}
         <div className="lg:col-span-2 space-y-6">
           {/* Estatísticas */}
           <Card className="p-6">
@@ -186,7 +186,7 @@ export default function Profile() {
                   <FileText size={26} className="text-blue-600 dark:text-blue-400" />
                 </div>
                 <div className="min-w-0">
-                  <p className="text-base text-gray-700 dark:text-gray-300 mb-1">Relatórios Criados</p>
+                  <p className="text-base text-gray-700 dark:text-gray-300 mb-1">Relatos Criados</p>
                   <p className="text-2xl font-bold text-gray-800 dark:text-white">
                     {stats?.totalReports || 0}
                   </p>
@@ -219,14 +219,14 @@ export default function Profile() {
             </div>
           </Card>
 
-          {/* Meus Relatórios */}
+          {/* Meus Relatos */}
           <Card className="p-6">
             <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-4">
-              Meus Relatórios
+              Meus Relatos
             </h3>
             {!stats?.reports || stats.reports.length === 0 ? (
               <p className="text-gray-600 dark:text-gray-300 text-center py-8">
-                Você ainda não criou nenhum relatório.
+                Você ainda não criou nenhum relato.
               </p>
             ) : (
               <div className="space-y-4">
@@ -364,7 +364,7 @@ export default function Profile() {
           <div className="space-y-4 py-4">
             <p className="text-gray-600 dark:text-gray-300">
               Tem certeza que deseja excluir sua conta? Esta ação não pode ser desfeita.
-              Todos os seus relatórios e dados serão permanentemente removidos.
+              Todos os seus relatos e dados serão permanentemente removidos.
             </p>
             <div>
               <Label htmlFor="delete-password" className="text-gray-700 dark:text-gray-300">
